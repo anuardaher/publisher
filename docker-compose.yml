@@ -1,0 +1,31 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    restart: "always"
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - backend
+  api:
+    image: node:10.16-slim
+    restart: "always"
+    ports:
+      - "3000:3000"
+    working_dir: "/home/node/app"
+    volumes:
+      - ./:/home/node/app
+    command: "npm start"
+    networks:
+      - backend
+volumes:
+  mongodata:
+    external: true
+networks:
+  backend:
+    driver: "bridge"
