@@ -1,9 +1,9 @@
-let passport = require('passport');
-let userModel = require('../models/users.model');
+const passport = require('passport');
 let userRepository = require('../repository/users.repository')
 let LocalStrategy = require('passport-local');
 let FacebookStrategy = require('passport-facebook').Strategy;
 let LinkedInStrategy = require('passport-linkedin').Strategy;
+
 
 module.exports = function() {
 
@@ -38,6 +38,32 @@ module.exports = function() {
         }
     ));
 
+    passport.use('local-signup', new LocalStrategy({
+            // by default, local strategy uses username and password, we will override with email
+            usernameField: 'email',
+            passwordField: 'password',
+            passReqToCallback: true // allows us to pass back the entire request to the callback
+        },
+        function(req, email, password, done) {
+            // asynchronous
+            // User.findOne wont fire unless data is sent back
+            process.nextTick(async() => {
+                try {
+                    let user = await userRepository.findOne({ 'local.email': email })
+                        // check to see if theres already a user with that email
+                    if (user) {
+                        return done(null, false, req.flash('signupMessage', 'Esse e-mail já esta cadastrado.'));
+                    }
+                    user = { email, password, name: req.name }
+                    userRepository.create(user);
+                } catch (e) {
+                    console.error(e);
+                    return done(null, false, req.flash('signupMessage', 'Erro ao cadastrar novo usuário'));
+                }
+                return done(null, user)
+            });
+        }));
+
     passport.use('local-login', new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
             usernameField: 'email',
@@ -45,7 +71,7 @@ module.exports = function() {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         async(req, email, password, done) => {
-            const user = await userRepository.find({ 'local.email': email })
+            const user = await userRepository.find({ 'email': email })
                 // if there are any errors, return the error before anything else
             if (!user)
                 return done(null, false, req.flash('loginMessage', 'Usuário não encontrado.')); // req.flash is the way to set flashdata using connect-flash

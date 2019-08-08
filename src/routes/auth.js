@@ -1,7 +1,7 @@
 let passport = require('passport');
 let router = require('express').Router();
 
-router.get('/', (req, res) => res.render("index"))
+router.get('/', (req, res) => res.render("pages/index", { user: req.user }))
 
 router.get('/auth/facebook',
     passport.authenticate('facebook'));
@@ -33,7 +33,7 @@ router.get('/logout', function(req, res) {
 router.route('/login')
     .get(function(req, res) {
         // render the page and pass in any flash data if it exists
-        res.render();
+        res.render("pages/auth", { message: req.flash('signupMessage') });
     })
     .post(passport.authenticate('local-login', {
         successRedirect: '/', // redirect to the secure profile section
@@ -43,7 +43,7 @@ router.route('/login')
 router.route('/signup')
     .get(function(req, res) {
         // render the page and pass in any flash data if it exists
-        res.render();
+        res.render("pages/signup", { message: req.flash('signupMessage') });
     });
 
 function isLoggedIn(req, res, next) {
@@ -54,4 +54,5 @@ function isLoggedIn(req, res, next) {
     res.redirect('/login');
 }
 
-module.exports = router
+module.exports = router;
+// module.exports = isLoggedIn;
