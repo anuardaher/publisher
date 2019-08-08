@@ -1,10 +1,12 @@
 let passport = require('passport');
 let router = require('express').Router();
 
-router.get('/facebook',
+router.get('/', (req, res) => res.render("index"))
+
+router.get('/auth/facebook',
     passport.authenticate('facebook'));
 
-router.get('/facebook/callback',
+router.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
         // Successful authentication, redirect home.
@@ -13,10 +15,10 @@ router.get('/facebook/callback',
     }
 );
 
-router.get('/linkedin',
+router.get('/auth/linkedin',
     passport.authenticate('linkedin'));
 
-router.get('/linkedin/callback',
+router.get('/auth/linkedin/callback',
     passport.authenticate('linkedin', { failureRedirect: '/login' }),
     function(req, res) {
         // Successful authentication, redirect home.

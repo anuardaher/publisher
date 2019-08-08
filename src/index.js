@@ -26,7 +26,6 @@ const init = () => {
     app.use(passport.initialize());
     app.use(passport.session());
     //routes
-    app.use("/api/v1", routes);
     app.use("/", routes)
 };
 
