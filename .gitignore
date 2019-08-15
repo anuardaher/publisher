@@ -1,3 +1,5 @@
-node_modules
-.env
-.dbcache
+
+server/node_modules/
+server/.env
+
+client/node_modules/

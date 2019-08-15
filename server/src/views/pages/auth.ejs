@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <% include ../partials/header %>
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <ul class="page-header-breadcrumb">
+                                <li><a href="/">Home</a></li>
+                                <li>Login</li>
+                            </ul>
+                            <h1>Login</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+    </header>
+    <!-- /Header -->
+
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-8">
+                    <form action="/login" method="post" class="form">
+                        <div class="section-row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <button class="btn btn-primary btn-block"><span class="fa fa-facebook fa-lg"></span><b> CRIAR CONTA COM FACEBOOK</b></button>
+                                    </div>
+                                    <div class="row">
+                                        <button class="btn btn-info btn-block"><span class="fa fa-linkedin fa-lg"></span><b> CRIAR CONTA COM LINKEDIN</b></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <hr>
+                                <div class="form-group">
+                                    <span>Email</span>
+                                    <input class="input" type="email" name="email">
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <span>Senha</span>
+                                    <input class="input" type="password" name="password">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="primary-button">Entrar</button>
+                            </div>
+                            <div class="col-md-12">
+                                <span> Não tem uma conta? <a>Cadastre-se!</a></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- aside -->
+                <div class="col-md-4">
+                    <!-- ad -->
+                    <div class="aside-widget text-center">
+                        <!-- <a href="#" style="display: inline-block;margin: auto;">
+                            <img class="img-responsive" src="./img/ad-1.jpg" alt="">
+                        </a> -->
+                    </div>
+                    <!-- /ad -->
+
+                    <!-- post widget -->
+                    <div class="aside-widget">
+                        <div class="section-title">
+                            <h2>Mais Vistos</h2>
+                        </div>
+
+                        <div class="post post-widget">
+                            <a class="post-img" href="blog-post.html"><img src="./img/widget-1.jpg" alt=""></a>
+                            <div class="post-body">
+                                <h3 class="post-title"><a href="blog-post.html">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
+                            </div>
+                        </div>
+
+                        <div class="post post-widget">
+                            <a class="post-img" href="blog-post.html"><img src="./img/widget-2.jpg" alt=""></a>
+                            <div class="post-body">
+                                <h3 class="post-title"><a href="blog-post.html">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>
+                            </div>
+                        </div>
+
+                        <div class="post post-widget">
+                            <a class="post-img" href="blog-post.html"><img src="./img/widget-3.jpg" alt=""></a>
+                            <div class="post-body">
+                                <h3 class="post-title"><a href="blog-post.html">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
+                            </div>
+                        </div>
+
+                        <div class="post post-widget">
+                            <a class="post-img" href="blog-post.html"><img src="./img/widget-4.jpg" alt=""></a>
+                            <div class="post-body">
+                                <h3 class="post-title"><a href="blog-post.html">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /post widget -->
+                </div>
+                <!-- /aside -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+
+    <!-- Footer -->
+    <footer id="footer">
+        <% include ../partials/footer %>
+    </footer>
+    <!-- /Footer -->
+
+</body>
+
+</html>
