@@ -1,6 +1,6 @@
 const UserModel = require('../models/users.model');
 
-const projection = { password: 0, salt: 0, role: 0 };
+const projection = { password: 0};
 
 const find = async data => {
   return UserModel.find(data, projection);
@@ -11,7 +11,7 @@ const findById = async id => {
 };
 
 const findOne = async data => {
-  return UserModel.findOne(data, projection, 'jsjsajnas');
+  return UserModel.findOne(data);
 };
 
 const create = async data => {

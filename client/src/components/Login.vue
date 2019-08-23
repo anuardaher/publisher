@@ -50,6 +50,16 @@
                     prepend-icon="lock"
                     type="password"
                   ></v-text-field>
+                   <div class="text-center">
+                    <v-alert
+                      dense
+                      outlined
+                      type="error"
+                      v-html="error"
+                      v-if="error"
+                    >
+                    </v-alert>
+                  </div>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -89,11 +99,10 @@ export default {
         });
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
-        this.$router.push({
-          name: 'songs',
-        });
+        this.$router.push('/');
       } catch (error) {
-        this.error = error.response.data.error;
+        console.log(error);
+        this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
       }
     },
   },

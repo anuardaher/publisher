@@ -10,10 +10,8 @@ router.get('/auth/linkedin');
 
 router.get('/auth/linkedin/callback');
 
-router.route('/login').post(authenticateController.login);
+router.post('/login', authenticateController.login);
 
-router
-  .route('/register')
-  .post(userSchema.register, authenticateController.register);
+router.post('/register', userSchema.register, authenticateController.register);
 
 module.exports = router;

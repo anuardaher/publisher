@@ -18,6 +18,14 @@ export default new Vuex.Store({
       state.user = user;
     },
   },
+  getters: {
+    getFullName(state) {
+      if (!state.user) {
+        return null;
+      }
+      return `${state.user.firstname} ${state.user.lastname}`;
+    },
+  },
   actions: {
     setToken({ commit }, token) {
       commit('setToken', token);

@@ -12,7 +12,7 @@ const userSchema = new Schema(
     },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profession: String,
     photo: { type: String },
@@ -38,13 +38,13 @@ const userSchema = new Schema(
 userSchema.methods.setPassword = function(password) {
   this.salt = crypto.randomBytes(16).toString('hex');
   this.password = crypto
-    .pbkdf2Sync(password, this.salt, 10000, 512, 'sha512')
+    .pbkdf2Sync(password, this.salt, 10000, 32, 'sha512')
     .toString('hex');
 };
 
 userSchema.methods.validatePassword = function(password) {
   const hash = crypto
-    .pbkdf2Sync(password, this.salt, 10000, 512, 'sha512')
+    .pbkdf2Sync(password, this.salt, 10000, 32, 'sha512')
     .toString('hex');
   return this.password === hash;
 };
