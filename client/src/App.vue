@@ -2,36 +2,57 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <router-link :to="'Home'" tag="button">
-          <span>UC ADVOGADOS</span>
-        </router-link>
+          <span @click="$router.push('/')">UC ADVOGADOS</span>
       </v-toolbar-title>
+      <span class='mr-4'></span>
+      <v-toolbar-items>
+         <v-btn text @click="$router.push('/artigos')">
+            ARTIGOS
+        </v-btn>
+        <v-btn text @click="$router.push('/noticias')">
+            NOTÍCIAS
+        </v-btn>
+      </v-toolbar-items>
       <v-spacer></v-spacer>
-          <v-btn text>
-           <span class="mr-2">PUBLICAR</span>
-          </v-btn>
-          <router-link :to="'register'" tag='button' v-if="!$store.state.isUserLoggedIn">
-            <v-btn text>
-              <span class="mr-2">REGISTRAR</span>
-             </v-btn>
-          </router-link>
-          <router-link :to="'login'" tag='button' v-if="!$store.state.isUserLoggedIn">
-          <v-btn text>
-            <span class="mr-2">ENTRAR</span>
-          </v-btn>
-          </router-link>
-           <span class="mr-2" v-if="$store.state.isUserLoggedIn"
-            @click.stop="drawer = !drawer">
-              <v-avatar color="indigo">
-                <v-icon dark>account_circle</v-icon>
-              </v-avatar>
-          </span>
+      <v-toolbar-items>
+        <v-btn text @click="$router.push('/publicar')">
+          PUBLICAR
+        </v-btn>
+        <v-btn
+        text
+        @click="$router.push('registrar')"
+        v-if="!$store.state.isUserLoggedIn">
+          REGISTRAR
+        </v-btn>
+        <v-btn
+        text
+        @click="$router.push('login')"
+        v-if="!$store.state.isUserLoggedIn">
+          ENTRAR
+        </v-btn>
+      </v-toolbar-items>
+      <span class='mr-4'></span>
+      <v-btn
+        icon
+        large
+        @click.stop="drawer = !drawer"
+        v-if="$store.state.isUserLoggedIn"
+        class="mr-2"
+      >
+      <v-avatar item>
+      <img
+        src="https://randomuser.me/api/portraits/men/78.jpg"
+        alt="John"
+      >
+      </v-avatar>
+      </v-btn>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
       temporary
       right
       app
+      height='400px'
     >
       <v-list-item>
         <v-list-item-avatar>
@@ -51,6 +72,7 @@
           v-for="item in items"
           :key="item.title"
           link
+          @click="$router.push(item.route)"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -60,17 +82,12 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item @click="logout">
-          <v-list-item-icon>
-            <v-icon>logout</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Sair</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
       </v-list>
+       <template v-slot:append>
+        <div class="pa-2">
+          <v-btn dark block @click="logout">Sair</v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
     <v-content>
        <router-view></router-view>
@@ -85,8 +102,10 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      { title: 'Home', icon: 'dashboard' },
-      { title: 'Publicar', icon: 'question_answer' },
+      { title: 'Minha Conta', icon: 'person', route: '/perfil' },
+      { title: 'Publicar', icon: 'edit', route: '/publicar' },
+      { title: 'Artigos', icon: 'question_answer', route: '/artigos' },
+      { title: 'Noticias', icon: 'mdi-newspaper', route: '/noticias' },
     ],
   }),
   methods: {
