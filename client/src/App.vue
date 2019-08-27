@@ -12,6 +12,7 @@
     </v-content>
     <!-- Rodapé -->
     <v-footer app>
+      <Snackbar/>
     <!-- -->
     </v-footer>
   </v-app>
@@ -19,13 +20,15 @@
 
 <script>
 import AppBar from './components/AppBar.vue';
-import AppDrawer from './components/AppDrawer.vue';
+import AppDrawer from './components/utils/AppDrawer.vue';
+import Snackbar from './components/utils/Snackbar.vue';
 
 export default {
   name: 'App',
   components: {
     AppBar,
     AppDrawer,
+    Snackbar,
   },
   data: () => ({
   }),

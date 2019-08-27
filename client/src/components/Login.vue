@@ -28,13 +28,17 @@
                      <v-btn class="ma-2"
                       tile
                       color="#3b5998"
-                      dark>ENTRE COM FACEBOOK
+                      dark>
+                      <v-icon>mdi-facebook</v-icon>
+                      ENTRE COM FACEBOOK
                       </v-btn>
 
                      <v-btn class="ma-2"
                       tile
                       color="#009de9"
-                      dark>ENTRE COM LINKEDIN</v-btn>
+                      dark>
+                      <v-icon>mdi-linkedin</v-icon>
+                      ENTRE COM LINKEDIN</v-btn>
                   </div>
                 <v-form>
                   <v-text-field
@@ -63,6 +67,9 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
+                <span class="ml-3">Não tem uma conta? 
+                  <a @click="$router.push('registrar', () => {})">Registre-se!</a>
+                </span>
                 <v-spacer></v-spacer>
                 <v-btn color="primary"
                 @click="login">OK</v-btn>

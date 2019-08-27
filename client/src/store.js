@@ -23,14 +23,28 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    getFullName(state) {
+    fullName(state) {
       if (!state.user) {
         return null;
       }
       return `${state.user.firstname} ${state.user.lastname}`;
     },
-    getState(state) {
+    state(state) {
       return state.isUserLoggedIn;
+    },
+    inicialLetterName(state) {
+      if (!state.user) {
+        return null;
+      }
+      let firstNameLetter = state.user.firstname.charAt(0);
+      let lastNameLetter = state.user.lastname.charAt(0);
+      return firstNameLetter.concat(lastNameLetter).toUpperCase();
+    },
+    userHasImage(state) {
+      if (state.user.img) {
+        return true;
+      }
+      return false;
     },
   },
   actions: {

@@ -7,14 +7,26 @@
     height='400px'
     touchless
 >
-    <v-list-item>
-    <v-list-item-avatar>
-        <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-    </v-list-item-avatar>
+    <v-list-item 
+    v-if="$store.state.isUserLoggedIn"
+    list
+    @click="$router.push('/perfil', () => {})">
+      <v-list-item-avatar color="red">
+        <span
+         class="white--text headline pl-1"
+         v-if="!$store.getters.userHasImage"
+         >{{$store.getters.inicialLetterName}}
+         </span>
+        <v-img
+          src="https://randomuser.me/api/portraits/men/78.jpg"
+          v-if="$store.getters.userHasImage">
+        </v-img>
+      </v-list-item-avatar>
 
-    <v-list-item-content>
-        <v-list-item-title>{{getName}}</v-list-item-title>
-    </v-list-item-content>
+      <v-list-item-content>
+          <v-list-item-title>{{$store.getters.fullName}}</v-list-item-title>
+          <span class="subtext">Ver meu perfil</span>
+      </v-list-item-content>
     </v-list-item>
 
     <v-divider></v-divider>
@@ -36,7 +48,20 @@
         </v-list-item-content>
     </v-list-item>
     </v-list>
-    <template v-slot:append>
+    <div class='pt-12'
+     v-if="!$store.state.isUserLoggedIn">
+      <div class="pa-2">
+          <v-btn dark block
+            @click="$router.push('login', () => {})">Entrar</v-btn>
+      </div>
+      <div class="pa-2">
+          <v-btn dark block
+            @click="$router.push('registrar', () => {})">Cadastrar</v-btn>
+      </div>
+    </div>
+    <template
+      v-slot:append
+      v-if="$store.state.isUserLoggedIn">
     <div class="pa-2">
         <v-btn dark block @click="logout">Sair</v-btn>
     </div>
@@ -45,13 +70,13 @@
 </template>
 
 <script>
-import EventBus from '../event-bus.js';
+import EventBus from '../../event-bus.js';
 
 export default {
   data: () => ({
-    drawer: null,
+    drawer: null, 
     items: [
-      { title: 'Minha Conta', icon: 'person', route: '/perfil' },
+      { title: 'Home', icon: 'home', route: '/'},
       { title: 'Publicar', icon: 'edit', route: '/publicar' },
       { title: 'Artigos', icon: 'question_answer', route: '/artigos' },
       { title: 'Noticias', icon: 'mdi-newspaper', route: '/noticias' },
@@ -66,15 +91,15 @@ export default {
     },
   },
   mounted () {
-    const self = this;
     EventBus.$on('callMenu', () => {
       this.drawer = !this.drawer;
     });
   },
-  computed: {
-    getName() {
-      return this.$store.getters.getFullName;
-    },
-  },
 };
 </script>
+<style scoped>
+.subtext {
+  font-size: 12px;
+  color: gray;
+}
+</style>

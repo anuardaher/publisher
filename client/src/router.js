@@ -12,7 +12,7 @@ import Noticias from './views/Noticias.vue';
 Vue.use(Router);
 
 const isAuthenticated = (to, from, next) => {
-  if (!store.getters.getState) {
+  if (!store.getters.state) {
     next('/login');
   } else {
     next();
