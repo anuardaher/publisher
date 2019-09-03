@@ -23,6 +23,18 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    userId(state) {
+      if (!state.user) {
+        return null;
+      }
+      return state.user._id;
+    },
+    userColor(state) {
+      if (!state.user) {
+        return null;
+      }
+      return state.user.color;
+    },
     fullName(state) {
       if (!state.user) {
         return null;
@@ -41,7 +53,7 @@ export default new Vuex.Store({
       return firstNameLetter.concat(lastNameLetter).toUpperCase();
     },
     userHasImage(state) {
-      if (state.user.img) {
+      if (state.user && state.user.img) {
         return true;
       }
       return false;

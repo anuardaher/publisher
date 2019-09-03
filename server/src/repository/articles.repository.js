@@ -1,7 +1,7 @@
 const ArticleModel = require('../models/articles.model');
 
-const find = async function(data) {
-  return ArticleModel.find(data);
+const find = async function(data, projection) {
+  return ArticleModel.find(data, projection);
 };
 
 const findById = async function(id) {

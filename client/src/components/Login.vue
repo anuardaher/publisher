@@ -87,6 +87,12 @@
 import AuthenticationService from '../services/AuthenticationService';
 
 export default {
+  metaInfo() {
+    return {
+      title: "Login",
+      meta: []
+    }
+  },
   props: {
     source: String,
   },
@@ -108,7 +114,6 @@ export default {
         this.$store.dispatch('setUser', response.data.user);
         this.$router.push('/');
       } catch (error) {
-        console.log(error);
         this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
       }
     },

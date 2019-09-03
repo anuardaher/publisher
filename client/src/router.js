@@ -8,6 +8,7 @@ import Perfil from './views/Perfil.vue';
 import Publicar from './views/Publicar.vue';
 import Artigos from './views/Artigos.vue';
 import Noticias from './views/Noticias.vue';
+import Publicacao from './views/Publicacao.vue';
 
 Vue.use(Router);
 
@@ -57,6 +58,11 @@ const router = new Router({
       path: '/noticias',
       name: 'noticias',
       component: Noticias,
+    },
+    {
+      path: '/publicacao/:id',
+      name: 'publicacao',
+      component: Publicacao,
     },
   ],
 });

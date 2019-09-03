@@ -1,21 +1,19 @@
 <template>
     <v-card
     class="mx-auto"
-    max-width="350"
+    max-width="600"
     hover
+    @click="$router.push(`/publicacao/${value._id}`, () => {})"
     >
     <v-img
-      height="150px"
-      :src=value.img
+      height="200px"
+      :src='getImageUrl(value.img)'
     >
     </v-img>
     <v-card-title>{{ value.title }}</v-card-title>
     <v-card-text>
-      <span>{{ value.author }} – {{ value.data }}</span><br/>
-      <span class="text--primary">
-        <span>
-          {{ minimizeText(value.text)}}</span>
-      </span>
+      <span>{{ value.author.name }} – {{ convertDate(value.createdAt) }}</span><br/>
+      <span class="text--primary" v-text='minimizeText(value.subtitle)'></span>
     </v-card-text>
     <v-card-actions>
       <v-btn icon @click="thumbsUp">
@@ -25,12 +23,11 @@
       <v-spacer></v-spacer>
       <v-chip
       class="ma-2"
-      :color="value.tag.color"
       label
-      text-color="white"
-    >
-      <v-icon left>label</v-icon>
-      {{value.tag.name}}
+      small
+      >
+      <v-icon left>mdi-label</v-icon>
+      {{value.tags[0].name}}
     </v-chip>
     </v-card-actions>
   </v-card>
@@ -54,18 +51,26 @@ export default {
     },
     methods: {
       minimizeText (text) {
-        return text ? text.slice(0,50).concat('...') : '';
+        return text ? text.slice(0,150).concat('...') : '';
       },
       thumbsUp () {
         if(this.$store.getters.state){
           this.thumbs++;
         }
         else {
-          EventBus.$emit(
-            'callSnackbar',
-            `Você precisa estar logado para curtir uma publicação.`);
+          EventBus.$emit('callSnackbar', {
+           text: `Você precisa estar logado para curtir uma publicação.`,
+           color: 'warning'
+          })
         }
       },
+      getImageUrl(path) {
+        return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}${path}`;
+      },
+      convertDate(date) {
+        const newDate = new Date(date);
+        return newDate.toLocaleString();
+      }
     },
 }
 </script>

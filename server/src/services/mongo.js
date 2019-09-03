@@ -13,6 +13,7 @@ const options = {
   useNewUrlParser: true,
   useFindAndModify: false,
   useCreateIndex: true,
+  autoIndex: false,
 };
 
 try {

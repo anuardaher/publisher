@@ -6,13 +6,14 @@
     <AppBar/>
     <!-- Conteúdo gerido pelas rotas -->
     <v-content>
+      <Snackbar/>
+      <ProgressBar/>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
     <!-- Rodapé -->
     <v-footer app>
-      <Snackbar/>
     <!-- -->
     </v-footer>
   </v-app>
@@ -22,13 +23,21 @@
 import AppBar from './components/AppBar.vue';
 import AppDrawer from './components/utils/AppDrawer.vue';
 import Snackbar from './components/utils/Snackbar.vue';
+import ProgressBar from './components/utils/ProgressBar.vue';
 
 export default {
   name: 'App',
+  metaInfo: {
+    // if no subcomponents specify a metaInfo.title, this title will be used
+    title: 'Site',
+    // all titles will be injected into this template
+    titleTemplate: '%s | UC Advogados'
+  },
   components: {
     AppBar,
     AppDrawer,
     Snackbar,
+    ProgressBar,
   },
   data: () => ({
   }),

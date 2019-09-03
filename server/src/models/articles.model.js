@@ -10,16 +10,22 @@ const articleSchema = new Schema(
       default: uuidv4()
     },
     title: { type: String, required: true },
-    author: { type: Schema.Types.ObjectId, ref: 'users' },
-    tags: [{ type: Schema.Types.ObjectId, ref: 'tags' }],
+    subtitle: String,
+    author: {
+      id: { type: String, ref: 'users' },
+      name: String,
+    },
+    tags: [{ type: Object, ref: 'tags' }],
     text: { type: String, required: true },
-    thumbs: [Schema.Types.ObjectId],
-    type: { type: String, enum: ['article', 'notice'] },
-    views: Number
+    thumbs: [{type: String, ref: 'users'}],
+    type: {type: String, enum: ['article', 'notice']},
+    views: Number,
+    active: {type: Boolean, default: true},
+    img: String,
   },
   {
     timestamps: {}
   }
 );
 
-module.exports = mongoose.model('Article', articleSchema);
+module.exports = new mongoose.model('Article', articleSchema);

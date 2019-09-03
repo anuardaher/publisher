@@ -3,7 +3,7 @@ const formatter = require('../helpers/formatter');
 
 const getAll = async (req, res) => {
   const tags = await tagsRepository.find({});
-  return res.status(200).json({ data: tags.map(formatter('tag')) });
+  return res.status(200).json(tags);
 };
 
 const findById = async (req, res) => {
@@ -18,13 +18,6 @@ const findById = async (req, res) => {
 };
 
 const save = async (req, res) => {
-  let tag;
-  const { name } = req.body;
-  if (!name) {
-    return res
-      .status(400)
-      .json({ success: false, message: 'Missing a required parameter' });
-  }
   try {
     tag = await tagsRepository.create(req.body);
   } catch (e) {

@@ -2,10 +2,13 @@
   <div class="text-center ma-2">
     <v-snackbar
       v-model="snackbar"
+      :color='color'
+      top
+      multi-line
     >
       {{ text }}
       <v-btn
-        color="blue"
+        dark
         text
         @click="snackbar = false"
       >
@@ -21,13 +24,14 @@ import EventBus from '../../event-bus.js';
   export default {
     data: () => ({
       snackbar: false,
-      text: ' Cadastre-se!',
+      text: '',
+      color: '',
     }),
     mounted () {
-     EventBus.$on('callSnackbar', (text) => {
-      this.text = text;
+     EventBus.$on('callSnackbar', (snackbar) => {
+      this.text = snackbar.text;
+      this.color = snackbar.color;
       this.snackbar = !this.snackbar;
-
     });
   },
   }

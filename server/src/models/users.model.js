@@ -4,6 +4,12 @@ const crypto = require('crypto');
 
 const { Schema } = mongoose;
 
+const setColor = () => {
+  const colours = ['red', 'blue', 'green','purple'];
+  // retorna uma das cores do array acima
+  return colours[Math.random() * colours.length | 0];
+}
+
 const userSchema = new Schema(
   {
     _id: {
@@ -20,8 +26,17 @@ const userSchema = new Schema(
     followers: { type: Number, default: 0 },
     following: [{ type: Schema.Types.ObjectId, ref: 'users' }],
     salt: String,
-    articles: [{ type: Schema.Types.ObjectId, ref: 'articles' }],
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    color: {type: String, default: setColor() },
+    address: {
+      street: String,
+      complement: String,
+      country: String,
+      state: String,
+      city: String,
+      zipcode: String,
+      number: String,
+    },
     facebook: {
       id: String,
       token: String,
@@ -49,4 +64,4 @@ userSchema.methods.validatePassword = function(password) {
   return this.password === hash;
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = new mongoose.model('User', userSchema);

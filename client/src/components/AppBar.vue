@@ -1,10 +1,15 @@
 <template>
-  <v-app-bar app>
-    <v-toolbar-title class="headline text-uppercase">
-        <span @click="$router.push('/', () => {})">UC ADVOGADOS</span>
+  <v-app-bar app dense>
+    <v-toolbar-title 
+    class="headline text-uppercase"
+    @click="$router.push('/', () => {})">
+        <span>UC ADVOGADOS</span>
     </v-toolbar-title>
     <span class='mr-4'></span>
     <v-toolbar-items class="d-none d-sm-flex">
+      <v-btn text @click="$router.push('/', () => {})">
+      {{getHomeButton}}
+      </v-btn>
       <v-btn text @click="$router.push('/artigos', () => {})">
       ARTIGOS
       </v-btn>
@@ -38,18 +43,22 @@
     <span class='mr-2'></span>
     <v-btn
     icon
-    large
     @click.stop="callMenu"
     v-if="$store.state.isUserLoggedIn"
     class="mr-2"
+    size="42px"
     >
-      <v-avatar v-if="$store.getters.userHasImage">
+      <v-avatar 
+      v-if="$store.getters.userHasImage">
         <img
         src="https://randomuser.me/api/portraits/men/78.jpg"
         alt="John"
         >
       </v-avatar>
-      <v-avatar v-if="!$store.getters.userHasImage" color="red">
+      <v-avatar
+       v-if="!$store.getters.userHasImage" 
+       :color="$store.getters.userColor"
+       size="42px">
         <span class="white--text headline">{{$store.getters.inicialLetterName}}</span>
       </v-avatar>
     </v-btn>
@@ -67,5 +76,13 @@ export default {
       EventBus.$emit('callMenu');
     },
   },
+  computed: {
+   getHomeButton () {
+    if (this.$store.getters.state) {
+        return 'Feed'
+    }
+    return 'Home'
+    }
+  }
 };
 </script>

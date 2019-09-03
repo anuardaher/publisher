@@ -11,7 +11,8 @@
     v-if="$store.state.isUserLoggedIn"
     list
     @click="$router.push('/perfil', () => {})">
-      <v-list-item-avatar color="red">
+      <v-list-item-avatar
+      :color="$store.getters.userColor">
         <span
          class="white--text headline pl-1"
          v-if="!$store.getters.userHasImage"

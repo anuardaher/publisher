@@ -112,6 +112,12 @@
 import AuthenticationService from '../services/AuthenticationService';
 
 export default {
+  metaInfo() {
+    return {
+      title: "Cadastre-se",
+      meta: []
+    }
+  },
   data() {
     return {
       firstname: '',

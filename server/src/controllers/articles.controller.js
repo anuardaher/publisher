@@ -2,37 +2,30 @@ const articlesRepository = require('../repository/articles.repository');
 const formatter = require('../helpers/formatter');
 
 const getAll = async (req, res) => {
-  const articles = await articlesRepository.find({});
-  return res.status(200).json({ data: articles.map(formatter('article')) });
+  const { data, projection} = req.query;
+  const articles = await articlesRepository.find(JSON.parse(data), JSON.parse(projection));
+  return res.status(200).json(articles.map((article) => formatter(article, 'article')));
 };
 
 const findById = async (req, res) => {
-  let article;
   try {
-    article = await articlesRepository.findById(req.params.id);
+    const article = await articlesRepository.findById(req.params.id);
+    return res.status(200).json(formatter(article, 'article'));
   } catch (e) {
     console.error(e);
     return res.status(500);
   }
-  return res.status(200).json({ data: formatter(article, 'article') });
 };
 
 const save = async (req, res) => {
-  let article;
-  const { title, text, author } = req.body;
-  if (!title || !text || !author) {
-    return res
-      .status(400)
-      .json({ success: false, message: 'Missing a required parameter' });
-  }
   try {
     article = await articlesRepository.create(req.body);
+    console.log(`Created article: ${article.title}, ${article.author} `);
+    return res.status(201).json(formatter(article, 'article'));
   } catch (e) {
     console.error(e);
     return res.status(500);
   }
-  console.log(`Created article: ${article.title}, ${article.author} `);
-  return res.status(201).json(formatter(article, 'article'));
 };
 
 const remove = async (req, res) => {
@@ -73,10 +66,18 @@ const update = async (req, res) => {
   return res.status(201).json(formatter(article, 'article'));
 };
 
+const uploadImage = async (req, res) => {
+  if (req.file) {
+    const path = req.file.path.slice(6);
+    res.status(200).json({path});
+  }
+}
+
 module.exports = {
   getAll,
   save,
   remove,
   findById,
-  update
+  update,
+  uploadImage,
 };
