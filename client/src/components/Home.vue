@@ -50,7 +50,8 @@ export default {
   async created () {
     const options = {
         data: { type: "article", active: true },
-        projection: { "text": 0}
+        projection: { text: 0},
+        options: { limit: 3},
       }
     try {
       const {data} = await ArticleService.load(options);

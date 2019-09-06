@@ -12,8 +12,13 @@ module.exports = {
   async register(req, res) {
     try {
       const user = await userRepository.create(req.body);
-      if (user) {
-        delete user.password && delete user.salt;
+      if (!user)
+        return res.status(500).json({ error: 'Erro interno do servidor.' });
+      user.password = '';
+      user.salt = '';
+      console.log(user);
+      if (user.provider != 'cadastro') {
+        return res.redirect(`http://localhost:8080/#/?user=${user._id}`);
       }
       return res.status(200).json({
         user,
@@ -32,16 +37,22 @@ module.exports = {
       const user = await userRepository.findOne({ email });
       if (!user) {
         return res.status(403).send({
-          error: 'Não existe um usuário para o e-mail informado.',
+          error: 'E-mail ou senha incorretos.',
+        });
+      }
+      if (user.provider != 'cadastro') {
+        return res.status(403).send({
+          error: `Faça o login pelo ${user.provider}.`,
         });
       }
       const isPasswordValid = await user.validatePassword(password);
       if (!isPasswordValid) {
         return res.status(403).send({
-          error: 'Senha incorreta! Tente novamente.',
+          error: 'E-mail ou senha incorretos.',
         });
       }
-      delete user.password && delete user.salt;
+      user.password = '';
+      user.salt = '';
       res.send({
         user,
         token: jwtSignUser(user),
@@ -52,5 +63,14 @@ module.exports = {
         error: 'Erro interno do servidor.',
       });
     }
+  },
+  async socialLogin(req, res) {
+    const { id } = req.params;
+    const user = await userRepository.findById(id);
+    if (!user) return res.status(404);
+    return res.status(200).json({
+      user,
+      token: jwtSignUser(user),
+    });
   },
 };

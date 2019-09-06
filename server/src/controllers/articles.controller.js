@@ -2,8 +2,8 @@ const articlesRepository = require('../repository/articles.repository');
 const formatter = require('../helpers/formatter');
 
 const getAll = async (req, res) => {
-  const { data, projection} = req.query;
-  const articles = await articlesRepository.find(JSON.parse(data), JSON.parse(projection));
+  const { data, projection, options} = req.query;
+  const articles = await articlesRepository.find(JSON.parse(data), JSON.parse(projection), JSON.parse(options));
   return res.status(200).json(articles.map((article) => formatter(article, 'article')));
 };
 

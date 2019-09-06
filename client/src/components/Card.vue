@@ -1,34 +1,50 @@
 <template>
     <v-card
-    class="mx-auto"
+    class="mx-auto disable-events"
     max-width="600"
     hover
-    @click="$router.push(`/publicacao/${value._id}`, () => {})"
+    tag='div'
     >
-    <v-img
-      height="200px"
-      :src='getImageUrl(value.img)'
-    >
-    </v-img>
-    <v-card-title>{{ value.title }}</v-card-title>
+    <div
+    class="enable-events"
+     @click="$router.push(`/publicacao/${value._id}`, () => {})">
+      <v-img
+        height="200px"
+        :src='getImageUrl(value.img)'
+      >
+      </v-img>
+      <v-card-title>{{ value.title }}</v-card-title>
+    </div>
     <v-card-text>
       <span>{{ value.author.name }} – {{ convertDate(value.createdAt) }}</span><br/>
       <span class="text--primary" v-text='minimizeText(value.subtitle)'></span>
     </v-card-text>
     <v-card-actions>
-      <v-btn icon @click="thumbsUp">
+      <v-btn class='enable-events' icon @click="thumbsUp">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
       <span v-show="thumbs > 0"> {{thumbs}}</span>
       <v-spacer></v-spacer>
-      <v-chip
-      class="ma-2"
-      label
-      small
-      >
-      <v-icon left>mdi-label</v-icon>
-      {{value.tags[0].name}}
-    </v-chip>
+      <social-sharing 
+      :url="getPostUrl(value._id)"
+      :title="value.title"
+      :description="value.subtitle"
+      :quote="value.subtitle"
+      :hashtags="covertTagsToString"
+      twitter-user="ucadvogados"
+      inline-template>
+      <div class="social-icons-card enable-events">
+        <network network="facebook">
+          <button class="mdi mdi-facebook mdi-24px"></button>
+        </network>
+        <network network="twitter">
+          <button class="mdi mdi-twitter mdi-24px"></button>
+        </network>
+        <network network="linkedin">
+          <button class="mdi mdi-linkedin mdi-24px"></button>
+        </network>
+      </div>
+      </social-sharing>
     </v-card-actions>
   </v-card>
 </template>
@@ -70,7 +86,34 @@ export default {
       convertDate(date) {
         const newDate = new Date(date);
         return newDate.toLocaleString();
-      }
+      },
+      getPostUrl(id) {
+        return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}/publicacao/${id}`;
+      },
     },
+    computed: {
+      covertTagsToString() {
+        if (this.value.tags) {
+          const tags = this.value.tags.map((tag) => tag.name);
+          const formatedTags = tags.toString().replace(/\s/g, '');
+          return formatedTags;
+        }
+        return '';
+      },
+    }
 }
 </script>
+
+<style>
+.disable-events {
+  pointer-events: none;
+}
+.enable-events {
+  pointer-events: painted;
+}
+.social-icons-card .mdi {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #0000008a;
+}
+</style>

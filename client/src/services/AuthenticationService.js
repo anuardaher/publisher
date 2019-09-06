@@ -7,4 +7,7 @@ export default {
   login(credentials) {
     return Api().post('login', credentials);
   },
+  facebook() {
+    return Api().get('auth/facebook')
+  },
 };

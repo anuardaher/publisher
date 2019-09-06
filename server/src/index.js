@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const app = require('./server');
+const passport = require('passport');
 const routes = require('./routes');
 
 const init = () => {
@@ -16,6 +17,7 @@ const init = () => {
   app.use(cookieParser());
   app.use(cors());
   app.use(morgan('combined'));
+  app.use(passport.initialize());
 
   // routes
   app.use('/', routes);

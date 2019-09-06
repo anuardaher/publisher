@@ -18,7 +18,7 @@
     </v-row>
     <v-row align="center" justify="center" class="mt-n8">
       <v-col 
-      md="6"
+      md="8"
       lg="6"
       sm="12">
       <div class="editor">
@@ -76,7 +76,7 @@
           placeholder="Escreva um subtítulo..."
           ></v-textarea>
           <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, on }">
-            <div class="menubar" >
+            <div class="menubar">
               <button
                 class="menubar__button mr-1"
                 :class="{ 'is-active': isActive.bold() }"

@@ -10,9 +10,9 @@
           justify="center"
         >
           <v-col
-            cols="12"
-            sm="8"
-            md="4"
+            xs="12"
+            md="6"
+            lg="4"
           >
             <v-card class="elevation-12">
               <v-toolbar
@@ -26,27 +26,22 @@
                 <v-card-text>
                   <div class="text-center">
                     <v-btn class="ma-2"
+                      @click="facebook"
                       tile
                       color="#3b5998"
                       dark>
-                      <v-icon>mdi-facebook</v-icon>
+                      <v-icon class="mr-2">mdi-facebook</v-icon>
                       CADASTRE COM FACEBOOK
                     </v-btn>
-                    <v-btn class="ma-2"
-                      tile
-                      color="#009de9"
-                      dark>
-                      <v-icon>mdi-linkedin</v-icon>
-                      CADASTRE COM LINKEDIN
-                    </v-btn>
                   </div>
-                <v-form>
+                <v-form v-model="valid">
                   <v-text-field
                     label="Nome"
                     v-model="firstname"
                     prepend-icon="person"
                     type="text"
                     required
+                    :rules='[rules.required, rules.counter]'
                   ></v-text-field>
 
                   <v-text-field
@@ -55,6 +50,7 @@
                     prepend-icon="person"
                     type="text"
                     required
+                    :rules='[rules.required, rules.counter]'
                   ></v-text-field>
 
                   <v-text-field
@@ -63,22 +59,29 @@
                     prepend-icon="email"
                     type="email"
                     required
+                    :rules='[rules.required, rules.email]'
                   ></v-text-field>
 
                   <v-text-field
+                    :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                    @click:append="show1 = !show1"
                     label="Senha"
                     v-model="password"
                     prepend-icon="lock"
-                    type="password"
+                    :type='show1 ? "text" : "password"'
                     required
+                    :rules='[rules.required, rules.passwordLength]'
                   ></v-text-field>
 
                   <v-text-field
+                    :append-icon="show2 ? 'visibility' : 'visibility_off'"
+                    @click:append="show2 = !show2"
+                    :type='show2 ? "text" : "password"'
                     label="Confirme sua Senha"
                     v-model="passwordValidation"
                     prepend-icon="lock"
-                    type="password"
                     required
+                    :rules='[rules.required, rules.passwordMatch]'
                   ></v-text-field>
                   <div class="text-center">
                     <v-alert
@@ -97,7 +100,10 @@
                   <a @click="$router.push('login', () => {})">Entre!</a>
                 </span>
                 <v-spacer></v-spacer>
-                <v-btn @click="register" color="primary">OK</v-btn>
+                <v-btn @click="register"
+                 :disabled="!valid"
+                  color="primary"
+                  class="mr-1">Enviar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -120,17 +126,29 @@ export default {
   },
   data() {
     return {
+      valid: true,
       firstname: '',
       lastname: '',
       email: '',
       password: '',
       passwordValidation: '',
       error: null,
+      show1: false,
+      show2: false,
+      rules: {
+          required: value => !!value || 'Campo Obrigatório',
+          counter: value => value.length <= 20 || 'Máximo de 20 caracteres',
+          email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'E-mail inválido'
+          },
+          passwordMatch: value => value == this.password || 'Digite a mesma senha do campo acima',
+          passwordLength: value => value.length >= 8 || 'Mínimo de 8 caracteres'
+        },
     };
   },
   methods: {
     async register() {
-      debugger;
       try {
         const response = await AuthenticationService.register({
           firstname: this.firstname,
@@ -144,6 +162,13 @@ export default {
         this.$router.push('/');
       } catch (error) {
         this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
+      }
+    },
+    async facebook() {
+      try {
+        window.location.href = `http://${VUE_APP_SERVER_HOST}/auth/facebook`;
+      } catch (error) {
+        console.log(error);
       }
     },
   },

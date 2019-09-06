@@ -1,5 +1,6 @@
 const express = require('express');
 require('./services/mongo');
+require('./config/passport');
 
 const app = express();
 

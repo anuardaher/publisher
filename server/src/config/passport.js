@@ -2,6 +2,7 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
 const userRepository = require('../repository/users.repository');
+const FacebookStrategy = require('passport-facebook');
 
 passport.use(
   new JwtStrategy(
@@ -21,6 +22,33 @@ passport.use(
       } catch (err) {
         return done(new Error(), false);
       }
+    }
+  )
+);
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: `https://${process.env.HOST}/auth/facebook/callback`,
+      profileFields: ['id', 'first_name', 'last_name', 'email', 'picture'],
+    },
+    async (accessToken, refreshToken, profile, cb) => {
+      const data = profile._json;
+      try {
+        let user = await userRepository.findOne({ email: data.email });
+        if (user) return cb(null, user);
+        user = {
+          provider: 'facebook',
+          firstname: data.first_name,
+          lastname: data.last_name,
+          email: data.email,
+          img: data.picture.data.url,
+          facebook: { id: profile.id, token: accessToken },
+        };
+        return cb(null, user);
+      } catch (error) {}
     }
   )
 );

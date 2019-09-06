@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <v-row align="center" justify="center">
-      <v-col 
-      md="6"
+      <v-col
+      md="8"
       lg="6"
       sm="12">
         <v-sheet
           tile
-          class="pa-10"
+          class="pa-12"
           max-width="100%"
           elevation="4"
         >
@@ -28,7 +28,7 @@
           </v-row>
           <v-row class="mt-2" align="center">
             <v-btn icon @click="thumbsUp">
-              <v-icon>mdi-heart</v-icon>
+              <v-icon :color='thumbColor'>mdi-heart</v-icon>
             </v-btn>
             <span v-show="thumbs > 0"> {{thumbs}}</span>
             <v-spacer></v-spacer>
@@ -38,17 +38,20 @@
               :description="article.subtitle"
               :quote="article.subtitle"
               :hashtags="covertTagsToString"
-              twitter-user="vuejs"
+              twitter-user="ucadvogados"
               inline-template>
-              <div>
+              <div class="social-icons">
                 <network network="facebook">
-                  <span class="">Facebook</span>
+                  <button class="mdi mdi-facebook mdi-24px"></button>
+                </network>
+                 <network network="twitter">
+                  <button class="mdi mdi-twitter mdi-24px"></button>
+                </network>
+                 <network network="linkedin">
+                  <button class="mdi mdi-linkedin mdi-24px"></button>
                 </network>
               </div>
             </social-sharing>
-            <v-btn icon class="mx-2">
-              <v-icon>mdi-twitter</v-icon>
-            </v-btn>
           </v-row>
           <v-divider class='mb-4'></v-divider>
           <v-row>
@@ -59,7 +62,7 @@
           <v-row class="my-4" align="center" justify="center">
             <v-img
               :src='img'
-              :max-width='fontSize'
+              width='100%'
             >
             </v-img>
           </v-row>
@@ -94,11 +97,13 @@ export default {
       author: '',
       img: '',
       date: '',
+      thumbColor: null,
     }
   },
   methods: {
     thumbsUp() {
       this.thumbs++
+      this.thumbColor = 'red';
     },
     convertDate(date) {
       const newDate = new Date(date);
@@ -109,14 +114,6 @@ export default {
       },
   },
   computed: {
-  fontSize() {
-    switch (this.$vuetify.breakpoint.name) {
-      case 'xs': return '100%';
-      case 'sm': return '80%';
-      case 'md': return '70%';
-      default: return '60%';
-    }
-  },
   covertTagsToString() {
     if (this.tags) {
       const tags = this.tags.map((tag) => tag.name);
@@ -157,8 +154,15 @@ export default {
   width: 100%;
 }
 .text-body p {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+ margin-right: auto;
+ margin-left: auto;
+}
+.text-body p img {
+ width: 100%;
+}
+.social-icons .mdi {
+  margin-left: 7px;
+  margin-right: 7px;
+  color: #0000008a;
 }
 </style>

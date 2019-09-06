@@ -7,7 +7,7 @@ const find = async data => {
 };
 
 const findById = async id => {
-  return UserModel.findById({ _id: id }, projection);
+  return UserModel.findById(id, projection);
 };
 
 const findOne = async data => {
@@ -16,7 +16,8 @@ const findOne = async data => {
 
 const create = async data => {
   const user = new UserModel(data);
-  user.setPassword(data.password);
+  if (data.password)
+    user.setPassword(data.password);
   return user.save();
 };
 

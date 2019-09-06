@@ -54,7 +54,7 @@ export default new Vuex.Store({
     },
     userHasImage(state) {
       if (state.user && state.user.img) {
-        return true;
+        return state.user.img;
       }
       return false;
     },

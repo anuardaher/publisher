@@ -19,7 +19,7 @@
          >{{$store.getters.inicialLetterName}}
          </span>
         <v-img
-          src="https://randomuser.me/api/portraits/men/78.jpg"
+          :src="$store.getters.userHasImage"
           v-if="$store.getters.userHasImage">
         </v-img>
       </v-list-item-avatar>
@@ -87,7 +87,7 @@ export default {
     logout() {
       this.$store.dispatch('setToken', null);
       this.$store.dispatch('setUser', null);
-      this.$router.push('/');
+      this.$router.push('/', () => {});
       this.drawer = !this.drawer;
     },
   },

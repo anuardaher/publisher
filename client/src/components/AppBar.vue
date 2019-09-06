@@ -51,7 +51,7 @@
       <v-avatar 
       v-if="$store.getters.userHasImage">
         <img
-        src="https://randomuser.me/api/portraits/men/78.jpg"
+        :src="$store.getters.userHasImage"
         alt="John"
         >
       </v-avatar>

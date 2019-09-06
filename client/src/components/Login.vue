@@ -10,9 +10,9 @@
           justify="center"
         >
           <v-col
-            cols="12"
-            sm="8"
-            md="4"
+            xs="12"
+            md="6"
+            lg="4"
           >
             <v-card class="elevation-12">
               <v-toolbar
@@ -29,30 +29,27 @@
                       tile
                       color="#3b5998"
                       dark>
-                      <v-icon>mdi-facebook</v-icon>
+                      <v-icon class="mr-2">mdi-facebook</v-icon>
                       ENTRE COM FACEBOOK
                       </v-btn>
-
-                     <v-btn class="ma-2"
-                      tile
-                      color="#009de9"
-                      dark>
-                      <v-icon>mdi-linkedin</v-icon>
-                      ENTRE COM LINKEDIN</v-btn>
                   </div>
-                <v-form>
+                <v-form v-model='valid'>
                   <v-text-field
                     label="E-mail"
                     v-model="email"
                     prepend-icon="email"
                     type="email"
+                    :rules='[rules.required, rules.email]'
                   ></v-text-field>
 
                   <v-text-field
                     label="Senha"
                     v-model="password"
                     prepend-icon="lock"
-                    type="password"
+                    :rules='[rules.required]'
+                    :append-icon="show ? 'visibility' : 'visibility_off'"
+                    @click:append="show = !show"
+                    :type='show ? "text" : "password"'
                   ></v-text-field>
                    <div class="text-center">
                     <v-alert
@@ -72,7 +69,7 @@
                 </span>
                 <v-spacer></v-spacer>
                 <v-btn color="primary"
-                @click="login">OK</v-btn>
+                @click="login" :disabled='!valid'>Entrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -98,9 +95,18 @@ export default {
   },
   data() {
     return {
+      show: false,
+      valid: true,
       email: '',
       password: '',
       error: null,
+       rules: {
+          required: value => !!value || 'Campo Obrigatório',
+          email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'E-mail inválido'
+          },
+        },
     };
   },
   methods: {
@@ -114,7 +120,11 @@ export default {
         this.$store.dispatch('setUser', response.data.user);
         this.$router.push('/');
       } catch (error) {
-        this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
+        if (!error.response) {
+          this.error = 'Erro Inesperado'
+        } else {
+          this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
+        }
       }
     },
   },
