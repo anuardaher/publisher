@@ -1,13 +1,13 @@
 <template>
-  <Home />
+  <Feed />
 </template>
 
 <script>
-import Home from '../components/Home.vue';
+import Feed from '../components/Feed.vue';
 
 export default {
   components: {
-    Home,
+    Feed,
   },
 };
 </script>

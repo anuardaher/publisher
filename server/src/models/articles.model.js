@@ -7,7 +7,7 @@ const articleSchema = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4()
+      default: uuidv4
     },
     title: { type: String, required: true },
     subtitle: String,
@@ -22,6 +22,7 @@ const articleSchema = new Schema(
     views: Number,
     active: {type: Boolean, default: true},
     img: String,
+    views: Number,
   },
   {
     timestamps: {}

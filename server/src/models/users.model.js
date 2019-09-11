@@ -14,7 +14,7 @@ const userSchema = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4(),
+      default: uuidv4,
     },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },

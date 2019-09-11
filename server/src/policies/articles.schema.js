@@ -5,15 +5,13 @@ module.exports = {
     const schema = {
       title: Joi.string()
         .min(5)
-        .max(100)
+        .max(80)
         .required(),
       subtitle: Joi.string()
         .max(200),
-      tags: Joi.array()
-        .min(1)
-        .required(),
+      tags: Joi.array(),
       text: Joi.string().required()
-        .min(20),
+        .min(100),
       author: Joi.object().required(),
       type: Joi.string().required(),
       img: Joi.string(),

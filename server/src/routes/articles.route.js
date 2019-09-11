@@ -8,6 +8,7 @@ router.get('/:id', articlesController.findById);
 router.post('/', articlesSchema.register, articlesController.save);
 router.delete('/:id', articlesController.remove);
 router.put('/:id', articlesController.update);
+router.post('/search', articlesController.search);
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {

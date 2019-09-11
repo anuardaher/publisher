@@ -14,5 +14,11 @@ export default {
     return Api().post('/api/v1/articles/coverImage', img, {
       headers: {
         'content-type': 'multipart/form-data' }});
+  },
+  search(parameters) {
+    return Api().post('/api/v1/articles/search', parameters);
+  },
+  update(parameters, id) {
+    return Api().put(`/api/v1/articles/${id}`, parameters)
   }
 };

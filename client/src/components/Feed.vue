@@ -1,28 +1,22 @@
 <template>
   <v-container>
     <v-row >
-      <h1 class="ma-2 mx-auto">PRINCIPAIS ARTIGOS</h1>
+      <h1 class="ma-2 mx-auto">FEED</h1>
     </v-row>
     <v-row
     align="center"
     justify="center">
       <v-col
+      xl="10"
+      lg="9"
+      md="8"
+      sm='7'
       cols="12"
       v-for="article in articles"
       :key="article.id">
        <Card
         :value="article.attributes"
         />
-      </v-col>
-    </v-row>
-     <v-row>
-      <h1 class="ma-4 mx-auto">ÚLTIMAS NOTÍCIAS</h1>
-    </v-row>
-     <v-row
-      align="center"
-      justify="center">
-      <v-col
-      cols="12">
       </v-col>
     </v-row>
   </v-container>
@@ -49,13 +43,17 @@ export default {
   }),
   async created () {
     const options = {
-        data: { type: "article", active: true },
+        data: { active: true },
         projection: { text: 0},
-        options: { limit: 3},
+        options: { 
+          limit: 5,
+          sort: {
+            createdAt: -1
+          }},
       }
     try {
-      const {data} = await ArticleService.load(options);
-      this.articles = data ? data : [];
+      const articles = await ArticleService.load(options);
+      this.articles = articles ? articles.data : [];
       EventBus.$emit('callProgressBar');
     } catch (error) {
       EventBus.$emit('callProgressBar');

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from './store';
-import Home from './views/Home.vue';
+import Feed from './views/Feed.vue';
 import Register from './views/Register.vue';
 import Login from './views/Login.vue';
 import Perfil from './views/Perfil.vue';
@@ -25,13 +25,13 @@ const isAuthenticated = (to, from, next) => {
   }
 };
 
-const hasLoggedIn = async (to, from, next) => {
-  if (!to.query.user) return next();
+const socialAuthenticated = async (to, from, next) => {
+  if (!to.query.user) return isAuthenticated(to, from, next);
   try {
     const {data} = await AuthService.socialLogin(to.query.user);
     store.dispatch('setToken', data.token);
     store.dispatch('setUser', data.user);
-    next('/');
+    next('/feed');
   } catch (error) {
     next('/');
   }
@@ -40,10 +40,13 @@ const hasLoggedIn = async (to, from, next) => {
 const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home,
-      beforeEnter: hasLoggedIn
+      path: '/', redirect: '/artigos'
+    },
+    {
+      path: '/feed',
+      name: 'feed',
+      component: Feed,
+      beforeEnter: socialAuthenticated
     },
     {
       path: '/registrar',

@@ -4,12 +4,14 @@
     max-width="600"
     hover
     tag='div'
+    max-height="100%"
     >
     <div
     class="enable-events"
      @click="$router.push(`/publicacao/${value._id}`, () => {})">
       <v-img
         height="200px"
+        v-if="value.img"
         :src='getImageUrl(value.img)'
       >
       </v-img>
@@ -67,7 +69,7 @@ export default {
     },
     methods: {
       minimizeText (text) {
-        return text ? text.slice(0,150).concat('...') : '';
+        return text ? text.slice(0,60).concat('...') : '';
       },
       thumbsUp () {
         if(this.$store.getters.state){
@@ -81,6 +83,7 @@ export default {
         }
       },
       getImageUrl(path) {
+        if (!path) return
         return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}${path}`;
       },
       convertDate(date) {

@@ -2,14 +2,16 @@
   <v-container>
     <v-row align="center" justify="center">
       <v-col align="center" cols='12'>
-        <div>
-          <v-btn :color="$store.getters.userColor" @click="publish" dark>🚀 Publicar</v-btn>
-        </div>
+          <v-btn
+          dark
+          :color="$store.getters.userColor"
+          @click="publish"
+          :disabled='checkFields'>🚀 Publicar</v-btn>
       </v-col>        
     </v-row>
     <v-row align="center" justify="center">
       <span class="gray--text headline mt-2">Qual será o tipo de publicação?</span><br/>
-    </v-row>
+    </v-row>  
     <v-row align="center" justify="center"> 
       <v-radio-group  class="mx-auto" v-model="postType" row>
         <v-radio label="Artigo" value="article"></v-radio>
@@ -26,8 +28,10 @@
           v-model='coverImgFile'
           light
           accept="image/*"
-          label="Insira uma imagem de capa"
+          label="Imagem de capa"
           prepend-icon="mdi-image"
+          showSize
+          :rules='[rules.imageSize]'
         ></v-file-input>
         <v-combobox
           dense
@@ -53,7 +57,8 @@
         </template>
         </v-combobox>
         <v-divider class='my-2'></v-divider>
-        <v-sheet
+        <v-card
+          outlined
           tile
           class="mx-auto  pa-4 text-editor"
           max-width="100%"
@@ -66,6 +71,7 @@
           rounded
           class="text-title ml-n4 mb-n8"
           placeholder="Escreva um título..."
+          :rules='[rules.titleMaxLength]'
           ></v-textarea>
           <v-textarea
           v-model="subtitle"
@@ -74,6 +80,7 @@
           rounded
           class="text-subtitle ml-n4"
           placeholder="Escreva um subtítulo..."
+          :rules='[rules.subtitleMaxLength]'
           ></v-textarea>
           <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, on }">
             <div class="menubar">
@@ -239,7 +246,7 @@
             </div>
           </editor-menu-bar>
           <editor-content class="editor__content ma-2 my-4" :editor="editor" />
-        </v-sheet>
+        </v-card>
       </div>
       </v-col>
     </v-row>
@@ -287,6 +294,7 @@ export default {
   },
   data() {
     return {
+      valid: true,
       dialog: false,
       title: '',
       subtitle: '',
@@ -298,6 +306,13 @@ export default {
       coverImgLink: null,
       imgFile: null,
       imgLink: null,
+      rules: {
+        required: value => !!value || 'Campo Obrigatório',
+        minLength: value => value.length >= 5 || 'Mínimo de 5 caracteres.',
+        titleMaxLength: value => value.length <= 80 || 'Máximo de 80 caracteres.',
+        subtitleMaxLength: value => value.length <= 200 || 'Máximo de 200 caracteres.',
+        imageSize: value => !value || value.size < 1000000 || 'A imagem deve ter o máximo de 1 MB.',
+        }, 
       editor: new Editor({
         extensions: [
           new Blockquote(),
@@ -343,12 +358,6 @@ export default {
         },
         img: await this.inputCoverImage(),
       }
-      if (!article.img) {
-        return EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: 'Não foi possível salvar a imagem da capa. Tente novamente.'
-      });
-      }
       try {
         const response = await ArticleService.publish(article);
         EventBus.$emit('callSnackbar', {
@@ -388,7 +397,19 @@ export default {
         const response = await ArticleService.uploadImage(fd);
         return response.data ? response.data.path : null;
       } catch (error) {
+        EventBus.$emit('callSnackbar', {
+        color: 'error',
+        text: 'Não foi possível salvar a imagem da capa. Tente novamente.'
+      });
+      return;
       }
+    },
+  },
+  computed: {
+     checkFields() {
+      return (!this.postType ||
+              !this.title ||
+              !this.subtitle) || false
     },
   },
   beforeDestroy() {
@@ -426,5 +447,13 @@ export default {
     font-weight: 400;
     text-align: center;
   }
+  .editor__content > * {
+    width: 100%;
+  }
+  .editor__content p img {
+    max-width: 100%;
+    max-height: 700px;
+  }
+
 
 </style>

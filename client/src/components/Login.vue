@@ -25,7 +25,7 @@
                 </v-toolbar>
                 <v-card-text>
                   <div class="text-center">
-                     <v-btn class="ma-2"
+                     <v-btn
                       tile
                       color="#3b5998"
                       dark>
@@ -118,7 +118,7 @@ export default {
         });
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
-        this.$router.push('/');
+        this.$router.push('/feed');
       } catch (error) {
         if (!error.response) {
           this.error = 'Erro Inesperado'

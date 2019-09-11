@@ -25,7 +25,7 @@
                 </v-toolbar>
                 <v-card-text>
                   <div class="text-center">
-                    <v-btn class="ma-2"
+                    <v-btn
                       @click="facebook"
                       tile
                       color="#3b5998"
@@ -159,7 +159,7 @@ export default {
         console.log(response);
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
-        this.$router.push('/');
+        this.$router.push('/feed');
       } catch (error) {
         this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
       }

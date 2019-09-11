@@ -6,10 +6,11 @@
     <AppBar/>
     <!-- Conteúdo gerido pelas rotas -->
     <v-content>
+      <WhatsappButton/>
       <Snackbar/>
       <ProgressBar/>
       <v-container fluid>
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </v-container>
     </v-content>
     <!-- Rodapé -->
@@ -24,6 +25,7 @@ import AppBar from './components/AppBar.vue';
 import AppDrawer from './components/utils/AppDrawer.vue';
 import Snackbar from './components/utils/Snackbar.vue';
 import ProgressBar from './components/utils/ProgressBar.vue';
+import WhatsappButton from './components/utils/WhatsappButton'
 
 export default {
   name: 'App',
@@ -38,6 +40,7 @@ export default {
     AppDrawer,
     Snackbar,
     ProgressBar,
+    WhatsappButton,
   },
   data: () => ({
   }),

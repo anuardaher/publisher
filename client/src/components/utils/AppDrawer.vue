@@ -14,7 +14,7 @@
       <v-list-item-avatar
       :color="$store.getters.userColor">
         <span
-         class="white--text headline pl-1"
+         class="white--text headline"
          v-if="!$store.getters.userHasImage"
          >{{$store.getters.inicialLetterName}}
          </span>
@@ -49,7 +49,35 @@
         </v-list-item-content>
     </v-list-item>
     </v-list>
-    <div class='pt-12'
+     <v-autocomplete
+      v-model="select"
+      :loading="loading"
+      :items="articles"
+      :search-input.sync="search"
+      class="ma-4 d-flex d-md-none"
+      hide-no-data
+      hide-details
+      label="Pesquise"
+      append-icon='mdi-magnify'
+      solo
+      single-line
+      item-text="title"
+      return-object
+      clearable
+    >
+     <template v-slot:item="{ item }"> 
+          <v-list-item-avatar>
+            <v-icon
+              class="grey lighten-1 white--text"
+            >mdi-file-document-box</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content 
+          @click.stop="$router.push(`/publicacao/${item._id}`,() => {})">
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+      </template>
+    </v-autocomplete>
+    <div class='pt-6'
      v-if="!$store.state.isUserLoggedIn">
       <div class="pa-2">
           <v-btn dark block
@@ -72,17 +100,27 @@
 
 <script>
 import EventBus from '../../event-bus.js';
+import ArticleService from '../../services/ArticleService.js';
 
 export default {
   data: () => ({
     drawer: null, 
+    loading: false,
+    articles: [],
+    select: null,
+    search: null,
     items: [
-      { title: 'Home', icon: 'home', route: '/'},
+      { title: 'Feed', icon: 'home', route: '/feed'},
       { title: 'Publicar', icon: 'edit', route: '/publicar' },
       { title: 'Artigos', icon: 'question_answer', route: '/artigos' },
       { title: 'Noticias', icon: 'mdi-newspaper', route: '/noticias' },
     ],
   }),
+  watch: {
+      search (val) {
+        val && val !== this.select && this.searchPosts(val)
+      },
+    },
   methods: {
     logout() {
       this.$store.dispatch('setToken', null);
@@ -90,6 +128,26 @@ export default {
       this.$router.push('/', () => {});
       this.drawer = !this.drawer;
     },
+    async searchPosts(value) {
+      if (value.length < 3) return;
+      this.loading = true;
+      try {
+        const { data } = await ArticleService.search({
+          data: { title: value },
+          projection: { text: 0 },
+          options: { limit: 5 },
+        });
+        this.articles = data ? data : [];
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+        this.loading = false;
+        EventBus.$emit('callSnackbar', {
+        color: 'error',
+        text: 'Erro ao carregar pesquisa. Tente mais tarde.',
+      });
+      }
+    }
   },
   mounted () {
     EventBus.$on('callMenu', () => {

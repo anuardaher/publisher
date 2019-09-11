@@ -24,7 +24,7 @@
             <h1>{{article.title}}</h1>
           </v-row>
           <v-row>
-            <span>{{article.subtitle}}</span>
+            <span class="subtitle-1">{{article.subtitle}}</span>
           </v-row>
           <v-row class="mt-2" align="center">
             <v-btn icon @click="thumbsUp">
@@ -61,8 +61,11 @@
           </v-row>
           <v-row class="my-4" align="center" justify="center">
             <v-img
+              v-if="img"
               :src='img'
-              width='100%'
+              aspect-ratio="1.7"
+              max-width="100%"
+              max-height="500px"
             >
             </v-img>
           </v-row>
@@ -110,8 +113,9 @@ export default {
       return newDate.toLocaleString();
     },
     getImageUrl(path) {
-        return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}${path}`;
-      },
+      if (!path) return
+      return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}${path}`;
+    },
   },
   computed: {
   covertTagsToString() {
@@ -150,16 +154,21 @@ export default {
 </script>
 
 <style>
-.text-body h1, h2, h3, h4, h5, ul, ol {
+
+.text-body > h1, h2, h3, h4, h5, ol, ul {
   width: 100%;
 }
+
 .text-body p {
- margin-right: auto;
- margin-left: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 .text-body p img {
- width: 100%;
+  max-width: 100%;
+  max-height: 700px;
 }
+
 .social-icons .mdi {
   margin-left: 7px;
   margin-right: 7px;
