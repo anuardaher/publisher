@@ -93,7 +93,7 @@ export default {
         return newDate.toLocaleDateString();
       },
       getPostUrl(id) {
-        return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}/publicacao/${id}`;
+        return `http://${process.env.VUE_APP_CLIENT_HOST}/publicacao/${id}`;
       },
     },
     computed: {

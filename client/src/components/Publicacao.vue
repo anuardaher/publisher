@@ -151,7 +151,7 @@ export default {
         }
       },
   getPostUrl() {
-    return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}/publicacao/${this.$route.params.id}`;
+    return `http://${process.env.VUE_APP_CLIENT_HOST}/publicacao/${this.$route.params.id}`;
   }
 },
   created() {
