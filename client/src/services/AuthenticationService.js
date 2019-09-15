@@ -10,4 +10,7 @@ export default {
   facebook() {
     return Api().get('auth/facebook')
   },
+  editPassword(id, password) {
+    return Api().put(`auth/${id}`, { password });
+  },
 };

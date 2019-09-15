@@ -3,8 +3,8 @@
   :active="loading"
   :indeterminate="loading"
   absolute
-  top
-  color="deep-purple accent-4"
+  bottom
+  color="blue accent-4"
   ></v-progress-linear>
 </template>
 

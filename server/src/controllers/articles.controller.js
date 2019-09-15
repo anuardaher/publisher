@@ -1,5 +1,10 @@
 const articlesRepository = require('../repository/articles.repository');
 const formatter = require('../helpers/formatter');
+const fs = require('fs');
+const { promisify } = require('util');
+var path = require('path');
+
+const unlinkAsync = promisify(fs.unlink)
 
 const getAll = async (req, res) => {
   const { data = null, projection = null, options = null} = req.query;
@@ -13,7 +18,7 @@ const findById = async (req, res) => {
     return res.status(200).json(formatter(article, 'article'));
   } catch (e) {
     console.error(e);
-    return res.status(500);
+    return res.status(500).send();
   }
 };
 
@@ -24,27 +29,29 @@ const save = async (req, res) => {
     return res.status(201).json(formatter(article, 'article'));
   } catch (e) {
     console.error(e);
-    return res.status(500);
+    return res.status(500).send();
   }
 };
 
 const remove = async (req, res) => {
-  let article;
+  const { id } = req.params;
   try {
-    article = await articlesRepository.remove(req.params.id);
-  } catch (e) {
-    console.error(e);
-    return res.status(500);
-  }
-  if (!article)
-    return res
-      .status(404)
-      .json({
+    const article = await articlesRepository.remove(id);
+    if (!article) {
+      return res.status(404).json({
         success: false,
         message: `Article not found for id: ${req.params.id}`
       });
-  console.log(`Deleted article: ${article.title}, ${article.author} `);
-  return res.status(204).json();
+    }
+    if (article.img) {
+      await unlinkAsync(path.join( __dirname, '../../', '/public', article.img));
+    }
+    console.log(`Deleted article: ${article.title}, ${article.author.name}`);
+    return res.status(200).send();
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send();
+  }
 };
 
 const update = async (req, res) => {
@@ -53,7 +60,7 @@ const update = async (req, res) => {
     article = await articlesRepository.update(req.params.id, req.body);
   } catch (e) {
     console.error(e);
-    return res.status(500);
+    return res.status(500).send();
   }
   if (!article)
     return res
@@ -80,7 +87,7 @@ const search = async (req, res) => {
     return res.status(200).json(articles);
   } catch (error) {
     console.log(error)
-    return res.status(400);
+    return res.status(500).send();
   }
 };
 

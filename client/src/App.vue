@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app> 
     <!-- Menu do usuário -->
     <AppDrawer/>
     <!-- Cabeçalho da aplicação -->
@@ -8,15 +8,12 @@
     <v-content>
       <WhatsappButton/>
       <Snackbar/>
-      <ProgressBar/>
       <v-container fluid>
         <router-view :key="$route.fullPath"></router-view>
       </v-container>
     </v-content>
     <!-- Rodapé -->
-    <v-footer app>
-    <!-- -->
-    </v-footer>
+    <Footer/>
   </v-app>
 </template>
 
@@ -24,8 +21,8 @@
 import AppBar from './components/AppBar.vue';
 import AppDrawer from './components/utils/AppDrawer.vue';
 import Snackbar from './components/utils/Snackbar.vue';
-import ProgressBar from './components/utils/ProgressBar.vue';
-import WhatsappButton from './components/utils/WhatsappButton'
+import WhatsappButton from './components/utils/WhatsappButton.vue';
+import Footer from './components/Footer.vue';
 
 export default {
   name: 'App',
@@ -39,8 +36,8 @@ export default {
     AppBar,
     AppDrawer,
     Snackbar,
-    ProgressBar,
     WhatsappButton,
+    Footer,
   },
   data: () => ({
   }),
@@ -50,3 +47,8 @@ export default {
   },
 };
 </script>
+<style>
+.v-content {
+  background-image: radial-gradient( circle farthest-corner at 18.7% 37.8%,  rgba(250,250,250,1) 0%, rgba(225,234,238,1) 90% );
+}
+</style>

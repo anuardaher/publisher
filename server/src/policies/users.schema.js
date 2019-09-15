@@ -14,6 +14,7 @@ module.exports = {
       email: Joi.string()
         .email()
         .required(),
+      profession: Joi.string(),
       password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{8,32}$')),
     };
 

@@ -18,7 +18,7 @@ export default {
   search(parameters) {
     return Api().post('/api/v1/articles/search', parameters);
   },
-  update(parameters, id) {
-    return Api().put(`/api/v1/articles/${id}`, parameters)
+  delete(id) {
+    return Api().delete(`/api/v1/articles/${id}`)
   }
 };

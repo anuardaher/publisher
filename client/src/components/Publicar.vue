@@ -3,8 +3,7 @@
     <v-row align="center" justify="center">
       <v-col align="center" cols='12'>
           <v-btn
-          dark
-          :color="$store.getters.userColor"
+          color="primary"
           @click="publish"
           :disabled='checkFields'>🚀 Publicar</v-btn>
       </v-col>        
@@ -178,9 +177,9 @@
                 @click="commands.blockquote"
               >
                 <v-icon>mdi-format-quotes-close</v-icon>
-              </button>
-              
-            <v-dialog v-model="dialog" max-width="500px">
+              </button> 
+            <!-- Botão com dialog para inserir imagem ao texto
+              <v-dialog v-model="dialog" max-width="500px">
              <template v-slot:activator="{ on }">
                 <button
                   class="menubar__button mx-1"
@@ -222,7 +221,7 @@
                 </v-container>
               </v-card-text>
             </v-card>
-          </v-dialog>
+          </v-dialog> -->
               <button
                 class="menubar__button mx-1"
                 @click="commands.horizontal_rule"
@@ -255,7 +254,7 @@
 
 <script>
 import EventBus from '../event-bus';
-import readFile from '../utils/convertFile.js';
+import utils from '../utils/utils.js';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
@@ -275,7 +274,6 @@ import {
   Strike,
   Underline,
   History,
-  Image,
 } from 'tiptap-extensions'
 import ArticleService from '../services/ArticleService.js';
 import TagsService from '../services/TagsService.js';
@@ -302,6 +300,7 @@ export default {
       tags: [],
       tagList: [],
       text: '',
+      preview: '',
       coverImgFile: null,
       coverImgLink: null,
       imgFile: null,
@@ -332,11 +331,19 @@ export default {
           new Strike(),
           new Underline(),
           new History(),
-          new Image(),
         ],
         content: '<p> Começe a escrever seu texto aqui 👋</p>',
-        onUpdate: ({ getHTML }) => {
+        onUpdate: ({ getHTML, getJSON }) => {
           this.text = getHTML();
+          const preview = getJSON();
+          const paragraph = preview.content.find((element) => {
+            return element.content && element.type == 'paragraph'           
+          })       
+           if (paragraph && paragraph.content) {
+             this.preview = paragraph.content.find(element => element.text).text
+           } else {
+             this.preview = '';
+           }
         }
       }),
     }
@@ -349,6 +356,7 @@ export default {
       const article = {
         title: this.title,
         subtitle: this.subtitle,
+        preview: this.preview,
         tags: this.tags,
         text: this.text,
         type: this.postType,
@@ -359,36 +367,41 @@ export default {
         img: await this.inputCoverImage(),
       }
       try {
+        EventBus.$emit('callProgressBar');
         const response = await ArticleService.publish(article);
-        EventBus.$emit('callSnackbar', {
+        EventBus.$emit('callProgressBar');
+        this.$router.push('/feed');
+        return EventBus.$emit('callSnackbar', {
         color: 'success',
         text: 'Publicação realizada com sucesso!',
       });
-        this.$router.push('/');
       } catch(error) {
+        EventBus.$emit('callProgressBar');
         let errorMessage = error.response ? error.response.data : 'Erro inesperado. Tente novamente mais tarde.'
-        EventBus.$emit('callSnackbar', {
+        return EventBus.$emit('callSnackbar', {
         color: 'error',
         text: errorMessage.error ? errorMessage.error : 'Erro inesperado. Tente novamente mais tarde.'
       });
       };
     },
-    async inputImage(command) {
-      if (!this.imgFile) return;
-      try {
-        const imgLink = await readFile.convertToBase64(this.imgFile);
-        command({ 'src': imgLink});
-        this.imgFile = null;     
-        this.dialog = !this.dialog; 
-      } catch (error) {
-      }
-    },
-    inputImageLink(command) {
-      if (!this.imgLink) return;
-      command({ 'src': this.imgLink});
-      this.imgLink = null;     
-      this.dialog = !this.dialog;
-    },
+    // Funções para inserir imagem e link de uma imagem
+
+    // async inputImage(command) {
+    //   if (!this.imgFile) return;
+    //   try {
+    //     const imgLink = await utils.convertToBase64(this.imgFile);
+    //     command({ 'src': imgLink});
+    //     this.imgFile = null;     
+    //     this.dialog = !this.dialog; 
+    //   } catch (error) {
+    //   }
+    // },
+    // inputImageLink(command) {
+    //   if (!this.imgLink) return;
+    //   command({ 'src': this.imgLink});
+    //   this.imgLink = null;     
+    //   this.dialog = !this.dialog;
+    // },
     async inputCoverImage() {
       if (!this.coverImgFile) return;
       let fd = new FormData();
@@ -408,8 +421,7 @@ export default {
   computed: {
      checkFields() {
       return (!this.postType ||
-              !this.title ||
-              !this.subtitle) || false
+              !this.title) || false
     },
   },
   beforeDestroy() {
@@ -443,9 +455,12 @@ export default {
     text-align: center;
   }
   .text-subtitle {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 300;
     text-align: center;
+  }
+  .editor__content p {
+    font-size: 18px;
   }
   .editor__content > * {
     width: 100%;

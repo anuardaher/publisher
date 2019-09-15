@@ -27,5 +27,6 @@ router.get(
 router.post('/login', authenticateController.login);
 router.post('/register', userSchema.register, authenticateController.register);
 router.get('/socialLogin/:id', authenticateController.socialLogin);
+router.put('/auth/:id', authenticateController.updatePassword)
 
 module.exports = router;

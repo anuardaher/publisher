@@ -1,17 +1,15 @@
 const UserModel = require('../models/users.model');
 
-const projection = { password: 0};
-
-const find = async data => {
+const find = async (data, projection) => {
   return UserModel.find(data, projection);
 };
 
-const findById = async id => {
+const findById = async (id, projection) => {
   return UserModel.findById(id, projection);
 };
 
-const findOne = async data => {
-  return UserModel.findOne(data);
+const findOne = async (data, projection) => {
+  return UserModel.findOne(data, projection);
 };
 
 const create = async data => {
@@ -21,11 +19,11 @@ const create = async data => {
   return user.save();
 };
 
-const remove = async id => {
+const remove = async (id, projection) => {
   return UserModel.findOneAndDelete({ _id: id }, projection);
 };
 
-const update = async (id, data) => {
+const update = async (id, data, projection) => {
   return UserModel.findOneAndUpdate({ _id: id }, data, {
     new: true,
     fields: projection

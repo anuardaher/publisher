@@ -1,5 +1,10 @@
 const usersRepository = require('../repository/users.repository');
 const formatter = require('../helpers/formatter');
+const fs = require('fs');
+const { promisify } = require('util');
+const path = require('path');
+
+const unlinkAsync = promisify(fs.unlink)
 
 const getAll = async (req, res) => {
   let users;
@@ -55,7 +60,6 @@ const remove = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  let user;
   try {
     user = await usersRepository.update(req.params.id, req.body);
   } catch (e) {
@@ -73,10 +77,36 @@ const update = async (req, res) => {
   return res.status(201).json(formatter(user, 'user'));
 };
 
+const editProfileImage = async (req, res) => {
+  const { id } = req.params;
+  if (!req.file) return res.status(500).send();
+  let imgLink = req.file.path;
+  imgLink = imgLink.slice(6);
+  try {
+    const user = await usersRepository.findById(id);
+    if (!user) return res.status(500).send();
+    if (user.img) {
+      await unlinkAsync(path.join( __dirname, '../../', '/public', user.img));
+    }
+    const newUser = await usersRepository.update(
+      id,
+      { img: imgLink },
+    );
+    if (!newUser) return res.status(500).send();
+    newUser.password = '';
+    newUser.salt = '';
+    return res.status(200).json(newUser);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send();
+  }
+};
+
 module.exports = {
   getAll,
   save,
   remove,
   findById,
   update,
+  editProfileImage,
 };

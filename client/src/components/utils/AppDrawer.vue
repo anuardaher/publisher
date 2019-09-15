@@ -6,13 +6,14 @@
     app
     height='400px'
     touchless
+    color='secondary'
 >
     <v-list-item 
     v-if="$store.state.isUserLoggedIn"
     list
     @click="$router.push('/perfil', () => {})">
       <v-list-item-avatar
-      :color="$store.getters.userColor">
+        color="grey">
         <span
          class="white--text headline"
          v-if="!$store.getters.userHasImage"
@@ -80,19 +81,21 @@
     <div class='pt-6'
      v-if="!$store.state.isUserLoggedIn">
       <div class="pa-2">
-          <v-btn dark block
-            @click="$router.push('login', () => {})">Entrar</v-btn>
+          <v-btn block
+            @click="$router.push('login', () => {})"
+            color='primary'>Entrar</v-btn>
       </div>
       <div class="pa-2">
-          <v-btn dark block
-            @click="$router.push('registrar', () => {})">Cadastrar</v-btn>
+          <v-btn block
+            @click="$router.push('registrar', () => {})"
+            color='primary'>Cadastrar</v-btn>
       </div>
     </div>
     <template
       v-slot:append
       v-if="$store.state.isUserLoggedIn">
     <div class="pa-2">
-        <v-btn dark block @click="logout">Sair</v-btn>
+        <v-btn color='error' dark block @click="logout">Sair</v-btn>
     </div>
     </template>
 </v-navigation-drawer>

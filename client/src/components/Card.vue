@@ -5,28 +5,29 @@
     hover
     tag='div'
     max-height="100%"
+    @click="$router.push(`/publicacao/${value._id}`, () => {})"
     >
-    <div
-    class="enable-events"
-     @click="$router.push(`/publicacao/${value._id}`, () => {})">
-      <v-img
-        height="200px"
-        v-if="value.img"
-        :src='getImageUrl(value.img)'
-      >
-      </v-img>
-      <v-card-title>{{ value.title }}</v-card-title>
-    </div>
+   
+    
+    <v-img
+      height="200px"
+      v-if="value.img"
+      :src='getImageUrl(value.img)'
+    >
+    </v-img>
+    <v-card-title>{{ value.title }}</v-card-title>
+    
     <v-card-text>
-      <span>{{ value.author.name }} – {{ convertDate(value.createdAt) }}</span><br/>
-      <span class="text--primary" v-text='minimizeText(value.subtitle)'></span>
+      <span class="subtitle-2">{{ value.author ? value.author.name : '' }} – {{ convertDate(value.createdAt) }}</span><br/>
+      <span class="text--primary my-2" v-text='minimizeText(value.preview)'></span>
     </v-card-text>
-    <v-card-actions>
-      <v-btn class='enable-events' icon @click="thumbsUp">
+
+    <v-card-actions v-on:click.stop>
+      <!-- <v-btn class='enable-events' icon @click="thumbsUp">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
       <span v-show="thumbs > 0"> {{thumbs}}</span>
-      <v-spacer></v-spacer>
+      <v-spacer></v-spacer> -->
       <social-sharing 
       :url="getPostUrl(value._id)"
       :title="value.title"
@@ -69,26 +70,27 @@ export default {
     },
     methods: {
       minimizeText (text) {
-        return text ? text.slice(0,60).concat('...') : '';
+        return text ? text.slice(0,150).concat('...') : '';
       },
-      thumbsUp () {
-        if(this.$store.getters.state){
-          this.thumbs++;
-        }
-        else {
-          EventBus.$emit('callSnackbar', {
-           text: `Você precisa estar logado para curtir uma publicação.`,
-           color: 'warning'
-          })
-        }
-      },
+      // thumbsUp () {
+      //   if(this.$store.getters.state){
+      //     this.thumbs++;
+      //   }
+      //   else {
+      //     EventBus.$emit('callSnackbar', {
+      //      text: `Você precisa estar logado para curtir uma publicação.`,
+      //      color: 'warning'
+      //     })
+      //   }
+      // },
       getImageUrl(path) {
         if (!path) return
         return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}${path}`;
       },
       convertDate(date) {
+        if (!date) return;
         const newDate = new Date(date);
-        return newDate.toLocaleString();
+        return newDate.toLocaleDateString();
       },
       getPostUrl(id) {
         return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}/publicacao/${id}`;
@@ -108,15 +110,9 @@ export default {
 </script>
 
 <style>
-.disable-events {
-  pointer-events: none;
-}
-.enable-events {
-  pointer-events: painted;
-}
 .social-icons-card .mdi {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
   color: #0000008a;
 }
 </style>

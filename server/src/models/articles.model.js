@@ -9,14 +9,15 @@ const articleSchema = new Schema(
       type: String,
       default: uuidv4
     },
-    title: { type: String, required: true },
-    subtitle: String,
+    title: { type: String, required: true, trim: true },
+    subtitle: {type: String, trim: true},
     author: {
       id: { type: String, ref: 'users' },
-      name: String,
+      name: String
     },
     tags: [{ type: Object, ref: 'tags' }],
     text: { type: String, required: true },
+    preview: {type: String, trim: true},
     thumbs: [{type: String, ref: 'users'}],
     type: {type: String, enum: ['article', 'notice']},
     views: Number,

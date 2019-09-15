@@ -11,6 +11,7 @@ import Noticias from './views/Noticias.vue';
 import Publicacao from './views/Publicacao.vue';
 import EventBus from './event-bus.js';
 import AuthService from './services/AuthenticationService.js';
+
 Vue.use(Router);
 
 const isAuthenticated = (to, from, next) => {
@@ -25,7 +26,7 @@ const isAuthenticated = (to, from, next) => {
   }
 };
 
-const socialAuthenticated = async (to, from, next) => {
+const socialAuthenticate = async (to, from, next) => {
   if (!to.query.user) return isAuthenticated(to, from, next);
   try {
     const {data} = await AuthService.socialLogin(to.query.user);
@@ -40,13 +41,17 @@ const socialAuthenticated = async (to, from, next) => {
 const router = new Router({
   routes: [
     {
-      path: '/', redirect: '/artigos'
+      path: '/',
+      beforeEnter: function (to, from, next) {
+        if (!store.getters.state) return next('/artigos');
+        return next('/feed');
+      }
     },
     {
       path: '/feed',
       name: 'feed',
       component: Feed,
-      beforeEnter: socialAuthenticated
+      beforeEnter: socialAuthenticate
     },
     {
       path: '/registrar',
@@ -86,6 +91,9 @@ const router = new Router({
       component: Publicacao,
     },
   ],
+  scrollBehavior() {
+    document.getElementById('app').scrollIntoView();
+  }
 });
 
 export default router;

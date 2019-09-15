@@ -29,12 +29,6 @@ export default new Vuex.Store({
       }
       return state.user._id;
     },
-    userColor(state) {
-      if (!state.user) {
-        return null;
-      }
-      return state.user.color;
-    },
     fullName(state) {
       if (!state.user) {
         return null;
@@ -57,6 +51,12 @@ export default new Vuex.Store({
         return state.user.img;
       }
       return false;
+    },
+    profession(state) {
+      if (!state.user) {
+        return null
+      }
+      return state.user.profession;
     },
   },
   actions: {

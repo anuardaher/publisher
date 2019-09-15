@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dense>
+  <v-app-bar app dense dark color='#436892'>
     <v-toolbar-title 
     class="headline text-uppercase"
     @click="$router.push('/', () => {})">
@@ -23,11 +23,11 @@
       :loading="loading"
       :items="items"
       :search-input.sync="search"
-      class=" d-none d-md-flex"
+      class=" d-none d-md-flex mx-8"
       hide-no-data
       hide-details
       label="Pesquise"
-      solo
+      solo-inverted
       prepend-inner-icon="search"
       single-line
       return-object
@@ -59,13 +59,13 @@
         </v-btn>
         <v-btn
         text
-        @click="$router.push('registrar', () => {})"
+        @click="$router.push('/registrar', () => {})"
         v-if="!$store.state.isUserLoggedIn">
         REGISTRAR
         </v-btn>
         <v-btn
         text
-        @click="$router.push('login', () => {})"
+        @click="$router.push('/login', () => {})"
         v-if="!$store.state.isUserLoggedIn">
         ENTRAR
         </v-btn>
@@ -87,19 +87,24 @@
       </v-avatar>
       <v-avatar
        v-if="!$store.getters.userHasImage" 
-       :color="$store.getters.userColor"
+       color="grey"
        size="42px">
         <span class="white--text headline">{{$store.getters.inicialLetterName}}</span>
       </v-avatar>
     </v-btn>
+    <ProgressBar/>
   </v-app-bar>
 </template>
 
 <script>
 import EventBus from '../event-bus.js';
 import ArticleService from '../services/ArticleService'
+import ProgressBar from './utils/ProgressBar.vue';
 
 export default {
+   components: {
+    ProgressBar
+   },
   data: () => ({
     loading: false,
     items: [],

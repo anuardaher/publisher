@@ -1,13 +1,14 @@
 <template>
-  <v-container>
+  <div>
     <v-row align="center" justify="center">
       <v-col
       md="8"
       lg="6"
-      sm="12">
+      sm='10'
+      xs="12">
         <v-sheet
           tile
-          class="pa-12"
+          :class="sheetClass"
           max-width="100%"
           elevation="4"
         >
@@ -27,11 +28,11 @@
             <span class="subtitle-1">{{article.subtitle}}</span>
           </v-row>
           <v-row class="mt-2" align="center">
-            <v-btn icon @click="thumbsUp">
+            <!-- <v-btn icon @click="thumbsUp">
               <v-icon :color='thumbColor'>mdi-heart</v-icon>
             </v-btn>
             <span v-show="thumbs > 0"> {{thumbs}}</span>
-            <v-spacer></v-spacer>
+            <v-spacer></v-spacer> -->
             <social-sharing 
               :url="getPostUrl"
               :title="article.title"
@@ -63,9 +64,8 @@
             <v-img
               v-if="img"
               :src='img'
-              aspect-ratio="1.7"
+              aspect-ratio="2"
               max-width="100%"
-              max-height="500px"
             >
             </v-img>
           </v-row>
@@ -74,7 +74,7 @@
         </v-sheet>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -104,6 +104,23 @@ export default {
     }
   },
   methods: {
+    async getArticle() {
+      try {
+        const {data} = await ArticleService.findById(this.$route.params.id);
+        this.article = data ? data.attributes : '';
+        this.tags = this.article.tags;
+        this.author = this.article.author.name;
+        this.img = this.getImageUrl(this.article.img);
+        this.date = this.convertDate(this.article.createdAt);
+    } catch (error) {
+        return EventBus.$emit('callSnackbar', {
+          color: 'error',
+          text: 'Erro ao carregar publicação.'
+        });
+      } finally {
+        EventBus.$emit('callProgressBar');
+      }
+    },
     thumbsUp() {
       this.thumbs++
       this.thumbColor = 'red';
@@ -126,26 +143,19 @@ export default {
     }
     return '';
   },
+  sheetClass () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 'sheet-mobile'
+          case 'sm': return 'sheet-mobile'
+          default: return 'sheet'
+        }
+      },
   getPostUrl() {
     return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}/publicacao/${this.$route.params.id}`;
   }
 },
-  async created() {
-    try {
-      const {data} = await ArticleService.findById(this.$route.params.id);
-      this.article = data ? data.attributes : '';
-      this.tags = this.article.tags;
-      this.author = this.article.author.name;
-      this.img = this.getImageUrl(this.article.img);
-      this.date = this.convertDate(this.article.createdAt);
-      EventBus.$emit('callProgressBar');
-    } catch (error) {
-      EventBus.$emit('callProgressBar');
-      EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: 'Erro ao carregar publicação.'
-      });
-    }
+  created() {
+    this.getArticle();
   },
   mounted() {
     EventBus.$emit('callProgressBar');
@@ -154,14 +164,18 @@ export default {
 </script>
 
 <style>
-
+.sheet {
+  padding: 40px 80px 40px 80px;
+}
+.sheet-mobile {
+  padding: 15px 25px 15px 25px;
+}
 .text-body > h1, h2, h3, h4, h5, ol, ul {
   width: 100%;
 }
 
 .text-body p {
-  margin-left: auto;
-  margin-right: auto;
+  font-size: 18px;
 }
 
 .text-body p img {

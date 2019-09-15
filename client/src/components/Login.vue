@@ -24,7 +24,7 @@
                 <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-card-text>
-                  <div class="text-center">
+                  <div class="text-center mb-4">
                      <v-btn
                       tile
                       color="#3b5998"
@@ -33,7 +33,9 @@
                       ENTRE COM FACEBOOK
                       </v-btn>
                   </div>
-                <v-form v-model='valid'>
+                <v-form 
+                v-model='valid' 
+                @keyup.native.enter="valid && login">
                   <v-text-field
                     label="E-mail"
                     v-model="email"
@@ -69,7 +71,9 @@
                 </span>
                 <v-spacer></v-spacer>
                 <v-btn color="primary"
-                @click="login" :disabled='!valid'>Entrar</v-btn>
+                @click="login" 
+                :disabled='!valid'
+                type='submit'>Entrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -82,6 +86,7 @@
 <script>
 
 import AuthenticationService from '../services/AuthenticationService';
+import EventBus from '../event-bus.js';
 
 export default {
   metaInfo() {
@@ -112,6 +117,7 @@ export default {
   methods: {
     async login() {
       try {
+        EventBus.$emit('callProgressBar');
         const response = await AuthenticationService.login({
           email: this.email,
           password: this.password,
@@ -119,14 +125,15 @@ export default {
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
         this.$router.push('/feed');
+        return EventBus.$emit('callProgressBar');
       } catch (error) {
-        if (!error.response) {
-          this.error = 'Erro Inesperado'
-        } else {
-          this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
+          EventBus.$emit('callProgressBar');
+          if (!error.response) {
+            return this.error = 'Erro Inesperado'
+          } 
+            return this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
         }
-      }
+      },
     },
-  },
-};
+  };
 </script>
