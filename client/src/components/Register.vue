@@ -92,7 +92,7 @@
                         item-text='nome'
                         return-object
                         :loading='cityLoading'
-                        prepend-icon="mdi-city"                      
+                        prepend-icon="mdi-city"
                       ></v-autocomplete>
                     </v-col>
                   </v-row>
@@ -105,6 +105,7 @@
                     :type='show1 ? "text" : "password"'
                     required
                     :rules='[rules.required, rules.passwordLength]'
+                    browser-autocomplete="new-password"
                   ></v-text-field>
                   <v-text-field
                     :append-icon="show2 ? 'visibility' : 'visibility_off'"
@@ -115,6 +116,7 @@
                     prepend-icon="lock"
                     required
                     :rules='[rules.required, rules.passwordMatch]'
+                    browser-autocomplete="new-password"
                   ></v-text-field>
                   <div class="text-center">
                     <v-alert
