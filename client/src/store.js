@@ -48,7 +48,7 @@ export default new Vuex.Store({
     },
     userHasImage(state) {
       if (state.user && state.user.img) {
-        return state.user.img;
+        return `http://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${state.user.img}`;
       }
       return false;
     },
@@ -58,6 +58,12 @@ export default new Vuex.Store({
       }
       return state.user.profession;
     },
+    fullLocation(state) {
+      if (!state.user) {
+        return null;
+      }
+      return state.user.address ? `${state.user.address.city} - ${state.user.address.country}` : null;
+    }
   },
   actions: {
     setToken({ commit }, token) {

@@ -7,8 +7,6 @@
     max-height="100%"
     @click="$router.push(`/publicacao/${value._id}`, () => {})"
     >
-   
-    
     <v-img
       height="200px"
       v-if="value.img"
@@ -32,7 +30,7 @@
       :url="getPostUrl(value._id)"
       :title="value.title"
       :description="value.subtitle"
-      :quote="value.subtitle"
+      :quote="value.title"
       :hashtags="covertTagsToString"
       twitter-user="ucadvogados"
       inline-template>
@@ -85,7 +83,7 @@ export default {
       // },
       getImageUrl(path) {
         if (!path) return
-        return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}${path}`;
+        return `http://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
       },
       convertDate(date) {
         if (!date) return;

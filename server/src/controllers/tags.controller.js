@@ -19,13 +19,13 @@ const findById = async (req, res) => {
 
 const save = async (req, res) => {
   try {
-    tag = await tagsRepository.create(req.body);
+    const tag = await tagsRepository.create(req.body);
+    console.log(`Created tag: ${tag.name}`);
+    return res.status(201).json(formatter(tag, 'tag'));
   } catch (e) {
     console.error(e);
     return res.status(500);
   }
-  console.log(`Created tag: ${tag.name}`);
-  return res.status(201).json(formatter(tag, 'tag'));
 };
 
 const remove = async (req, res) => {

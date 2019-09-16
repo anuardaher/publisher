@@ -1,10 +1,10 @@
 import Api from './Api';
 
 export default {
-  register(params) {
-    return Api().post('api/v1/tags', params);
+  save(tag) {
+    return Api().post('/tags', tag);
   },
   load() {
-    return Api().get('api/v1/tags');
+    return Api().get('/tags');
   },
 };

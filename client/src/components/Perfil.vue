@@ -77,7 +77,7 @@
         <v-row align='center' justify='center'>
           <span class="subtitle-1 mt-1">
             <v-icon>mdi-map-marker</v-icon>
-              Goiânia (GO)
+              <span v-text="$store.getters.fullLocation"></span>
           </span>
         </v-row>
         <v-row align='center' justify='center'>
@@ -98,7 +98,7 @@
               <v-toolbar dense color="primary" dark>
                 <v-toolbar-title>Perfil do Usuário</v-toolbar-title>
               </v-toolbar>
-              <v-tabs>
+              <v-tabs center-active>
                 <v-tab>
                   <v-icon left>mdi-account</v-icon>
                   Perfil
@@ -107,8 +107,12 @@
                   <v-icon left>mdi-lock</v-icon>
                   Senha
                 </v-tab>
+                <v-tab>
+                  <v-icon left>mdi-tag</v-icon>
+                  Tags
+                </v-tab>
                 <v-tab-item>
-                    <v-card-title>
+                  <v-card-title>
                     <span class="headline">Informações Pessoais</span>
                   </v-card-title>
                   <v-card-text>
@@ -238,6 +242,49 @@
                     </v-btn>
                   </v-card-actions>
                 </v-tab-item>
+                <v-tab-item>
+                    <v-card-title>
+                    <span class="headline">Inserir tags</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                       <v-combobox
+                          v-model="tags"
+                          :loading='tagsLoading'
+                          hide-selected
+                          hint="Máximo de 5 tags"
+                          label="Tags"
+                          multiple
+                          persistent-hint
+                          small-chips
+                          clearable
+                        >
+                          <template v-slot:no-data>
+                            <v-list-item>
+                              <v-list-item-content>
+                                <v-list-item-title>
+                                  Digite e aperte <kbd>enter</kbd> para criar uma nova tag
+                                </v-list-item-title>
+                              </v-list-item-content>
+                            </v-list-item>
+                          </template>
+                        </v-combobox>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <div class="flex-grow-1"></div>
+                    <v-btn color="red darken-1" text @click="perfilDialog = false">Fechar</v-btn>
+                    <v-btn 
+                    color="primary" 
+                    text 
+                    @click="saveTags"
+                    :disabled="tags.length < 1 || tags.length > 5">
+                    Salvar
+                    </v-btn>
+                </v-card-actions>
+                </v-tab-item>
               </v-tabs>
             </v-card>
           </v-dialog>
@@ -322,6 +369,7 @@ import EventBus from '../event-bus.js'
 import ArticleService from '../services/ArticleService.js'
 import UserService from '../services/UserService.js'
 import AuthService from '../services/AuthenticationService'
+import TagsService from '../services/TagsService';
 
 export default {
   components: {
@@ -360,6 +408,8 @@ export default {
       countrys: [],
       selectedCity: {},
       selectedContry: {},
+      tags: [],
+      tagsLoading: false,
       rules: {
         required: value => !!value || 'Campo Obrigatório',
         passwordMatch: value => value == this.password.new || 'Digite a mesma senha do campo acima',
@@ -514,6 +564,27 @@ export default {
           this.cityLoading = false;
       }
     },
+    async saveTags() {
+      this.tagsLoading = true
+      const promisses = this.tags.map((tag) => {
+        return TagsService.save({name: tag});
+      })
+      try {
+        await Promise.all(promisses);
+        this.tags = [];
+        return EventBus.$emit('callSnackbar', {
+            color: 'success',
+            text: 'Tags salvas com sucesso.',
+          });
+      } catch (error) {
+          return EventBus.$emit('callSnackbar', {
+            color: 'error',
+            text: 'Não foi possível salvar as tags.',
+          });
+        } finally {
+            this.tagsLoading = false;
+        }
+    }
   },
   created () {
     this.getArticles();

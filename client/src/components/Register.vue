@@ -33,7 +33,7 @@
                       CADASTRE COM FACEBOOK
                     </v-btn>
                   </div>
-                <v-form v-model="valid">
+                <v-form v-model="valid" autocomplete="off">
                   <v-row class="mb-n4">
                     <v-col :class='firstnameColSize' cols='12' md='6'>
                       <v-text-field

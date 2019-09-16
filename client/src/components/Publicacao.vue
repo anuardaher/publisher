@@ -87,8 +87,8 @@ export default {
       title: this.article.title,
       meta: [
         { 'property': 'og:title', 'content': this.article.title, 'vmid': 'og:title'},
-        { 'property': 'og:description', 'content': this.article.subtile, 'vmid': 'og:description'},
-        { 'property': 'og:image', 'content': this.img, 'vmid': 'og:image'},
+        { 'property': 'og:description', 'content': this.article.subtitle, 'vmid': 'og:description'},
+        { 'property': 'og:image', 'content': this.getImageUrl(this.img), 'vmid': 'og:image'},
       ]
     }
   },
@@ -131,7 +131,7 @@ export default {
     },
     getImageUrl(path) {
       if (!path) return
-      return `http://${process.env.VUE_APP_SERVER_HOST}:${process.env.VUE_APP_SERVER_PORT}${path}`;
+      return `http://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
     },
   },
   computed: {
