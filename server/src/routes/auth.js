@@ -4,12 +4,12 @@ const userSchema = require('../policies/users.schema');
 const passport = require('passport');
 
 router.get(
-  '/auth/facebook',
+  '/facebook',
   passport.authenticate('facebook', { scope: ['email', 'public_profile'] })
 );
 
 router.get(
-  '/auth/facebook/callback',
+  '/facebook/callback',
   passport.authenticate('facebook', {
     failureRedirect: 'http://localhost:8080/#/',
     session: false,
@@ -27,6 +27,6 @@ router.get(
 router.post('/login', authenticateController.login);
 router.post('/register', userSchema.register, authenticateController.register);
 router.get('/socialLogin/:id', authenticateController.socialLogin);
-router.put('/auth/:id', authenticateController.updatePassword)
+router.put('/:id', authenticateController.updatePassword)
 
 module.exports = router;
