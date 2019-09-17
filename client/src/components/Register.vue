@@ -201,10 +201,10 @@ export default {
           email: this.email,
           password: this.password,
           profession: this.profession,
-          // address: {
-          //   country: this.address.sigla,
-          //   city: this.address.nome
-          // },
+          address: {
+            country: this.address.sigla,
+            city: this.address.nome
+          },
         });
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
@@ -216,7 +216,7 @@ export default {
         }
       },
     facebook() {
-      window.location.href = `http://${process.env.VUE_APP_SERVER_HOST}/auth/facebook`;
+      window.location.href = `https://${process.env.VUE_APP_SERVER_HOST}/auth/facebook`;
     },
     async getContryData() {
       try {

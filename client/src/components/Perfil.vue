@@ -107,7 +107,7 @@
                   <v-icon left>mdi-lock</v-icon>
                   Senha
                 </v-tab>
-                <v-tab>
+                <v-tab v-if='$store.state.user.role = "admin"'>
                   <v-icon left>mdi-tag</v-icon>
                   Tags
                 </v-tab>
@@ -370,6 +370,7 @@ import ArticleService from '../services/ArticleService.js'
 import UserService from '../services/UserService.js'
 import AuthService from '../services/AuthenticationService'
 import TagsService from '../services/TagsService';
+import axios from 'axios';
 
 export default {
   components: {
@@ -541,7 +542,7 @@ export default {
     },
      async getContryData() {
       try {
-        const { data } = await Api().get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+        const { data } = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
         this.contrys = data ? data : [];
       } catch (error) {
          return EventBus.$emit('callSnackbar', {
@@ -553,7 +554,7 @@ export default {
     async getCityData(id) {
       this.cityLoading = true;
       try {
-        const { data } = await Api().get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`);
+        const { data } = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`);
         this.citys = data ? data : [];
       } catch (error) {
            return EventBus.$emit('callSnackbar', {

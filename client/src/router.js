@@ -39,6 +39,7 @@ const socialAuthenticate = async (to, from, next) => {
 }
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
