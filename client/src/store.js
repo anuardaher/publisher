@@ -48,7 +48,7 @@ export default new Vuex.Store({
     },
     userHasImage(state) {
       if (state.user && state.user.img) {
-        return `http://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${state.user.img}`;
+        return `https://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${state.user.img}`;
       }
       return false;
     },

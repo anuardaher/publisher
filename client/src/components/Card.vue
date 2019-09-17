@@ -83,7 +83,7 @@ export default {
       // },
       getImageUrl(path) {
         if (!path) return
-        return `http://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
+        return `https://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
       },
       convertDate(date) {
         if (!date) return;
@@ -91,7 +91,7 @@ export default {
         return newDate.toLocaleDateString();
       },
       getPostUrl(id) {
-        return `http://${process.env.VUE_APP_CLIENT_HOST}/publicacao/${id}`;
+        return `https://${process.env.VUE_APP_CLIENT_HOST}/publicacao/${id}`;
       },
     },
     computed: {

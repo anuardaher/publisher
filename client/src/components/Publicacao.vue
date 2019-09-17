@@ -136,7 +136,7 @@ export default {
     },
     getImageUrl(path) {
       if (!path) return
-      return `http://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
+      return `https://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
     },
   },
   computed: {
