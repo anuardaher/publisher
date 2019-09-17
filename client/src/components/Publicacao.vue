@@ -86,6 +86,11 @@ export default {
     return {
       title: this.article.title,
       meta: [
+        { 'property': 'og:type', 'content': 'article', 'vmid': 'og:type'},
+        { 'property': 'article:author', 'content': this.article.author.name, 'vmid': 'article:author'},
+        { 'property': 'article:section', 'content': this.article.type, 'vmid': 'article:section'},
+        { 'property': 'article:tag', 'content': covertTagsToString(), 'vmid': 'article:tag'},
+        { 'property': 'article:published_time', 'content': this.article.createdAt, 'vmid': 'article:published_time'},
         { 'property': 'og:title', 'content': this.article.title, 'vmid': 'og:title'},
         { 'property': 'og:description', 'content': this.article.subtitle, 'vmid': 'og:description'},
         { 'property': 'og:image', 'content': this.getImageUrl(this.img), 'vmid': 'og:image'},
