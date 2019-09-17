@@ -105,7 +105,7 @@
                     :type='show1 ? "text" : "password"'
                     required
                     :rules='[rules.required, rules.passwordLength]'
-                    browser-autocomplete="new-password"
+                    autocomplete="new-password"
                   ></v-text-field>
                   <v-text-field
                     :append-icon="show2 ? 'visibility' : 'visibility_off'"
@@ -116,7 +116,7 @@
                     prepend-icon="lock"
                     required
                     :rules='[rules.required, rules.passwordMatch]'
-                    browser-autocomplete="new-password"
+                    autocomplete="new-password"
                   ></v-text-field>
                   <div class="text-center">
                     <v-alert
@@ -149,7 +149,7 @@
 <script>
 
 import AuthenticationService from '../services/AuthenticationService';
-import Api from '../services/Api.js';
+import axios from 'axios';
 import EventBus from '../event-bus.js'
 
 export default {
@@ -215,19 +215,18 @@ export default {
           this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
         }
       },
-    async facebook() {
-      try {
-        window.location.href = `http://${VUE_APP_SERVER_HOST}/auth/facebook`;
-      } catch (error) {
-        console.log(error);
-      }
+    facebook() {
+      window.location.href = `http://${process.env.VUE_APP_SERVER_HOST}/auth/facebook`;
     },
     async getContryData() {
       try {
-        const { data } = await Api().get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+        const { data } = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
         this.contrys = data ? data : [];
       } catch (error) {
-        console.log(error);
+         return EventBus.$emit('callSnackbar', {
+            color: 'error',
+            text: 'Não foi possível obter a lista de Estados.',
+          });
       }
     },
     async getCityData() {
@@ -235,7 +234,7 @@ export default {
       if (!this.address.contry) return
       const id = this.address.contry.id;
       try {
-        const { data } = await Api().get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`);
+        const { data } = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`);
         this.citys = data ? data : [];
         this.cityLoading = false;
       } catch (error) {

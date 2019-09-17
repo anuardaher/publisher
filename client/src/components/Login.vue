@@ -28,7 +28,8 @@
                      <v-btn
                       tile
                       color="#3b5998"
-                      dark>
+                      dark
+                      @click="facebook">
                       <v-icon class="mr-2">mdi-facebook</v-icon>
                       ENTRE COM FACEBOOK
                       </v-btn>
@@ -134,6 +135,9 @@ export default {
             return this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
         }
       },
+    facebook() {
+      window.location.href = `http://${process.env.VUE_APP_SERVER_HOST}/auth/facebook`;
+     },
     },
   };
 </script>
