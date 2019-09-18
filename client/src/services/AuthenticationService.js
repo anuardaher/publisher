@@ -13,4 +13,7 @@ export default {
   editPassword(id, password) {
     return Api().put(`/auth/${id}`, { password });
   },
+  socialLogin(id) {
+    return Api().get(`/auth/socialLogin/${id}`)
+  }
 };
