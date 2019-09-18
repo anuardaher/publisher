@@ -142,32 +142,31 @@
                         <v-col cols="12">
                           <v-select
                           v-model='user.profession'
-                          :items='jobs'
+                          :items='perfils'
                           label="Profissão"
                           type="password" 
                           required
                           ></v-select>
                         </v-col>
                         <v-col cols="12" sm="4">
-                          <v-select
+                          <v-autocomplete
                             :items="countrys"
                             label="Estado"
                             item-text='sigla'
                             item-value='sigla'                            
                             required
                             v-model='user.address.country'
-                            @change="getCountryData()"
-                          ></v-select>
+                            @change="getLocationData(user.address.country)"
+                          ></v-autocomplete>
                         </v-col>
                         <v-col cols="12" sm="8">
-                          <v-select
+                          <v-autocomplete
                             :items="citys"
                             label="Cidade"
                             item-text='nome'
                             item-value='nome'
                             v-model='user.address.city'
-                            :loading='cityLoading'
-                          ></v-select>
+                          ></v-autocomplete>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -370,7 +369,7 @@ import ArticleService from '../services/ArticleService.js'
 import UserService from '../services/UserService.js'
 import AuthService from '../services/AuthenticationService'
 import TagsService from '../services/TagsService';
-import axios from 'axios';
+import utils from '../utils/utils.js';
 
 export default {
   components: {
@@ -392,7 +391,7 @@ export default {
         new: '',
         validator: ''
       },
-      jobs: ['Advogado', 'Bacharel em Direito', 'Estudante de Direito', 'Administrador',
+      perfils: ['Advogado', 'Bacharel em Direito', 'Estudante de Direito', 'Administrador',
         'Contador', 'Assistente Administrativo', 'Representante Comercial',
         'Engenheiro Civil', 'Corretor de Imóveis', 'Procurador e Advogado Público',
         'Político', 'Outros'],
@@ -402,9 +401,8 @@ export default {
       confirmDialog: false,
       editImageDialog: false,
       profileImage: null,
-      user: {},
+      user: { address: {}},
       articleId: null,
-      cityLoading: false,
       citys: [],
       countrys: [],
       selectedCity: {},
@@ -534,31 +532,17 @@ export default {
       this.confirmDialog = true;
       this.articleId = id;
     },
-     async getCountryData() {
+     async getLocationData(sigla) {
       try {
-        const { data } = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-        this.countrys = data ? data : [];
-        const selectedCountry = this.countrys.find((el) => el.sigla == this.user.address.country)
-        this.getCityData(selectedCountry.id);
+        const data = await utils.getLocationData(sigla)
+        this.countrys = data.countrys ? data.countrys : [];
+        this.citys = data.citys ? data.citys : [];
       } catch (error) {
+        console.error(error);
          return EventBus.$emit('callSnackbar', {
             color: 'error',
             text: 'Não foi possível obter a lista de Estados.',
           });
-      }
-    },
-    async getCityData(id) {
-      this.cityLoading = true;
-      try {
-        const { data } = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`);
-        this.citys = data ? data : [];
-      } catch (error) {
-           return EventBus.$emit('callSnackbar', {
-            color: 'error',
-            text: 'Não foi possível obter a lista de Cidades.',
-          });
-      } finally {
-          this.cityLoading = false;
       }
     },
     async saveTags() {
@@ -586,7 +570,7 @@ export default {
   created () {
     this.getArticles();
     this.setUser();
-    this.getCountryData();
+    this.getLocationData(this.user.address.country);
   },
   mounted() {
     EventBus.$emit('callProgressBar');

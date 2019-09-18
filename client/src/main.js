@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import socialSharing from 'vue-social-sharing';
 import VueMeta from 'vue-meta';
+import VueTimeago from 'vue-timeago';
 
 Vue.config.productionTip = false;
 Vue.use(socialSharing);
@@ -14,6 +15,17 @@ Vue.use(VueMeta, {
   refreshOnceOnNavigation: true
 })
 
+Vue.use(VueTimeago, {
+  name: 'Timeago', // Component name, `Timeago` by default
+  locale: 'pt-BR', // Default locale
+  locales: {
+    'pt-BR': require('date-fns/locale/pt')
+  },
+  converter(date, locale, { includeSeconds, addSuffix = true }) {
+    const distanceInWordsStrict = require('date-fns/distance_in_words_strict')
+    return distanceInWordsStrict(Date.now(), date, { locale, addSuffix, includeSeconds });
+  }
+})
 new Vue({
   router,
   store,

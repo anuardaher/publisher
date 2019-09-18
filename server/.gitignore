@@ -1,4 +1,2 @@
 node_modules/
 .env
-public/post_images/*
-public/profile_images/*

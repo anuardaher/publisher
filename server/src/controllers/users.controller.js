@@ -81,12 +81,11 @@ const editProfileImage = async (req, res) => {
   const { id } = req.params;
   if (!req.file) return res.status(500).send();
   let imgLink = req.file.path;
-  imgLink = imgLink.slice(6);
   try {
     const user = await usersRepository.findById(id);
     if (!user) return res.status(500).send();
     if (user.img) {
-      await unlinkAsync(path.join( __dirname, '../../', '/public', user.img));
+      await unlinkAsync(path.join( __dirname, user.img));
     }
     const newUser = await usersRepository.update(
       id,

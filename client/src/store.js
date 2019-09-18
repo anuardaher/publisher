@@ -48,7 +48,7 @@ export default new Vuex.Store({
     },
     userHasImage(state) {
       if (state.user && state.user.img) {
-        return `${process.env.VUE_APP_LOCAL_IMAGE_HOST}${state.user.img}`;
+        return state.user.provider == 'facebook' ? state.user.img : `${process.env.VUE_APP_IMAGE_HOST}${state.user.img}`;
       }
       return false;
     },

@@ -12,7 +12,7 @@ router.post('/search', articlesController.search);
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/post_images/')
+      cb(null, 'uploads/articles/')
     },
     filename: function (req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + '.png')

@@ -16,7 +16,7 @@ services:
     image: node:10.16-slim
     restart: "always"
     ports:
-      - "3000:3000"
+      - "3001:3001"
     working_dir: "/home/node/app"
     volumes:
       - ./:/home/node/app

@@ -410,6 +410,7 @@ export default {
         const response = await ArticleService.uploadImage(fd);
         return response.data ? response.data.path : null;
       } catch (error) {
+        console.log(error);
         EventBus.$emit('callSnackbar', {
         color: 'error',
         text: 'Não foi possível salvar a imagem da capa. Tente novamente.'

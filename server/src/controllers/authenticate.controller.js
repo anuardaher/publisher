@@ -89,7 +89,6 @@ module.exports = {
         error: 'As novas senhas não conferem'
       })
     }
-  
     user.setPassword(password.new)
     const newUser = await userRepository.update(id, user);
     return res.status(200).json(newUser);

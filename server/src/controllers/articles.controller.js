@@ -44,7 +44,7 @@ const remove = async (req, res) => {
       });
     }
     if (article.img) {
-      await unlinkAsync(path.join( __dirname, '../../', '/public', article.img));
+      await unlinkAsync(path.join( __dirname, article.img));
     }
     console.log(`Deleted article: ${article.title}, ${article.author.name}`);
     return res.status(200).send();
@@ -75,7 +75,7 @@ const update = async (req, res) => {
 
 const uploadImage = async (req, res) => {
   if (req.file) {
-    const path = req.file.path.slice(6);
+    const path = req.file.path
     res.status(200).json({path});
   }
 }

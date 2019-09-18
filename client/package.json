@@ -17,6 +17,7 @@
     "vue-meta": "^2.2.2",
     "vue-router": "^3.0.3",
     "vue-social-sharing": "^2.4.6",
+    "vue-timeago": "^5.1.2",
     "vuetify": "^2.0.7",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"

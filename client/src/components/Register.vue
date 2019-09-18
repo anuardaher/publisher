@@ -77,11 +77,11 @@
                       <v-autocomplete
                         :items='countrys'
                         item-text='sigla'
-                        return-object
+                        item-value='sigla'
                         label="Estado"
                         v-model="address.country"
                         prepend-icon="mdi-city"                                             
-                        @change="getCityData"
+                        @change="getLocationData(address.country)"
                         :rules='[rules.required]'
                       ></v-autocomplete>
                     </v-col>
@@ -91,7 +91,7 @@
                         v-model="address.city"
                         :items='citys'
                         item-text='nome'
-                        return-object
+                        item-value='nome'
                         :loading='cityLoading'
                         prepend-icon="mdi-city"
                         :rules='[rules.required]'
@@ -151,7 +151,7 @@
 <script>
 
 import AuthenticationService from '../services/AuthenticationService';
-import axios from 'axios';
+import utils from '../utils/utils.js';
 import EventBus from '../event-bus.js'
 
 export default {
@@ -204,8 +204,8 @@ export default {
           password: this.password,
           profession: this.profession,
           address: {
-            country: this.address.country.sigla,
-            city: this.address.city.nome
+            country: this.address.country,
+            city: this.address.city,
           },
         });
         if (!response || response.status != 200) {
@@ -225,27 +225,19 @@ export default {
     facebook() {
       window.location.href = `${process.env.VUE_APP_SERVER_HOST}/auth/facebook`;
     },
-    async getContryData() {
+    async getLocationData(sigla) {
+      this.cityLoading = true;
       try {
-        const { data } = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-        this.countrys = data ? data : [];
+        const data = await utils.getLocationData(sigla);
+        this.countrys = data.countrys ? data.countrys : [];
+        this.citys = data.citys ? data.citys : [];
       } catch (error) {
          return EventBus.$emit('callSnackbar', {
             color: 'error',
             text: 'Não foi possível obter a lista de Estados.',
           });
-      }
-    },
-    async getCityData() {
-      this.cityLoading = true;
-      if (!this.address.country) return
-      const id = this.address.country.id;
-      try {
-        const { data } = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`);
-        this.citys = data ? data : [];
+      } finally {
         this.cityLoading = false;
-      } catch (error) {
-          this.cityLoading = false;
       }
     },
   },
@@ -266,7 +258,7 @@ export default {
     },
   },
   created() {
-    this.getContryData();
+    this.getLocationData();
   }
 };
 </script>

@@ -10,7 +10,7 @@ router.put('/:id', usersController.update);
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/profile_images/')
+      cb(null, 'uploads/profiles/')
     },
     filename: function (req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + '.png')

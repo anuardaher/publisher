@@ -16,7 +16,7 @@
     <v-card-title>{{ value.title }}</v-card-title>
     
     <v-card-text>
-      <span class="subtitle-2">{{ value.author ? value.author.name : '' }} – {{ convertDate(value.createdAt) }}</span><br/>
+      <span class="subtitle-2">{{ value.author ? value.author.name : '' }} – </span><timeago :datetime='value.createdAt'></timeago><br/>
       <span class="text--primary my-2" v-text='minimizeText(value.preview)'></span>
     </v-card-text>
 
@@ -83,7 +83,7 @@ export default {
       // },
       getImageUrl(path) {
         if (!path) return
-        return `${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
+        return `${process.env.VUE_APP_IMAGE_HOST}${path}`;
       },
       convertDate(date) {
         if (!date) return;

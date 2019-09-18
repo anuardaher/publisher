@@ -58,7 +58,7 @@
           <v-row>
             <span>Publicado por <b>{{author}}</b></span>
             <v-spacer></v-spacer>
-            <span>{{date}}</span>
+            <timeago :datetime='date'></timeago>
           </v-row>
           <v-row class="my-4" align="center" justify="center">
             <v-img
@@ -91,6 +91,7 @@ export default {
         { 'property': 'article:section', 'content': this.article.type, 'vmid': 'article:section'},
         { 'property': 'article:tag', 'content': this.covertTagsToString(), 'vmid': 'article:tag'},
         { 'property': 'article:published_time', 'content': this.article.createdAt, 'vmid': 'article:published_time'},
+        { 'property': 'og:url', 'content': this.getPostUrl(), 'vmid': 'og:url'},
         { 'property': 'og:title', 'content': this.article.title, 'vmid': 'og:title'},
         { 'property': 'og:description', 'content': this.article.subtitle, 'vmid': 'og:description'},
         { 'property': 'og:image', 'content': this.getImageUrl(this.img), 'vmid': 'og:image'},
@@ -116,7 +117,7 @@ export default {
         this.tags = this.article.tags;
         this.author = this.article.author.name;
         this.img = this.getImageUrl(this.article.img);
-        this.date = this.convertDate(this.article.createdAt);
+        this.date = this.article.createdAt;
     } catch (error) {
         return EventBus.$emit('callSnackbar', {
           color: 'error',
@@ -136,7 +137,7 @@ export default {
     },
     getImageUrl(path) {
       if (!path) return
-      return `${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
+      return `${process.env.VUE_APP_IMAGE_HOST}${path}`;
     },
     covertTagsToString() {
       if (this.tags) {
