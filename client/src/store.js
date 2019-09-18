@@ -48,7 +48,7 @@ export default new Vuex.Store({
     },
     userHasImage(state) {
       if (state.user && state.user.img) {
-        return `https://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${state.user.img}`;
+        return `${process.env.VUE_APP_LOCAL_IMAGE_HOST}${state.user.img}`;
       }
       return false;
     },
@@ -62,7 +62,7 @@ export default new Vuex.Store({
       if (!state.user) {
         return null;
       }
-      return state.user.address ? `${state.user.address.city} - ${state.user.address.country}` : null;
+      return state.user.address ? `${state.user.address.city} – ${state.user.address.country}` : null;
     }
   },
   actions: {

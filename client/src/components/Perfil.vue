@@ -153,10 +153,10 @@
                             :items="countrys"
                             label="Estado"
                             item-text='sigla'
-                            return-object
+                            item-value='sigla'                            
                             required
-                            v-model='selectedContry'
-                            @change="getCityData(selectedContry.id)"
+                            v-model='user.address.country'
+                            @change="getCountryData()"
                           ></v-select>
                         </v-col>
                         <v-col cols="12" sm="8">
@@ -164,8 +164,8 @@
                             :items="citys"
                             label="Cidade"
                             item-text='nome'
-                            return-object
-                            v-model='selectedCity'
+                            item-value='nome'
+                            v-model='user.address.city'
                             :loading='cityLoading'
                           ></v-select>
                         </v-col>
@@ -408,7 +408,7 @@ export default {
       citys: [],
       countrys: [],
       selectedCity: {},
-      selectedContry: {},
+      selectedCountry: {},
       tags: [],
       tagsLoading: false,
       rules: {
@@ -468,12 +468,6 @@ export default {
       delete this.user.salt;
     },
     async editUserProfile() {
-      this.user = {
-        address: {
-          city: selectedCity.nome,
-          country: selectedContry.sigla,
-        }
-      }
       try {
         EventBus.$emit('callProgressBar');
         const { data } = await UserService.editProfile(this.user._id, this.user)
@@ -540,10 +534,12 @@ export default {
       this.confirmDialog = true;
       this.articleId = id;
     },
-     async getContryData() {
+     async getCountryData() {
       try {
         const { data } = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-        this.contrys = data ? data : [];
+        this.countrys = data ? data : [];
+        const selectedCountry = this.countrys.find((el) => el.sigla == this.user.address.country)
+        this.getCityData(selectedCountry.id);
       } catch (error) {
          return EventBus.$emit('callSnackbar', {
             color: 'error',
@@ -590,7 +586,7 @@ export default {
   created () {
     this.getArticles();
     this.setUser();
-    this.getContryData();
+    this.getCountryData();
   },
   mounted() {
     EventBus.$emit('callProgressBar');

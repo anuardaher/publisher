@@ -11,12 +11,12 @@ router.get(
 router.get(
   '/facebook/callback',
   passport.authenticate('facebook', {
-    failureRedirect: 'http://localhost:8080/#/',
+    failureRedirect: process.env.HOST,
     session: false,
   }),
   (req, res) => {
     if (req.user._id) {
-      res.redirect(`http://localhost:8080/#/feed?user=${req.user._id}`);
+      res.redirect(`${process.env.HOST}/feed?user=${req.user._id}`);
     } else {
       req.body = req.user;
       authenticateController.register(req, res);

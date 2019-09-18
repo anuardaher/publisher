@@ -421,7 +421,8 @@ export default {
   computed: {
      checkFields() {
       return (!this.postType ||
-              !this.title) || false
+              !this.title ||
+              this.text.length < 200) || false
     },
   },
   beforeDestroy() {

@@ -75,13 +75,14 @@
                   <v-row class="my-n4">
                     <v-col :class='firstnameColSize' cols='12' md='4'>
                       <v-autocomplete
-                        :items='contrys'
+                        :items='countrys'
                         item-text='sigla'
                         return-object
                         label="Estado"
-                        v-model="address.contry"
+                        v-model="address.country"
                         prepend-icon="mdi-city"                                             
                         @change="getCityData"
+                        :rules='[rules.required]'
                       ></v-autocomplete>
                     </v-col>
                     <v-col cols='12' md='8 ' :class='lastnameColSize'>
@@ -93,6 +94,7 @@
                         return-object
                         :loading='cityLoading'
                         prepend-icon="mdi-city"
+                        :rules='[rules.required]'
                       ></v-autocomplete>
                     </v-col>
                   </v-row>
@@ -173,7 +175,7 @@ export default {
       profession: '',
       address: {},
       passwordValidation: '',
-      contrys: [],
+      countrys: [],
       citys: [],
       error: null,
       show1: false,
@@ -202,17 +204,22 @@ export default {
           password: this.password,
           profession: this.profession,
           address: {
-            country: this.address.sigla,
-            city: this.address.nome
+            country: this.address.country.sigla,
+            city: this.address.city.nome
           },
         });
+        if (!response || response.status != 200) {
+          this.error = 'Erro interno. Tente novamente mais tarde.'
+          return;
+        }
         this.$store.dispatch('setToken', response.data.token);
         this.$store.dispatch('setUser', response.data.user);
         this.$router.push('/feed');
         return EventBus.$emit('callProgressBar');
       } catch (error) {
+          console.log(error)
           EventBus.$emit('callProgressBar');
-          this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
+          this.error = error.response ? error.response.data.error : 'Erro Inesperado';
         }
       },
     facebook() {
@@ -221,7 +228,7 @@ export default {
     async getContryData() {
       try {
         const { data } = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
-        this.contrys = data ? data : [];
+        this.countrys = data ? data : [];
       } catch (error) {
          return EventBus.$emit('callSnackbar', {
             color: 'error',
@@ -231,8 +238,8 @@ export default {
     },
     async getCityData() {
       this.cityLoading = true;
-      if (!this.address.contry) return
-      const id = this.address.contry.id;
+      if (!this.address.country) return
+      const id = this.address.country.id;
       try {
         const { data } = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${id}/municipios`);
         this.citys = data ? data : [];

@@ -34,11 +34,11 @@
             <span v-show="thumbs > 0"> {{thumbs}}</span>
             <v-spacer></v-spacer> -->
             <social-sharing 
-              :url="getPostUrl"
+              :url="getPostUrl()"
               :title="article.title"
               :description="article.subtitle"
               :quote="article.subtitle"
-              :hashtags="covertTagsToString"
+              :hashtags="covertTagsToString()"
               twitter-user="ucadvogados"
               inline-template>
               <div class="social-icons">
@@ -87,9 +87,9 @@ export default {
       title: this.article.title,
       meta: [
         { 'property': 'og:type', 'content': 'article', 'vmid': 'og:type'},
-        { 'property': 'article:author', 'content': this.article.author.name, 'vmid': 'article:author'},
+        { 'property': 'article:author', 'content': this.author, 'vmid': 'article:author'},
         { 'property': 'article:section', 'content': this.article.type, 'vmid': 'article:section'},
-        { 'property': 'article:tag', 'content': covertTagsToString(), 'vmid': 'article:tag'},
+        { 'property': 'article:tag', 'content': this.covertTagsToString(), 'vmid': 'article:tag'},
         { 'property': 'article:published_time', 'content': this.article.createdAt, 'vmid': 'article:published_time'},
         { 'property': 'og:title', 'content': this.article.title, 'vmid': 'og:title'},
         { 'property': 'og:description', 'content': this.article.subtitle, 'vmid': 'og:description'},
@@ -136,28 +136,28 @@ export default {
     },
     getImageUrl(path) {
       if (!path) return
-      return `https://${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
+      return `${process.env.VUE_APP_LOCAL_IMAGE_HOST}${path}`;
     },
+    covertTagsToString() {
+      if (this.tags) {
+        const tags = this.tags.map((tag) => tag.name);
+        const formatedTags = tags.toString().replace(/\s/g, '');
+        return formatedTags;
+      }
+      return '';
+    },
+    getPostUrl() {
+      return `${process.env.VUE_APP_CLIENT_HOST}/publicacao/${this.$route.params.id}`;
+    }
   },
   computed: {
-  covertTagsToString() {
-    if (this.tags) {
-      const tags = this.tags.map((tag) => tag.name);
-      const formatedTags = tags.toString().replace(/\s/g, '');
-      return formatedTags;
+    sheetClass () { 
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'sheet-mobile'
+        case 'sm': return 'sheet-mobile'
+        default: return 'sheet'
     }
-    return '';
   },
-  sheetClass () {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 'sheet-mobile'
-          case 'sm': return 'sheet-mobile'
-          default: return 'sheet'
-        }
-      },
-  getPostUrl() {
-    return `http://${process.env.VUE_APP_CLIENT_HOST}/publicacao/${this.$route.params.id}`;
-  }
 },
   created() {
     this.getArticle();
