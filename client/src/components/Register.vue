@@ -223,7 +223,7 @@ export default {
         }
       },
     facebook() {
-      window.location.href = `https://${process.env.VUE_APP_SERVER_HOST}/auth/facebook`;
+      window.location.href = `${process.env.VUE_APP_SERVER_HOST}/auth/facebook`;
     },
     async getContryData() {
       try {
