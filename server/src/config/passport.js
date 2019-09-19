@@ -32,10 +32,11 @@ passport.use(
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       callbackURL: `${process.env.HOST}/api/v1/auth/facebook/callback`,
-      profileFields: ['id', 'first_name', 'last_name', 'email', 'picture'],
+      profileFields: ['id', 'first_name', 'last_name', 'email', 'picture.type(large)'],
     },
     async (accessToken, refreshToken, profile, cb) => {
       const data = profile._json;
+      console.log(data);
       try {
         let user = await userRepository.findOne({ email: data.email });
         if (user) return cb(null, user);
