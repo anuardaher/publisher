@@ -107,7 +107,7 @@
                   <v-icon left>mdi-lock</v-icon>
                   Senha
                 </v-tab>
-                <v-tab v-if='$store.state.user.role = "admin"'>
+                <v-tab v-if='$store.state.user.role == "admin"'>
                   <v-icon left>mdi-tag</v-icon>
                   Tags
                 </v-tab>
