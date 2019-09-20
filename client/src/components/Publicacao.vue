@@ -95,7 +95,7 @@ export default {
         { property: 'og:url', content: this.getPostUrl()},
         { property: 'og:title', content: this.article.title},
         { property: 'og:description', content: this.article.preview},
-        { property: 'og:image', content: this.this.img },
+        { property: 'og:image', content: this.img },
       ]
     }
   },
