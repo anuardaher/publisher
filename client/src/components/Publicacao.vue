@@ -82,7 +82,8 @@ import EventBus from '../event-bus';
 import ArticleService from '../services/ArticleService.js';
 
 export default {
-  metaInfo: {
+  metaInfo() {
+    return {
       title: this.article.title,
       meta: [
         { name: 'description', content: this.article.preview },
@@ -96,6 +97,7 @@ export default {
         { property: 'og:description', content: this.article.preview},
         { property: 'og:image', content: this.this.img },
       ]
+    }
   },
   data() {
     return {
