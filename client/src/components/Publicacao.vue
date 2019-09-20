@@ -36,8 +36,8 @@
             <social-sharing 
               :url="getPostUrl()"
               :title="article.title"
-              :description="article.subtitle"
-              :quote="article.subtitle"
+              :description="article.title"
+              :quote="article.title"
               :hashtags="covertTagsToString()"
               twitter-user="ucadvogados"
               inline-template>
@@ -86,15 +86,16 @@ export default {
     return {
       title: this.article.title,
       meta: [
-        { 'property': 'og:type', 'content': 'article', 'vmid': 'og:type'},
-        { 'property': 'article:author', 'content': this.author, 'vmid': 'article:author'},
-        { 'property': 'article:section', 'content': this.article.type, 'vmid': 'article:section'},
-        { 'property': 'article:tag', 'content': this.covertTagsToString(), 'vmid': 'article:tag'},
-        { 'property': 'article:published_time', 'content': this.article.createdAt, 'vmid': 'article:published_time'},
-        { 'property': 'og:url', 'content': this.getPostUrl(), 'vmid': 'og:url'},
-        { 'property': 'og:title', 'content': this.article.title, 'vmid': 'og:title'},
-        { 'property': 'og:description', 'content': this.article.subtitle, 'vmid': 'og:description'},
-        { 'property': 'og:image', 'content': this.getImageUrl(this.img), 'vmid': 'og:image'},
+        { name: 'description', content: this.article.preview },
+        { property: 'og:type', content: 'article' },
+        { property: 'article:author', content: this.author },
+        { property: 'article:section', content: this.article.type},
+        { property: 'article:tag', content: this.covertTagsToString()},
+        { property: 'article:published_time', content: this.article.createdAt},
+        { property: 'og:url', content: this.getPostUrl()},
+        { property: 'og:title', content: this.article.title},
+        { property: 'og:description', content: this.article.preview},
+        { property: 'og:image', content: this.getImageUrl(this.img)},
       ]
     }
   },

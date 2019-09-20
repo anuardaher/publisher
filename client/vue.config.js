@@ -24,7 +24,7 @@ module.exports = {
     pluginOptions: {
       prerenderSpa: {
         registry: undefined,
-        renderRoutes: ['/publicacao/3f552f84-1435-44ea-a097-0a445b5a5cad'],
+        renderRoutes: ['/artigos', '/noticias', '/publicacao/3f552f84-1435-44ea-a097-0a445b5a5cad'],
         useRenderEvent: true,
         headless: true,
         onlyProduction: true,
