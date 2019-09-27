@@ -52,6 +52,11 @@ module.exports = {
     '@nuxtjs/axios',
     'cookie-universal-nuxt'
   ],
+
+  env: {
+    API_URL: process.env.API_URL || 'http://localhost:3001/api/v1',
+    BASE_URL: process.env.BASE_URL || 'http://localhost:3001',
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
@@ -73,9 +78,7 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    parallel: true,
-    cache: true,
-    hardSource: true,
+   
     extend (config, ctx) {
     }
   }

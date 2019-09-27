@@ -32,7 +32,6 @@
       :title="value.title"
       :description="value.subtitle"
       :quote="value.title"
-      :hashtags="covertTagsToString"
       twitter-user="ucadvogados"
       inline-template>
       <div class="social-icons-card enable-events">
@@ -84,21 +83,13 @@ export default {
       // },
       getImageUrl(path) {
         if (!path) return
-        return `${process.env.BASE_URL || 'http://localhost:3001'}/${path}`;
+        return `${process.env.BASE_URL}/${path}`;
       },
       getPostUrl(id) {
         return `${process.env.BASE_URL}/publicacao/${id}`;
       },
     },
     computed: {
-      covertTagsToString() {
-        if (this.value.tags) {
-          const tags = this.value.tags.map((tag) => tag.name);
-          const formatedTags = tags.toString().replace(/\s/g, '');
-          return formatedTags;
-        }
-        return '';
-      },
     }
 }
 </script>

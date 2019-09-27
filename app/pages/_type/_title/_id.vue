@@ -12,7 +12,7 @@
           max-width="100%"
           elevation="4"
         >
-          <v-row class="mb-1" v-if="tags">
+          <v-row class="mb-1" v-if="article.tags">
             <v-chip
               v-for="tag in article.tags"
               :key="tag._id"
@@ -81,6 +81,7 @@
 import EventBus from '../../../event-bus';
 
 export default {
+  scrollToTop: true,
   head() {
     return {
       title: this.article.title,
@@ -100,8 +101,7 @@ export default {
   },
   data() {
     return {
-      article: '',
-      tags: null,
+      article: { author: {} },
       thumbs: 0,
       author: '',
       img: '',
@@ -109,21 +109,18 @@ export default {
       thumbColor: null,
     }
   },
-  async asyncData({ $axios, params }) {
+  async asyncData({ $axios, params, error }) {
     try {
       const article = await $axios.$get(`/articles/${params.id}`);
       return { article: article.attributes }
-  } catch (error) {
-      return EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: 'Erro ao carregar publicação.'
-      });
+  } catch (e) {
+      console.log(e.message)
+      error({ statusCode: 404, message: 'Post not found' })
     }
   },
   methods: {
-    getImageUrl(path) {
-      if (!path) return
-       return `${process.env.BASE_URL || 'http://localhost:3001'}/${path}`
+    getImageUrl() {
+       return `${process.env.BASE_URL}/${this.article.img}`
     },
     covertTagsToString() {
       if (this.article.tags) {
@@ -134,7 +131,7 @@ export default {
       return '';
     },
     getPostUrl() {
-      return `${process.env.BASE_URL || 'http://localhost:3001'}/publicacao/${this.$route.params.id}`;
+      return `${process.env.BASE_URL}/${this.$route.params.type}/${this.$route.params.title}/${this.$route.params.id}`;
     }
   },
   computed: {
