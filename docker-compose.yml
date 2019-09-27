@@ -31,8 +31,8 @@ services:
     command:
       "npm run start"
     environment:
-      - API_URL
-      - BASE_URL
+      API_URL: https://ucadvogados.anuardaher.com/api/v1
+      BASE_URL: https://ucadvogados.anuardaher.com
     networks:
     - backend
 volumes:

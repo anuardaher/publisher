@@ -1,3 +1,5 @@
+let development = process.env.NODE_ENV !== 'production'
+
 module.exports = {
   mode: 'universal',
   /*
@@ -54,15 +56,14 @@ module.exports = {
   ],
 
   env: {
-    API_URL: process.env.API_URL || 'http://localhost:3001/api/v1',
-    BASE_URL: process.env.BASE_URL || 'http://localhost:3001',
+    BASE_URL: development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
   },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: process.env.API_URL || 'http://localhost:3001/api/v1'
+    baseURL: development ? 'http://localhost:3001/api/v1' : 'https://ucadvogados.anuardaher.com/api/v1'
   },
   /*
   ** vuetify module configuration
