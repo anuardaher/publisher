@@ -114,7 +114,7 @@ export default {
   methods: {
     async loadData() {
       const options = {
-      data: { type: "article", active: true },
+      data: { type: "artigo", active: true },
       projection: {text: 0},
       options: { 
         limit: 5,

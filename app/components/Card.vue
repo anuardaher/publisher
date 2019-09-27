@@ -5,6 +5,7 @@
     hover
     tag='div'
     max-height="100%"
+    nuxt
     @click="$router.push(`${value.type}/${value.title.replace(/[ ]/g,'-' )}/${value._id}`, () => {})"
     >
     <v-img

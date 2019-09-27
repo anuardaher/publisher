@@ -13,8 +13,8 @@
     </v-row>  
     <v-row align="center" justify="center"> 
       <v-radio-group  class="mx-auto" v-model="postType" row>
-        <v-radio label="Artigo" value="article"></v-radio>
-        <v-radio label="Notícia" value="notice"></v-radio>
+        <v-radio label="Artigo" value="artigo"></v-radio>
+        <v-radio label="Notícia" value="noticia"></v-radio>
       </v-radio-group>
     </v-row>
     <v-row align="center" justify="center" class="mt-n8">
@@ -310,7 +310,7 @@ export default {
       dialog: false,
       title: '',
       subtitle: '',
-      postType: 'article',
+      postType: 'artigo',
       tags: [],
       tagList: [],
       text: '',

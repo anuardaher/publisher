@@ -47,7 +47,7 @@ export default {
   methods: {
     async loadData() {
       const options = {
-      data: { type: "notice", active: true },
+      data: { type: "noticia", active: true },
       projection: {text: 0},
       options: { 
         limit: 5,

@@ -19,7 +19,7 @@ const articleSchema = new Schema(
     text: { type: String, required: true },
     preview: {type: String, trim: true},
     thumbs: [{type: String, ref: 'users'}],
-    type: {type: String, enum: ['article', 'notice']},
+    type: {type: String, enum: ['artigo', 'noticia']},
     views: Number,
     active: {type: Boolean, default: true},
     img: String,
