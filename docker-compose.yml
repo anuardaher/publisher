@@ -30,6 +30,9 @@ services:
       - "3333:3000"
     command:
       "npm run start"
+    environment:
+      - API_URL
+      - BASE_URL
     networks:
     - backend
 volumes:
