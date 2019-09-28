@@ -52,6 +52,7 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     'cookie-universal-nuxt'
   ],
 
@@ -63,7 +64,12 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: development ? 'http://localhost:3001/api/v1' : 'https://ucadvogados.anuardaher.com/api/v1'
+    prefix: development ? 'http://localhost:3001/api/v1' : 'https://ucadvogados.anuardaher.com/api/v1',
+    proxy: true,
+  },
+
+  proxy: {
+    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
   },
   /*
   ** vuetify module configuration

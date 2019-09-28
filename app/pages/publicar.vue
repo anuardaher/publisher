@@ -285,17 +285,18 @@ export default {
     
   },
   fetch ({store, redirect, app}) {
-      const cookie = app.$cookies.get('vuex')
-      if (!cookie) { return }
+    const cookie = app.$cookies.get('vuex')
+    if (cookie) {
       store.dispatch('setUser', cookie.user)
       store.dispatch('setToken', cookie.token)
-      if (!store.getters.state) {
-        redirect('/login')
-        return EventBus.$emit('callSnackbar', {
-        color: 'warning',
-        text: 'Você precisa estar logado para publicar',
-      });
     }
+    if (!store.getters.state || !cookie) {
+      redirect('/login')
+      return EventBus.$emit('callSnackbar', {
+      color: 'warning',
+      text: 'Você precisa estar logado para publicar',
+      });
+    } 
   },
   head() {
     return {
