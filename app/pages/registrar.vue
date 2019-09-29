@@ -195,7 +195,6 @@ export default {
   methods: {
     async register() {
       try {
-        EventBus.$emit('callProgressBar');
         const response = await this.$axios.$post('/auth/register', {
           firstname: this.firstname,
           lastname: this.lastname,
@@ -213,12 +212,10 @@ export default {
         this.$router.push('/artigos');
       } catch (error) {
           this.error = error.response ? error.response.data.error : 'Erro Inesperado';
-        } finally {
-          EventBus.$emit('callProgressBar');
-        }
+        } 
       },
     facebook() {
-      window.location.href = `${process.env.API_URL}/auth/facebook`;
+      window.location.href = `${process.env.BASE_URL}api/v1/auth/facebook`;
     },
     async getLocationData(sigla) {
       this.cityLoading = true;

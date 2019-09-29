@@ -88,18 +88,13 @@
         <span class="white--text headline">{{$store.getters.inicialLetterName}}</span>
       </v-avatar>
     </v-btn>
-    <ProgressBar/>
   </v-app-bar>
 </template>
 
 <script>
 import EventBus from '../event-bus.js';
-import ProgressBar from './utils/ProgressBar.vue';
 
 export default {
-   components: {
-    ProgressBar
-   },
   data: () => ({
     loading: false,
     items: [],

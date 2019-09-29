@@ -36,8 +36,8 @@
             <social-sharing 
               :url="getPostUrl()"
               :title="article.title"
-              :description="article.title"
-              :quote="article.title"
+              :description="article.preview"
+              :quote="article.preview"
               :hashtags="covertTagsToString()"
               twitter-user="ucadvogados"
               inline-template>
@@ -88,14 +88,19 @@ export default {
       meta: [
         { hid: 'description', name: 'description', content: this.article.preview },
         { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', property: 'og:url', content: this.getPostUrl()},
+        { hid: 'og:title', property: 'og:title', content: this.article.title},
+        { hid: 'og:description', property: 'og:description', content: this.article.preview},
+        { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
+        { hid: 'og:image', property: 'og:image', content: this.getImageUrl(this.article.img) },
+        { hid: 'og:image:secure_url', property: 'og:image', content: this.getImageUrl(this.article.img) },
+        { hid: 'og:image:width', property: 'og:image:width', content: '400' },
+        { hid: 'og:image:height', property: 'og:image:height', content: '300' },
         { hid: 'article:author', property: 'article:author', content: this.article.author.name },
         { hid: 'article:section' ,property: 'article:section', content: this.article.type},
         { hid: 'article:tag', property: 'article:tag', content: this.covertTagsToString()},
         { hid: 'article:published', property: 'article:published_time', content: this.article.createdAt},
-        { hid: 'og:url', property: 'og:url', content: this.getPostUrl()},
-        { hid: 'og:title', property: 'og:title', content: this.article.title},
-        { hid: 'og:description', property: 'og:description', content: this.article.preview},
-        { hid: 'og:image', property: 'og:image', content: this.getImageUrl(this.article.img) },
+        
       ]
     }
   },
@@ -103,9 +108,6 @@ export default {
     return {
       article: { author: {} },
       thumbs: 0,
-      author: '',
-      img: '',
-      date: '',
       thumbColor: null,
     }
   },
@@ -114,13 +116,13 @@ export default {
       const article = await $axios.$get(`/articles/${params.id}`);
       return { article: article.attributes }
   } catch (e) {
-      console.log(e.message)
       error({ statusCode: 404, message: 'Post not found' })
     }
   },
   methods: {
     getImageUrl() {
-       return `${process.env.BASE_URL}/${this.article.img}`
+      if (!this.article.img) return
+      return `${process.env.BASE_URL}/${this.article.img}`
     },
     covertTagsToString() {
       if (this.article.tags) {
@@ -128,7 +130,6 @@ export default {
         const formatedTags = tags.toString().replace(/\s/g, '');
         return formatedTags;
       }
-      return '';
     },
     getPostUrl() {
       return `${process.env.BASE_URL}/${this.$route.params.type}/${this.$route.params.title}/${this.$route.params.id}`;

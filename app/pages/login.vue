@@ -116,7 +116,6 @@ export default {
   methods: {
     async login() {
       try {
-        EventBus.$emit('callProgressBar');
         const response = await this.$axios.$post('/auth/login', {
           email: this.email,
           password: this.password,
@@ -129,12 +128,10 @@ export default {
             return this.error = 'Erro Inesperado'
           } 
             return this.error = error.response.data ? error.response.data.error : 'Erro Inesperado';
-        } finally {
-            EventBus.$emit('callProgressBar');
         }
       },
     facebook() {
-      window.location.href = `${process.env.API_URL}/auth/facebook`;
+      window.location.href = `${process.env.BASE_URL}api/v1/auth/facebook`;
      },
     },
   };

@@ -451,7 +451,6 @@ export default {
     },
     async deleteArticle(id) {
       try {
-        EventBus.$emit('callProgressBar');
         const response = await this.$axios.$delete(`/articles/${id}`)
         EventBus.$emit('callSnackbar', {
             color: 'success',
@@ -465,7 +464,6 @@ export default {
         });
       } finally {
         this.confirmDialog = false;
-        EventBus.$emit('callProgressBar');
       }
     },
     setUser() {
@@ -475,7 +473,6 @@ export default {
     },
     async editUserProfile() {
       try {
-        EventBus.$emit('callProgressBar');
         const data = await this.$axios.$put(`/users/${this.user._id}`, this.user)
         this.$store.dispatch('setUser', data.attributes);
         return EventBus.$emit('callSnackbar', {
@@ -489,12 +486,10 @@ export default {
         });
       } finally {
           this.perfilDialog = false;
-          return EventBus.$emit('callProgressBar');
       }
     },
     async editUserPassword() {
       try {
-        EventBus.$emit('callProgressBar');
         await this.$axios.$put(`/auth/${this.$store.getters.userId}`, {password: this.password});
         EventBus.$emit('callSnackbar', {
           color: 'success',
@@ -513,11 +508,9 @@ export default {
           });
         } finally {
             this.perfilDialog = false;
-            return EventBus.$emit('callProgressBar');
           }
     },
     async editProfileImage() {
-      EventBus.$emit('callProgressBar');
       let fd = new FormData();
       fd.append('file', this.profileImage);
       try {
@@ -537,7 +530,6 @@ export default {
             text: 'Não foi possível alterar a imagem.',
           });
       } finally {
-          EventBus.$emit('callProgressBar');
           this.editImageDialog = false;
       }
     },

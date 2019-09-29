@@ -15,6 +15,9 @@ module.exports = {
       { hid: 'keywords', name: 'keywords', content: 'direito, advogados, constituição, lei, noticias, artigos, consumidor, direito administrativo, direito constitucional, direito civil, direito penal, direito tributário'},
       { hid: 'language', name: 'language', content: 'Portuguese'},
       { hid: 'og:locale', property: 'og:locale', content: 'pt-BR'},
+      { hid: 'og:img', property: 'og:img', content: '/ucadvogados.jpg'},
+      { hid: 'fb:app_id', property: 'fb:app_id', content: '365056554418853'},
+      
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -23,7 +26,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: "blue accent-4", height: '4px' },
   /*
   ** Global CSS
   */
@@ -57,25 +60,31 @@ module.exports = {
   ],
 
   env: {
-    BASE_URL: development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+    BASE_URL: 'http://localhost:3001',
   },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    prefix: development ? 'http://localhost:3001/api/v1' : 'https://ucadvogados.anuardaher.com/api/v1',
+    prefix: 'http://localhost:3001/api/v1',
     proxy: true,
   },
 
   proxy: {
-    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+    '/api/v1': 'http://localhost:3001'
   },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
   */
   vuetify: {
+  },
+
+  router: {
+    scrollBehavior: function (to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    }
   },
 
   /*

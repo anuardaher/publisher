@@ -45,7 +45,7 @@ export default {
     totalOfNotices: false
   }),
   methods: {
-    async loadData() {
+    async loadData(infinityScroll) {
       const options = {
       data: { type: "noticia", active: true },
       projection: {text: 0},
@@ -59,31 +59,29 @@ export default {
     try {
       const notices = await this.$axios.$get('/articles', { params: options })
       if (notices.length == 0) return this.totalOfNotices = true;
-      this.notices = this.notices.concat(notices);
+       if (infinityScroll) {
+        this.notices = this.notices.concat(notices);
+      } else  {
+        this.notices = notices
+      }
       this.skip = this.notices.length;
     } catch (error) {
       return EventBus.$emit('callSnackbar', {
         color: 'error',
         text: 'Erro ao carregar artigos. Tente mais tarde.',
       });
-    } finally {
-         EventBus.$emit('callProgressBar');
-    }
+      } 
     },
     bottomVisible() {
       if (utils.isTheBottomOfThePage())
       // Se já tiver acabado os posts, não requisita mais
         if (!this.totalOfNotices) {
-          EventBus.$emit('callProgressBar');
-          this.loadData()
+          this.loadData(true)
         }
     },
   },
   created() {
     this.loadData()
   },
-  mounted() {
-    EventBus.$emit('callProgressBar');
-  }
 };
 </script>

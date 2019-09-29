@@ -112,7 +112,7 @@ export default {
     }
   },
   methods: {
-    async loadData() {
+    async loadData(infinityScroll) {
       const options = {
       data: { type: "artigo", active: true },
       projection: {text: 0},
@@ -126,27 +126,27 @@ export default {
     try {
       const articles = await this.$axios.$get('/articles', { params: options })
       if (articles.length == 0) return this.totalOfArticles = true;
-      this.articles = this.articles.concat(articles);
+      if (infinityScroll) {
+        this.articles = this.articles.concat(articles);
+      } else  {
+        this.articles = articles
+      }
       this.skip = this.articles.length;
     } catch (error) {
       return EventBus.$emit('callSnackbar', {
         color: 'error',
         text: 'Erro ao carregar artigos. Tente mais tarde.',
       });
-    } finally {
-         EventBus.$emit('callProgressBar');
     }
   },
      bottomVisible() {
       if (utils.isTheBottomOfThePage())
       // Se já tiver acabado os posts, não requisita mais
         if (!this.totalOfArticles) {
-          EventBus.$emit('callProgressBar');
           this.loadData(true)
         }
     },
      async saveUserInformation() {
-      EventBus.$emit('callProgressBar');
       try {
         const data = await this.$axios.$put(`/users/${this.$store.getters.userId}`, this.user);
         this.$store.dispatch('setUser', data.attributes);
@@ -160,8 +160,6 @@ export default {
             color: 'error',
             text: 'Não foi possível atualizar suas informações.',
           });
-      } finally {
-        EventBus.$emit('callProgressBar');
       }
     },
    async getLocationData(sigla) {
@@ -187,10 +185,7 @@ export default {
   },
   created() {
     this.loadData();
-     this.checkUserInformation();
+    this.checkUserInformation();
   },
-  mounted() {
-     EventBus.$emit('callProgressBar');
-  }
 };
 </script>

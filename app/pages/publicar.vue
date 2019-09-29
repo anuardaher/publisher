@@ -348,7 +348,6 @@ export default {
         img: await this.inputCoverImage(),
       }
       try {
-        EventBus.$emit('callProgressBar');
         const response = await this.$axios.$post('/articles', article);
         this.$router.push('/artigos');
         return EventBus.$emit('callSnackbar', {
@@ -361,9 +360,7 @@ export default {
         color: 'error',
         text: errorMessage.error ? errorMessage.error : 'Erro inesperado. Tente novamente mais tarde.'
       });
-      } finally {
-          EventBus.$emit('callProgressBar');
-      }
+      } 
     },
     // Funções para inserir imagem e link de uma imagem
 
