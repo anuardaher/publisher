@@ -10,10 +10,8 @@ module.exports = {
     title: 'UC Advogados',
     meta: [
       { charset: 'utf-8' },
-      { 'http-equiv':"content-language",  content="pt-br" },
-      { 'http-equiv':"content-type", content="text/html" },
       { name:"robots", content:"index,follow" },
-      { name:"author", content:"Anuar Daher"},
+      { name:'author', content:"Anuar Daher"},
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Blog, jornal, noticias e orientações jurídicas para alunos, profissionais e interessados sobre as diversas áreas do direito.' },
       { hid: 'keywords', name: 'keywords', content: 'direito, advogados, constituição, lei, noticias, artigos, consumidor, direito administrativo, direito constitucional, direito civil, direito penal, direito tributário'},
