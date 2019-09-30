@@ -81,29 +81,7 @@
 import EventBus from '../../../event-bus';
 
 export default {
-  scrollToTop: true,
-  head() {
-    return {
-      title: this.article.title,
-      meta: [
-        { hid: 'description', name: 'description', content: `${this.article.preview}` },
-        { hid: 'og:type', name: 'og:type', content: `${article}` },
-        { hid: 'og:url', name: 'og:url', content: `${this.getPostUrl()}` },
-        { hid: 'og:title', name: 'og:title', content: `${this.article.title}` },
-        { hid: 'og:description', name: 'og:description', content: `${this.article.preview}` },
-        { hid: 'og:site_name', name: 'og:site_name', content: 'UC Advogados'},
-        { hid: 'og:image', name: 'og:image', content: `${this.getImageUrl(this.article.img)}` },
-        { hid: 'og:image:secure_url', name: 'og:image', content: `${this.getImageUrl(this.article.img)}` },
-        { hid: 'og:image:width', name: 'og:image:width', content: '400' },
-        { hid: 'og:image:height', name: 'og:image:height', content: '300' },
-        { hid: 'article:author', name: 'article:author', content: `${this.article.author.name}` },
-        { hid: 'article:section' ,name: 'article:section', content: `${this.article.type}` },
-        { hid: 'article:tag', name: 'article:tag', content: `${this.covertTagsToString()}` },
-        { hid: 'article:published', name: 'article:published_time', content: `${this.article.createdAt}` } ,
-      ]
-    }
-  },
-  data() {
+   data() {
     return {
       article: { author: {} },
       thumbs: 0,
@@ -116,6 +94,27 @@ export default {
       return { article: article.attributes }
   } catch (e) {
       error({ statusCode: 404, message: 'Post not found' })
+    }
+  },
+  head() {
+    return {
+      title: this.article.title,
+      meta: [
+        { hid: 'description', name: 'description', content: this.article.preview },
+        { hid: 'og:type', name: 'og:type', content: 'article' },
+        { hid: 'og:url', name: 'og:url', content: this.getPostUrl()},
+        { hid: 'og:title', name: 'og:title', content: this.article.title},
+        { hid: 'og:description', name: 'og:description', content: this.article.preview},
+        { hid: 'og:site_name', name: 'og:site_name', content: 'UC Advogados'},
+        { hid: 'og:image', name: 'og:image', content: this.getImageUrl(this.article.img) },
+        { hid: 'og:image:secure_url', name: 'og:image', content: this.getImageUrl(this.article.img) },
+        { hid: 'og:image:width', name: 'og:image:width', content: '400' },
+        { hid: 'og:image:height', name: 'og:image:height', content: '300' },
+        { hid: 'article:author', name: 'article:author', content: this.article.author.name },
+        { hid: 'article:section' ,name: 'article:section', content: this.article.type},
+        { hid: 'article:tag', name: 'article:tag', content: this.covertTagsToString()},
+        { hid: 'article:published', name: 'article:published_time', content: this.article.createdAt},
+      ]
     }
   },
   methods: {
