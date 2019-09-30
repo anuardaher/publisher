@@ -19,7 +19,7 @@
     "express": "^4.16.4",
     "js-cookie": "^2.2.1",
     "material-design-icons-iconfont": "^5.0.1",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.9.2",
     "tiptap": "^1.25.0",
     "tiptap-extensions": "^1.27.0",
     "vue-social-sharing": "^2.4.6",
@@ -28,12 +28,12 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
-    "@nuxtjs/vuetify": "^1.0.0",
     "@nuxtjs/eslint-config": "^1.0.1",
     "@nuxtjs/eslint-module": "^1.0.0",
+    "@nuxtjs/vuetify": "^1.8.6",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.1.0",
-    "eslint-plugin-nuxt": ">=0.4.2"
+    "eslint-plugin-nuxt": ">=0.4.2",
+    "nodemon": "^1.18.9"
   }
 }

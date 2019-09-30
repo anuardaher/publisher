@@ -36,8 +36,8 @@
             <social-sharing 
               :url="getPostUrl()"
               :title="article.title"
-              :description="article.preview"
-              :quote="article.preview"
+              :description="article.subtitle"
+              :quote="article.title"
               :hashtags="covertTagsToString()"
               twitter-user="ucadvogados"
               inline-template>
@@ -81,7 +81,6 @@
 import EventBus from '../../../event-bus';
 
 export default {
-  scrollToTop: true,
   head() {
     return {
       title: this.article.title,
@@ -100,6 +99,11 @@ export default {
         { hid: 'article:section' ,property: 'article:section', content: this.article.type},
         { hid: 'article:tag', property: 'article:tag', content: this.covertTagsToString()},
         { hid: 'article:published', property: 'article:published_time', content: this.article.createdAt},
+        { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
+        { hid: 'twitter:site' ,name: 'twitter:site', content: '@ucadvogados' },
+        { hid: 'twitter:title', name: 'article:tag', content: this.article.title },
+        { hid: 'twitter:description', name: 'twitter:description', content: this.article.preview},
+        { hid: 'twitter:image', name: 'twitter:image', content: this.getImageUrl(this.article.img)},
       ]
     }
   },
@@ -149,7 +153,7 @@ export default {
         default: return '80%'
     }
     }
-},
+  },
 }
 </script>
 
