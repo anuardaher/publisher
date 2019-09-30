@@ -86,21 +86,20 @@ export default {
     return {
       title: this.article.title,
       meta: [
-        { hid: 'description', name: 'description', content: this.article.preview },
-        { hid: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', property: 'og:url', content: this.getPostUrl()},
-        { hid: 'og:title', property: 'og:title', content: this.article.title},
-        { hid: 'og:description', property: 'og:description', content: this.article.preview},
-        { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
-        { hid: 'og:image', property: 'og:image', content: this.getImageUrl(this.article.img) },
-        { hid: 'og:image:secure_url', property: 'og:image', content: this.getImageUrl(this.article.img) },
-        { hid: 'og:image:width', property: 'og:image:width', content: '400' },
-        { hid: 'og:image:height', property: 'og:image:height', content: '300' },
-        { hid: 'article:author', property: 'article:author', content: this.article.author.name },
-        { hid: 'article:section' ,property: 'article:section', content: this.article.type},
-        { hid: 'article:tag', property: 'article:tag', content: this.covertTagsToString()},
-        { hid: 'article:published', property: 'article:published_time', content: this.article.createdAt},
-        
+        { hid: 'description', name: 'description', content: `${this.article.preview}` },
+        { hid: 'og:type', name: 'og:type', content: `${article}` },
+        { hid: 'og:url', name: 'og:url', content: `${this.getPostUrl()}` },
+        { hid: 'og:title', name: 'og:title', content: `${this.article.title}` },
+        { hid: 'og:description', name: 'og:description', content: `${this.article.preview}` },
+        { hid: 'og:site_name', name: 'og:site_name', content: 'UC Advogados'},
+        { hid: 'og:image', name: 'og:image', content: `${this.getImageUrl(this.article.img)}` },
+        { hid: 'og:image:secure_url', name: 'og:image', content: `${this.getImageUrl(this.article.img)}` },
+        { hid: 'og:image:width', name: 'og:image:width', content: '400' },
+        { hid: 'og:image:height', name: 'og:image:height', content: '300' },
+        { hid: 'article:author', name: 'article:author', content: `${this.article.author.name}` },
+        { hid: 'article:section' ,name: 'article:section', content: `${this.article.type}` },
+        { hid: 'article:tag', name: 'article:tag', content: `${this.covertTagsToString()}` },
+        { hid: 'article:published', name: 'article:published_time', content: `${this.article.createdAt}` } ,
       ]
     }
   },
@@ -121,7 +120,7 @@ export default {
   },
   methods: {
     getImageUrl() {
-      if (!this.article.img) return
+      if (!this.article.img) return ''
       return `${process.env.BASE_URL}/${this.article.img}`
     },
     covertTagsToString() {

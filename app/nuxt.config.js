@@ -14,10 +14,9 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Blog, jornal, noticias e orientações jurídicas para alunos, profissionais e interessados sobre as diversas áreas do direito.' },
       { hid: 'keywords', name: 'keywords', content: 'direito, advogados, constituição, lei, noticias, artigos, consumidor, direito administrativo, direito constitucional, direito civil, direito penal, direito tributário'},
       { hid: 'language', name: 'language', content: 'Portuguese'},
-      { hid: 'og:locale', property: 'og:locale', content: 'pt-BR'},
-      { hid: 'og:img', property: 'og:img', content: '/ucadvogados.jpg'},
-      { hid: 'fb:app_id', property: 'fb:app_id', content: '365056554418853'},
-      
+      { hid: 'og:locale', name: 'og:locale', content: 'pt_BR'},
+      { hid: 'og:img', name: 'og:img', content: '/ucadvogados.jpg'},
+      { hid: 'fb:app_id', name: 'fb:app_id', content: '365056554418853'},
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -26,7 +25,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: "blue accent-4", height: '4px' },
+  loading: { color: "#fff", height: '4px' },
   /*
   ** Global CSS
   */
