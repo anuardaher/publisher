@@ -338,7 +338,7 @@
               <v-list-item-subtitle v-text="article.subtitle"></v-list-item-subtitle>
             </v-list-item-content>
 
-            <v-list-item-action @click.stop="showDeleteDialog(article.id)"> 
+            <v-list-item-action @click.stop="showDeleteDialog(article._id)"> 
               <v-icon>mdi-delete</v-icon>                   
             </v-list-item-action>
           </v-list-item>

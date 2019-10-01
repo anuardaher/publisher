@@ -14,7 +14,7 @@
       sm='7'
       cols="12"
       v-for="article in articles"
-      :key="article.id">
+      :key="article._id">
        <Card
         :value="article"
         />

@@ -14,7 +14,7 @@
       sm='7'
       cols="12"
       v-for="notice in notices"
-      :key="notice.id">
+      :key="notice._id">
        <Card
         :value="notice"
         />

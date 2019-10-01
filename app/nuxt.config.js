@@ -56,6 +56,7 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     'cookie-universal-nuxt'
   ],
 
@@ -67,18 +68,8 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
  axios: {
-    prefix: process.env.API_URL || 'http://localhost:3001/api/v1',
-    proxy: true,
+    baseURL: process.env.API_URL || 'http://localhost:3001/api/v1'
   },
-
-  proxy: {
-    '/api/v1': process.env.BASE_URL || 'http://localhost:3001'
-  },
-
-  /*
-  ** vuetify module configuration
-  ** https://github.com/nuxt-community/vuetify-module
-  */
 
   router: {
     scrollBehavior: function (to, from, savedPosition) {

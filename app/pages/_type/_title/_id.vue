@@ -119,6 +119,7 @@ export default {
       const article = await $axios.$get(`/articles/${params.id}`);
       return { article }
   } catch (e) {
+    console.log(e)
       error({ statusCode: 404, message: 'Post not found' })
     }
   },
@@ -151,7 +152,7 @@ export default {
         case 'xs': return '100%'
         case 'sm': return '100%'
         default: return '80%'
-    }
+      }
     }
   },
 }
