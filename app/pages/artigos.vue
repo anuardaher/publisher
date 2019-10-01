@@ -16,7 +16,7 @@
       v-for="article in articles"
       :key="article.id">
        <Card
-        :value="article.attributes"
+        :value="article"
         />
       </v-col>
        <v-dialog persistent v-model="showInformationDialog" max-width="500px">
@@ -106,6 +106,7 @@ export default {
       const data = await context.app.$axios.get(`/auth/socialLogin/${context.route.query.user}`);
       store.dispatch('setToken', data.token);
       store.dispatch('setUser', data.user);
+      return context.redirect('/artigos');
       }
     } catch (e) {
       context.error({statusCode: 500})
@@ -149,7 +150,7 @@ export default {
      async saveUserInformation() {
       try {
         const data = await this.$axios.$put(`/users/${this.$store.getters.userId}`, this.user);
-        this.$store.dispatch('setUser', data.attributes);
+        this.$store.dispatch('setUser', data);
         EventBus.$emit('callSnackbar', {
           color: 'success',
           text: 'Suas informações foram atualizadas!',

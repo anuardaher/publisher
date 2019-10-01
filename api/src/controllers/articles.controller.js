@@ -1,5 +1,4 @@
 const articlesRepository = require('../repository/articles.repository');
-const formatter = require('../helpers/formatter');
 const fs = require('fs');
 const { promisify } = require('util');
 var path = require('path');
@@ -9,15 +8,15 @@ const unlinkAsync = promisify(fs.unlink)
 const getAll = async (req, res) => {
   const { data = null, projection = null, options = null} = req.query;
   const articles = await articlesRepository.find(JSON.parse(data), JSON.parse(projection), JSON.parse(options));
-  return res.status(200).json(articles.map((article) => formatter(article, 'article')));
+  return res.status(200).json(articles);
 };
 
 const findById = async (req, res) => {
   try {
     const article = await articlesRepository.findById(req.params.id);
-    return res.status(200).json(formatter(article, 'article'));
+    return res.status(200).json(article);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500).send();
   }
 };
@@ -26,9 +25,9 @@ const save = async (req, res) => {
   try {
     article = await articlesRepository.create(req.body);
     console.log(`Created article: ${article.title}, ${article.author} `);
-    return res.status(201).json(formatter(article, 'article'));
+    return res.status(201).json(article);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500).send();
   }
 };
@@ -49,7 +48,7 @@ const remove = async (req, res) => {
     console.log(`Deleted article: ${article.title}, ${article.author.name}`);
     return res.status(200).send();
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500).send();
   }
 };
@@ -70,7 +69,7 @@ const update = async (req, res) => {
         message: `Article not found for id: ${req.params.id}`
       });
   console.log(`Updated article: ${article.title}, ${article.author} `);
-  return res.status(200).json(formatter(article, 'article'));
+  return res.status(200).json(article);
 };
 
 const uploadImage = async (req, res) => {

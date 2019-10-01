@@ -16,7 +16,7 @@
       v-for="notice in notices"
       :key="notice.id">
        <Card
-        :value="notice.attributes"
+        :value="notice"
         />
       </v-col>
     </v-row>

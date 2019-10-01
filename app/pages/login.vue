@@ -131,7 +131,7 @@ export default {
         }
       },
     facebook() {
-      window.location.href = `${process.env.BASE_URL}api/v1/auth/facebook`;
+      window.location.href = `${process.env.BASE_URL}/api/v1/auth/facebook`;
      },
     },
   };

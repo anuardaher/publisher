@@ -1,5 +1,4 @@
 const tagsRepository = require('../repository/tags.repository');
-const formatter = require('../helpers/formatter');
 
 const getAll = async (req, res) => {
   const tags = await tagsRepository.find({});
@@ -11,19 +10,19 @@ const findById = async (req, res) => {
   try {
     tag = await tagsRepository.findById(req.params.id);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
-  return res.status(200).json({ data: formatter(tag, 'tag') });
+  return res.status(200).json(tag);
 };
 
 const save = async (req, res) => {
   try {
     const tag = await tagsRepository.create(req.body);
     console.log(`Created tag: ${tag.name}`);
-    return res.status(201).json(formatter(tag, 'tag'));
+    return res.status(201).json(tag);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
 };
@@ -33,7 +32,7 @@ const remove = async (req, res) => {
   try {
     tag = await tagsRepository.remove(req.params.id);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
   if (!tag)
@@ -52,7 +51,7 @@ const update = async (req, res) => {
   try {
     tag = await tagsRepository.update(req.params.id, req.body);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
   if (!tag)
@@ -63,7 +62,7 @@ const update = async (req, res) => {
         message: `Tag not found for id: ${req.params.id}`
       });
   console.log(`Updated tag: ${tag.name}`);
-  return res.status(201).json(formatter(tag, 'tag'));
+  return res.status(201).json(tag);
 };
 
 module.exports = {

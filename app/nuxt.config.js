@@ -13,11 +13,11 @@ module.exports = {
       { name:"robots", content:"index,follow" },
       { name:'author', content:"Anuar Daher"},
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Blog, jornal, noticias e orientações jurídicas para alunos, profissionais e interessados sobre as diversas áreas do direito.' },
-      { hid: 'keywords', name: 'keywords', content: 'direito, advogados, constituição, lei, noticias, artigos, consumidor, direito administrativo, direito constitucional, direito civil, direito penal, direito tributário'},
+      { name: 'description', content: 'Blog, jornal, noticias e orientações jurídicas para alunos, profissionais e interessados sobre as diversas áreas do direito.' },
+      { name: 'keywords', content: 'direito, advogados, constituição, lei, noticias, artigos, consumidor, direito administrativo, direito constitucional, direito civil, direito penal, direito tributário'},
       { hid: 'language', name: 'language', content: 'Portuguese'},
       { hid: 'og:locale', property: 'og:locale', content: 'pt_BR'},
-      { hid: 'og:img', property: 'og:img', content: '/ucadvogados.jpg'},
+      { property: 'og:img', content: '/ucadvogados.jpg'},
       { hid: 'fb:app_id', property: 'fb:app_id', content: '365056554418853'},
     ],
     link: [
@@ -56,31 +56,29 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/proxy',
     'cookie-universal-nuxt'
   ],
 
   env: {
-    BASE_URL: development ?  'http://localhost:3001' : 'https://ucadvogados.anuardaher.com',
+    BASE_URL: process.env.BASE_URL || 'http://localhost:3001',
   },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {
-    prefix: development ?  'http://localhost:3001/api/v1' : 'https://ucadvogados.anuardaher.com/api/v1',
+ axios: {
+    prefix: process.env.API_URL || 'http://localhost:3001/api/v1',
     proxy: true,
   },
 
   proxy: {
-    '/api/v1': development ?  'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+    '/api/v1': process.env.BASE_URL || 'http://localhost:3001'
   },
+
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
   */
-  vuetify: {
-  },
 
   router: {
     scrollBehavior: function (to, from, savedPosition) {

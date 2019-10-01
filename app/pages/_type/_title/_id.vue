@@ -117,7 +117,7 @@ export default {
   async asyncData({ $axios, params, error }) {
     try {
       const article = await $axios.$get(`/articles/${params.id}`);
-      return { article: article.attributes }
+      return { article }
   } catch (e) {
       error({ statusCode: 404, message: 'Post not found' })
     }

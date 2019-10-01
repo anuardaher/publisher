@@ -324,7 +324,7 @@
           <v-list-item
           v-for="article in articles"
           :key='article._id'
-          @click="$router.push(`${article.attributes.type}/${article.attributes.title.replace(/[ ]/g,'-' )}/${article.id}`, () => {})"
+          @click="$router.push(`${article.type}/${article.title.replace(/[ ]/g,'-' )}/${article._id}`, () => {})"
           >
             <v-list-item-avatar
             v-if="$vuetify.breakpoint.smAndUp">
@@ -334,8 +334,8 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title v-text="article.attributes.title"></v-list-item-title>
-              <v-list-item-subtitle v-text="article.attributes.subtitle"></v-list-item-subtitle>
+              <v-list-item-title v-text="article.title"></v-list-item-title>
+              <v-list-item-subtitle v-text="article.subtitle"></v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action @click.stop="showDeleteDialog(article.id)"> 
@@ -474,7 +474,7 @@ export default {
     async editUserProfile() {
       try {
         const data = await this.$axios.$put(`/users/${this.user._id}`, this.user)
-        this.$store.dispatch('setUser', data.attributes);
+        this.$store.dispatch('setUser', data);
         return EventBus.$emit('callSnackbar', {
           color: 'success',
           text: 'Usuário alterado com sucesso.',

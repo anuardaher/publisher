@@ -1,5 +1,4 @@
 const usersRepository = require('../repository/users.repository');
-const formatter = require('../helpers/formatter');
 const fs = require('fs');
 const { promisify } = require('util');
 const path = require('path');
@@ -12,29 +11,27 @@ const getAll = async (req, res) => {
     users = await usersRepository.find({});
     return res
       .status(200)
-      .json({ data: users.map(user => formatter(user, 'user')) });
+      .json({users});
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
 };
 
 const findById = async (req, res) => {
-  let user;
   try {
-    user = await usersRepository.findById(req.params.id);
-    return res.status(200).json({ data: formatter(user, 'user') });
+    const user = await usersRepository.findById(req.params.id);
+    return res.status(200).json(user);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
 };
 
 const save = async (req, res) => {
-  let user;
   try {
-    user = await usersRepository.create(req.body);
-    return res.status(201).json(formatter(user, 'user'));
+    const user = await usersRepository.create(req.body);
+    return res.status(201).json(user);
   } catch (e) {
     return res.status(400).json({ error: 'Esse e-mail já está sendo usado.' });
   }
@@ -45,7 +42,7 @@ const remove = async (req, res) => {
   try {
     user = await usersRepository.remove(req.params.id);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
   if (!user)
@@ -60,10 +57,11 @@ const remove = async (req, res) => {
 };
 
 const update = async (req, res) => {
+  let user;
   try {
     user = await usersRepository.update(req.params.id, req.body);
   } catch (e) {
-    console.error(e);
+    console.error(e.message);
     return res.status(500);
   }
   if (!user)
@@ -74,7 +72,7 @@ const update = async (req, res) => {
   console.log(
     `Updated user: ${user.firstname} ${user.lastname}, ${user.email} `
   );
-  return res.status(201).json(formatter(user, 'user'));
+  return res.status(201).json(user);
 };
 
 const editProfileImage = async (req, res) => {
@@ -96,7 +94,7 @@ const editProfileImage = async (req, res) => {
     newUser.salt = '';
     return res.status(200).json(newUser);
   } catch (error) {
-    console.error(error);
+    console.error(error.messages);
     return res.status(500).send();
   }
 };

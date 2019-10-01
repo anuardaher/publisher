@@ -16,7 +16,7 @@ router.get(
   }),
   (req, res) => {
     if (req.user._id) {
-      res.redirect(`${process.env.HOST}/feed?user=${req.user._id}`);
+      res.redirect(`${process.env.HOST}/artigos?user=${req.user._id}`);
     } else {
       req.body = req.user;
       authenticateController.register(req, res);
