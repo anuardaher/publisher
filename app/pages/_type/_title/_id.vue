@@ -115,13 +115,12 @@ export default {
       thumbColor: null,
     }
   },
-  async asyncData({ $axios, params, error }) {
+  async asyncData({ $axios, params, error, redirect }) {
     try {
       const article = await $axios.$get(`/articles/${params.id}`);
-      return { article }
+      return article ? { article } : redirect('/error')
   } catch (e) {
-    console.log(e)
-      error({ statusCode: 404, message: 'Post not found' })
+      console.error(e.message)
     }
   },
   computed: {

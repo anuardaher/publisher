@@ -40,7 +40,8 @@ module.exports = {
     { src: '~/plugins/localStorage', mode: 'client' },
     '@plugins/vuetify',
     '@plugins/timeago',
-    '@plugins/socialSharing'
+    '@plugins/socialSharing',
+    '@plugins/onError'
   ],
 
   /*
@@ -60,20 +61,20 @@ module.exports = {
   ],
 
   env: {
-    proxy: true,
-    prefix: '/api/v1'
-  },
-
-  proxy: {
-    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+    BASE_URL: development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
   },
 
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
- axios: {
-    baseURL: development ? 'http://localhost:3001/api/v1' : 'https://ucadvogados.anuardaher.com/api/v1'
+  axios: {
+    proxy: true,
+    prefix: '/api/v1'
+  },
+
+  proxy: {
+    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
   },
 
   router: {
