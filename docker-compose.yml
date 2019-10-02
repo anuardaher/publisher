@@ -31,7 +31,6 @@ services:
     command:
       "npm run start"
     environment:
-      - API_URL
       - BASE_URL
     networks:
     - backend

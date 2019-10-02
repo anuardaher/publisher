@@ -60,8 +60,14 @@ module.exports = {
   ],
 
   env: {
-    BASE_URL: development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+    proxy: true,
+    prefix: '/api/v1'
   },
+
+  proxy: {
+    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+  },
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
