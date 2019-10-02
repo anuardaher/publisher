@@ -34,11 +34,11 @@
             <span v-show="thumbs > 0"> {{thumbs}}</span>
             <v-spacer></v-spacer> -->
             <social-sharing 
-              :url="getPostUrl()"
+              :url="postUrl"
               :title="article.title"
               :description="article.subtitle"
               :quote="article.title"
-              :hashtags="covertTagsToString()"
+              :hashtags="covertTagsToString"
               twitter-user="ucadvogados"
               inline-template>
               <div class="social-icons">
@@ -63,7 +63,7 @@
           <v-row class="my-4" align="center" justify="center">
             <v-img
               v-if="article.img"
-              :src='getImageUrl(article.img)'
+              :src='imageUrl'
               aspect-ratio="2"
               :max-width="coverImageSize"
             >
@@ -87,28 +87,29 @@ export default {
       meta: [
         { hid: 'description', name: 'description', content: this.article.preview },
         { hid: 'og:type', property: 'og:type', content: 'article' },
-        { hid: 'og:url', property: 'og:url', content: this.getPostUrl()},
+        { hid: 'og:url', property: 'og:url', content: this.postUrl},
         { hid: 'og:title', property: 'og:title', content: this.article.title},
         { hid: 'og:description', property: 'og:description', content: this.article.preview},
         { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
-        { hid: 'og:image', property: 'og:image', content: this.getImageUrl(this.article.img) },
-        { hid: 'og:image:secure_url', property: 'og:image', content: this.getImageUrl(this.article.img) },
+        { hid: 'og:image', property: 'og:image', content: this.imageUrl },
+        { hid: 'og:image:secure_url', property: 'og:image', content: this.imageUrl },
         { hid: 'og:image:width', property: 'og:image:width', content: '400' },
         { hid: 'og:image:height', property: 'og:image:height', content: '300' },
         { hid: 'article:author', property: 'article:author', content: this.article.author.name },
         { hid: 'article:section' ,property: 'article:section', content: this.article.type},
-        { hid: 'article:tag', property: 'article:tag', content: this.covertTagsToString()},
+        { hid: 'article:tag', property: 'article:tag', content: this.covertTagsToString },
         { hid: 'article:published', property: 'article:published_time', content: this.article.createdAt},
         { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
         { hid: 'twitter:site' ,name: 'twitter:site', content: '@ucadvogados' },
         { hid: 'twitter:title', name: 'article:tag', content: this.article.title },
         { hid: 'twitter:description', name: 'twitter:description', content: this.article.preview},
-        { hid: 'twitter:image', name: 'twitter:image', content: this.getImageUrl(this.article.img)},
+        { hid: 'twitter:image', name: 'twitter:image', content: this.imageUrl },
       ]
     }
   },
   data() {
     return {
+      BASE_URL: process.env.BASE_URL,
       article: { author: {} },
       thumbs: 0,
       thumbColor: null,
@@ -123,23 +124,20 @@ export default {
       error({ statusCode: 404, message: 'Post not found' })
     }
   },
-  methods: {
-    getImageUrl() {
-      if (!this.article.img) return ''
-      return `${process.env.BASE_URL}/${this.article.img}`
-    },
-    covertTagsToString() {
+  computed: {
+     covertTagsToString() {
       if (this.article.tags) {
         const tags = this.article.tags.map((tag) => tag.name);
         const formatedTags = tags.toString().replace(/\s/g, '');
         return formatedTags;
       }
     },
-    getPostUrl() {
-      return `${process.env.BASE_URL}/${this.$route.params.type}/${this.$route.params.title}/${this.$route.params.id}`;
-    }
-  },
-  computed: {
+    imageUrl () {
+      return this.article.img ? `${this.BASE_URL}/${this.article.img}` : ''
+    },
+    postUrl () {
+      return  `${this.BASE_URL}/${this.$route.params.type}/${this.$route.params.title}/${this.$route.params.id}`
+    },
     sheetClass () { 
       switch (this.$vuetify.breakpoint.name) {
         case 'xs': return 'sheet-mobile'
