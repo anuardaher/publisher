@@ -25,23 +25,12 @@ const save = async (req, res) => {
   try {
     const article = await articlesRepository.create(req.body);
     console.log(`Created article: ${article.title}, ${article.author} `);
-    // fs.writeFileSync(path.join(__dirname, `/../posts/${article._id}.json`), JSON.stringify(article, null, 4))
     return res.status(201).json(article); 
   } catch (e) {
     console.error(e.message);
     return res.status(500).send();
   }
 };
-
-const readPost = (req, res) => {
-  try {
-    let post = require(`../posts/${req.params.id}.json`)
-    res.status(200).json(post)
-  } catch (e) {
-    console.log(e.message)
-    return res.sendStatus(404)
-  }
-}
 
 const remove = async (req, res) => {
   const { id } = req.params;
@@ -109,5 +98,4 @@ module.exports = {
   update,
   uploadImage,
   search,
-  readPost
 };

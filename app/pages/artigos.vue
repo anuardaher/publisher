@@ -104,12 +104,12 @@ export default {
     try {
       if (context.route.query && context.route.query.user) {
       const data = await context.app.$axios.get(`/auth/socialLogin/${context.route.query.user}`);
-      store.dispatch('setToken', data.token);
-      store.dispatch('setUser', data.user);
-      return context.redirect('/artigos');
+      context.store.dispatch('setToken', data.token);
+      context.store.dispatch('setUser', data.user);
       }
     } catch (e) {
-      context.error({statusCode: 500})
+      console.error(e)
+      context.redirect('/error')
     }
   },
   methods: {

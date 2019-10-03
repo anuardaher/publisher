@@ -348,8 +348,8 @@ export default {
         img: await this.inputCoverImage(),
       }
       try {
-        await this.$axios.$post('/articles', article);
-        this.$router.push('/artigos');
+        const post = await this.$axios.$post('/articles', article);
+        this.$router.push(`${post.type}/${post.title.replace(/[ ]/g,'-' )}/${post._id}`);
         return EventBus.$emit('callSnackbar', {
         color: 'success',
         text: 'Publicação realizada com sucesso!',
