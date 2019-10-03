@@ -181,7 +181,7 @@
                      </v-btn>
                   </v-card-actions>
                 </v-tab-item>
-                <v-tab-item>
+                <v-tab-item v-if='$store.getters.provider == "cadastro"'>
                   <v-card-title>
                     <span class="headline">Mudar senha</span>
                   </v-card-title>
@@ -241,7 +241,7 @@
                     </v-btn>
                   </v-card-actions>
                 </v-tab-item>
-                <v-tab-item>
+                <v-tab-item v-if='$store.getters.role == "admin"'>
                     <v-card-title>
                     <span class="headline">Inserir tags</span>
                   </v-card-title>
