@@ -7,7 +7,8 @@ const articleSchema = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4
+      default: uuidv4,
+      index: true,
     },
     title: { type: String, required: true, trim: true },
     subtitle: {type: String, trim: true},

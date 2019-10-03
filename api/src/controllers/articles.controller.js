@@ -25,7 +25,7 @@ const save = async (req, res) => {
   try {
     const article = await articlesRepository.create(req.body);
     console.log(`Created article: ${article.title}, ${article.author} `);
-    fs.writeFileSync(path.join(__dirname, `/../posts/${article._id}.json`), JSON.stringify(article, null, 4))
+    // fs.writeFileSync(path.join(__dirname, `/../posts/${article._id}.json`), JSON.stringify(article, null, 4))
     return res.status(201).json(article); 
   } catch (e) {
     console.error(e.message);

@@ -1,10 +1,10 @@
 const TagsModel = require('../models/tags.model');
 
-const find = async data => TagsModel.find(data);
+const find = async data => TagsModel.find(data).lean();
 
-const findById = async id => TagsModel.findById({ _id: id });
+const findById = async id => TagsModel.findById({ _id: id }).lean();
 
-const findOne = async data => TagsModel.findOne(data);
+const findOne = async data => TagsModel.findOne(data).lean();
 
 const create = async data => {
   const tag = new TagsModel(data);
