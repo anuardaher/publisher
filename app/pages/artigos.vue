@@ -187,8 +187,8 @@ export default {
   },
   created() {
     this.loadData();
-    this.checkUserInformation();
     this.authSocialLogin();
+    this.checkUserInformation();
   },
 };
 </script>
