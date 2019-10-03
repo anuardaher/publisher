@@ -41,7 +41,6 @@ module.exports = {
     '@plugins/vuetify',
     '@plugins/timeago',
     '@plugins/socialSharing',
-    '@plugins/onError'
   ],
 
   /*
@@ -74,7 +73,7 @@ module.exports = {
   },
 
   proxy: {
-    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com',
   },
 
   router: {

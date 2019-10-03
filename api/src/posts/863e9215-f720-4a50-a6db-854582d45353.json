@@ -1,0 +1,18 @@
+{
+    "tags": [],
+    "thumbs": [],
+    "active": true,
+    "title": "hah haahah haha",
+    "subtitle": "ahahah hahahah haha",
+    "preview": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed efficitur sem, id ornare augue. Maecenas massa nulla, porta a augue quis, pellentesque interdum mi. Aenean lorem orci, pellentesque ut imperdiet a, commodo eu nulla. Nam egestas dui condimentum ullamcorper suscipit. Vivamus consectetur erat et blandit condimentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas ullamcorper molestie sodales. Cras a est purus. Donec ac orci sit amet massa finibus facilisis. Etiam tincidunt ipsum elit, nec euismod neque sollicitudin id. Duis ut ultrices magna, non pharetra libero. Proin vitae enim ligula. Integer vitae volutpat lorem, et ultricies nisi. Aenean vel arcu ut elit vestibulum sollicitudin in quis ante. Proin porttitor vehicula placerat.",
+    "text": "",
+    "type": "artigo",
+    "author": {
+        "id": "8828176b-9296-4337-9d18-99740b5d2c30",
+        "name": "João das Neves"
+    },
+    "_id": "863e9215-f720-4a50-a6db-854582d45353",
+    "createdAt": "2019-10-03T18:48:41.787Z",
+    "updatedAt": "2019-10-03T18:48:41.787Z",
+    "__v": 0
+}

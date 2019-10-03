@@ -348,7 +348,7 @@ export default {
         img: await this.inputCoverImage(),
       }
       try {
-        const response = await this.$axios.$post('/articles', article);
+        await this.$axios.$post('/articles', article);
         this.$router.push('/artigos');
         return EventBus.$emit('callSnackbar', {
         color: 'success',
