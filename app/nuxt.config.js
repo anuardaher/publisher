@@ -1,4 +1,5 @@
 let development = process.env.NODE_ENV !== 'production'
+let URL = 'https://ucadvogados.anuardaher.com'
 
 module.exports = {
   mode: 'universal',
@@ -15,10 +16,12 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'description', content: 'Blog, jornal, noticias e orientações jurídicas para alunos, profissionais e interessados sobre as diversas áreas do direito.' },
       { name: 'keywords', content: 'direito, advogados, constituição, lei, noticias, artigos, consumidor, direito administrativo, direito constitucional, direito civil, direito penal, direito tributário'},
-      { hid: 'language', name: 'language', content: 'Portuguese'},
-      { hid: 'og:locale', property: 'og:locale', content: 'pt_BR'},
-      { property: 'og:img', content: '/ucadvogados.jpg'},
-      { hid: 'fb:app_id', property: 'fb:app_id', content: '365056554418853'},
+      { name: 'language', content: 'Portuguese'},
+      { property: 'og:locale', content: 'pt_BR'}, 
+      { property: 'og:img', content: `${URL}/ucadvogados.jpg`},
+      { property: 'og:image:secure_url', content: `${URL}/ucadvogados.jpg`},
+      { property: 'fb:app_id', content: '365056554418853'},
+      { property: 'og:ttl', content: '2419100'} 
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -60,7 +63,7 @@ module.exports = {
   ],
 
   env: {
-    BASE_URL: development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com'
+    BASE_URL: development ? 'http://localhost:3001' : URL
   },
 
   /*
@@ -73,7 +76,7 @@ module.exports = {
   },
 
   proxy: {
-    '/api/v1': development ? 'http://localhost:3001' : 'https://ucadvogados.anuardaher.com',
+    '/api/v1': development ? 'http://localhost:3001' : URL,
   },
 
   router: {
