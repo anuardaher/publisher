@@ -100,19 +100,20 @@ export default {
         'Engenheiro Civil', 'Corretor de Imóveis', 'Procurador e Advogado Público',
         'Político', 'Outros'],
   }),
-  async fetch(context) {
+  methods: {
+    async authSocialLogin() {
     try {
-      if (context.route.query && context.route.query.user) {
-      const data = await context.app.$axios.get(`/auth/socialLogin/${context.route.query.user}`);
-      context.store.dispatch('setToken', data.token);
-      context.store.dispatch('setUser', data.user);
+      if (this.$route.query && this.$route.query.user) {
+      const { data } = await this.$axios.get(`/auth/socialLogin/${this.$route.query.user}`);
+      this.$store.dispatch('setToken', data.token);
+      this.$store.dispatch('setUser', data.user);
+      this.$router.push('/artigos')
       }
     } catch (e) {
-      console.error(e)
-      context.redirect('/error')
-    }
-  },
-  methods: {
+        console.log(e)
+        this.$router.push('/error')
+      }
+    },
     async loadData(infinityScroll) {
       const options = {
       data: { type: "artigo", active: true },
@@ -187,6 +188,7 @@ export default {
   created() {
     this.loadData();
     this.checkUserInformation();
+    this.authSocialLogin();
   },
 };
 </script>

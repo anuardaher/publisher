@@ -28,9 +28,10 @@
       <span v-show="thumbs > 0"> {{thumbs}}</span>
       <v-spacer></v-spacer> -->
       <social-sharing 
-      :url="getPostUrl(value._id)"
+      :url="getPostUrl(value)"
       :title="value.title"
       :description="value.subtitle"
+      :hashtags="covertTagsToString(value)"
       :quote="value.title"
       twitter-user="ucadvogados"
       inline-template>
@@ -67,6 +68,13 @@ export default {
      },
     },
     methods: {
+      covertTagsToString(article) {
+      if (article.tags) {
+        const tags = article.tags.map((tag) => tag.name);
+        const formatedTags = tags.toString().replace(/\s/g, '');
+        return formatedTags;
+      }
+    },
       minimizeText (text) {
         return text ? text.slice(0,150).concat('...') : '';
       },
@@ -85,8 +93,8 @@ export default {
         if (!path) return
         return `${process.env.BASE_URL}/${path}`;
       },
-      getPostUrl(id) {
-        return `${process.env.BASE_URL}/publicacao/${id}`;
+      getPostUrl(post) {
+        return `${process.env.BASE_URL}/${post.type}/${post.title.replace(/[ ]/g,'-' )}/${post._id}`
       },
     },
     computed: {
