@@ -3,10 +3,10 @@
     class="mx-auto disable-events"
     max-width="600"
     hover
-    tag='div'
     max-height="100%"
+    active-class="none"
     nuxt
-    @click="$router.push(`${value.type}/${value.title.replace(/[ ]/g,'-' )}/${value._id}`, () => {})"
+    @click.native="$router.push(`${value.type}/${value.title.replace(/[ ]/g,'-' )}/${value._id}`, () => {})"
     >
     <v-img
       height="200px"
@@ -107,5 +107,8 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
   color: #0000008a;
+}
+.v-card:focus:not(.v-card--selected):after {
+  background: none !important;
 }
 </style>

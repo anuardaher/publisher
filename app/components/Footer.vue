@@ -37,7 +37,7 @@
         },
          {
           name: 'mdi-twitter',
-          link: ''
+          link: 'https://twitter.com/UAdvogados'
         },
          {
           name: 'mdi-linkedin',
@@ -45,7 +45,7 @@
         },
          {
           name:'mdi-instagram',
-          link: ''
+          link: 'https://www.instagram.com/uc.advogados'
         },
       ],
     }),
