@@ -1,7 +1,7 @@
 <template>
     <v-card
     class="mx-auto disable-events"
-    max-width="600"
+    max-width="650"
     hover
     max-height="100%"
     active-class="none"

@@ -12,7 +12,7 @@
         <v-btn
         v-for="icon in icons"
         :key="icon.name"
-        class="mx-4 white--text"
+        :class="`mx-${$vuetify.breakpoint.xsOnly ? 2 : 4} white--text`"
         icon
         @click='openSocialMedia(icon.link)'
         >
@@ -46,6 +46,10 @@
          {
           name:'mdi-instagram',
           link: 'https://www.instagram.com/uc.advogados'
+        },
+         {
+          name:'mdi-youtube',
+          link: 'https://www.youtube.com/channel/UCkpbWPMj1mASdIO6B7pfSqw'
         },
       ],
     }),
