@@ -117,7 +117,7 @@ export default {
   },
   async asyncData({ $axios, params, error, redirect }) {
     try {
-      const article = await $axios.$post(`/articles/${params.id}`);
+      const article = await $axios.$post(`/articles/getPost/${params.id}`);
       return article ? { article } : redirect('/notfound')
   } catch (e) {
       console.error(e.message)

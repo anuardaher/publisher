@@ -43,7 +43,7 @@ module.exports = {
           res.status(422).json({error: `Você deve informar o tipo da publicação`,});
           break;
         default:
-          console.log(error.details[0].message)
+          console.error(error.details[0].message)
           res.status(422).json({ error: 'Informações inválidas' });
       }
     } else {

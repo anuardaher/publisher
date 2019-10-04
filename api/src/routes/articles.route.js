@@ -5,11 +5,12 @@ const multer = require("multer");
 
 router.get('/', articlesController.getAll);
 router.get('/:id', articlesController.findById);
-router.post('/:id', articlesController.findById);
 router.post('/', articlesSchema.register, articlesController.save);
 router.delete('/:id', articlesController.remove);
 router.put('/:id', articlesController.update);
 router.post('/search', articlesController.search);
+// usando essa rota pq os crawlers não gostam do GET
+router.post('/getPost/:id', articlesController.findById);
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
