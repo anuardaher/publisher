@@ -86,6 +86,7 @@ export default {
       title: this.article.title,
       meta: [
         { hid: 'description', name: 'description', content: this.article.preview },
+        { hid: 'author', name: 'author', content: this.article.author.name },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:url', property: 'og:url', content: this.postUrl},
         { hid: 'og:title', property: 'og:title', content: this.article.title},
