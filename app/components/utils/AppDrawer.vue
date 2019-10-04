@@ -49,6 +49,18 @@
         <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
     </v-list-item>
+    <v-list-item
+        link
+        @click="openSocialMedia('https://m.facebook.com/send_page_invite/?pageid=251934688995340')"
+    >
+        <v-list-item-icon>
+        <v-icon>mdi-facebook</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+        <v-list-item-title>Convidar Amigos</v-list-item-title>
+        </v-list-item-content>
+    </v-list-item>
     </v-list>
      <v-autocomplete
       v-model="select"
@@ -123,6 +135,9 @@ export default {
       },
     },
   methods: {
+     openSocialMedia(link) {
+        window.open(link, '_blank')
+      },
     logout() {
       this.$store.dispatch('setToken', null);
       this.$store.dispatch('setUser', null);
