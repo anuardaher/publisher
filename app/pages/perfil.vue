@@ -324,7 +324,7 @@
           <v-list-item
           v-for="article in articles"
           :key='article._id'
-          @click="$router.push(`${article.type}/${article.title.replace(/[ ]/g,'-' )}/${article._id}`, () => {})"
+          @click="$router.push(`${article.type}/${article.title.replace(/[ ?]/g,'-' )}/${article._id}`, () => {})"
           >
             <v-list-item-avatar
             v-if="$vuetify.breakpoint.smAndUp">

@@ -349,7 +349,7 @@ export default {
       }
       try {
         const post = await this.$axios.$post('/articles', article);
-        this.$router.push(`${post.type}/${post.title.replace(/[ ]/g,'-' )}/${post._id}`);
+        this.$router.push(`${post.type}/${post.title.replace(/[ ?]/g,'-' )}/${post._id}`);
         return EventBus.$emit('callSnackbar', {
         color: 'success',
         text: 'Publicação realizada com sucesso!',
@@ -443,12 +443,14 @@ export default {
           this.text = getHTML();
           const preview = getJSON();
           const paragraph = preview.content.find((element) => {
-            return element.content && element.type == 'paragraph'           
-          })       
+            return element.content && element.type === 'paragraph' && element.content.find((el) => {
+              return el.text && el.text.length > 50
+            })           
+          })     
            if (paragraph && paragraph.content) {
-             this.preview = paragraph.content.find(element => element.text).text
+             this.preview = paragraph.content.find(element => element.text && element.text.length > 50).text
            } else {
-             this.preview = '';
+             this.preview = this.subtitle ? this.subtitle : ""
            }
         }
       })

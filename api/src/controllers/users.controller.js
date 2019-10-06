@@ -82,7 +82,7 @@ const editProfileImage = async (req, res) => {
   try {
     const user = await usersRepository.findById(id);
     if (!user) return res.status(500).send();
-    if (user.img) {
+    if (user.img && !/https/.test(user.img)) {
       await unlinkAsync(path.join(process.cwd(), user.img));
     }
     const newUser = await usersRepository.update(
@@ -94,7 +94,7 @@ const editProfileImage = async (req, res) => {
     newUser.salt = '';
     return res.status(200).json(newUser);
   } catch (error) {
-    console.error(error.messages);
+    console.error(error.message);
     return res.status(500).send();
   }
 };

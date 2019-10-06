@@ -80,7 +80,7 @@ module.exports = {
       const { data } = await axios.get(`${URL}/api/v1/articles`, {params: {
         projection: { _id: 1, type: 1, title: 1 }
       }})
-      return data.map(post => `/${post.type}/${post.title.replace(/[ ]/g,'-' )}/${post._id}`)
+      return data.map(post => `/${post.type}/${post.title.replace(/[ ?]/g,'-' )}/${post._id}`)
     }
   },
 

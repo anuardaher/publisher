@@ -36,7 +36,6 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, cb) => {
       const data = profile._json;
-      console.log(data);
       try {
         let user = await userRepository.findOne({ email: data.email });
         if (user) return cb(null, user);
@@ -49,7 +48,9 @@ passport.use(
           facebook: { id: profile.id, token: accessToken },
         };
         return cb(null, user);
-      } catch (error) {}
+      } catch (error) {
+        return cb(error, null)
+      }
     }
   )
 );

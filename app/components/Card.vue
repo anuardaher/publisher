@@ -6,7 +6,7 @@
     max-height="100%"
     active-class="none"
     nuxt
-    @click.native="$router.push(`${value.type}/${value.title.replace(/[ ]/g,'-' )}/${value._id}`, () => {})"
+    @click.native="$router.push(`${value.type}/${value.title.replace(/[ ?]/g,'-' )}/${value._id}`, () => {})"
     >
     <v-img
       height="200px"
@@ -94,7 +94,7 @@ export default {
         return `${process.env.BASE_URL}/${path}`;
       },
       getPostUrl(post) {
-        return `${process.env.BASE_URL}/${post.type}/${post.title.replace(/[ ]/g,'-' )}/${post._id}`
+        return `${process.env.BASE_URL}/${post.type}/${post.title.replace(/[ ?]/g,'-' )}/${post._id}`
       },
     },
     computed: {
@@ -108,7 +108,8 @@ export default {
   margin-right: 10px;
   color: #0000008a;
 }
-.v-card:focus:not(.v-card--selected):after {
-  background: none !important;
+.v-card__title {
+  word-break: normal;
 }
+
 </style>

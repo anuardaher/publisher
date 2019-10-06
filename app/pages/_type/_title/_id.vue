@@ -64,7 +64,7 @@
             <v-img
               v-if="article.img"
               :src='imageUrl'
-              aspect-ratio="2"
+              aspect-ratio="1.5"
               :max-width="coverImageSize"
             >
             </v-img>

@@ -85,7 +85,7 @@
             >mdi-file-document-box</v-icon>
           </v-list-item-avatar>
           <v-list-item-content 
-          @click="$router.push(`${item.type}/${item.title.replace(/[ ]/g,'-' )}/${item._id}`, () => {})">
+          @click="$router.push(`${item.type}/${item.title.replace(/[ ?]/g,'-' )}/${item._id}`, () => {})">
             <v-list-item-title v-text="item.title"></v-list-item-title>
           </v-list-item-content>
       </template>
