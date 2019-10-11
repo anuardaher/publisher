@@ -31,7 +31,7 @@
                   <v-select
                   v-model='user.profession'
                   :items='perfils'
-                  label="Profissão"
+                  label="Ocupação"
                   type="password" 
                   required
                   ></v-select>

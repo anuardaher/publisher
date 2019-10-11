@@ -65,7 +65,7 @@
                 :rules='[rules.required, rules.email]'
               ></v-text-field>
               <v-select
-              label="Profissão"
+              label="Ocupação"
               v-model="profession"
               :items='jobs'
               prepend-icon="mdi-briefcase"
@@ -120,6 +120,16 @@
                 :rules='[rules.required, rules.passwordMatch]'
                 autocomplete="new-password"
               ></v-text-field>
+              <v-checkbox
+                color="success"
+                v-model="termo"
+                :rules="[v => !!v || 'Você deve concordar com o termo de uso!']"
+                required
+              >
+               <template slot="label">
+                Aceita os <a class="ml-1" @click.stop href="termos.html" target="_blank">Termos de Uso</a>?
+              </template>
+              </v-checkbox>
               <div class="text-center">
                 <v-alert
                   dense
@@ -174,6 +184,7 @@ export default {
       profession: '',
       address: {},
       passwordValidation: '',
+      termo: false,
       countrys: [],
       citys: [],
       error: null,

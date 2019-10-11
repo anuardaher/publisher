@@ -1,9 +1,9 @@
 <template>
-  <v-app-bar app dark color='#436892'>
+  <v-app-bar app dark color='primary'>
     <v-toolbar-title 
     class="headline text-uppercase"
     @click="$router.push('/artigos', () => {})">
-        <span>UC ADVOGADOS</span>
+          <v-img src="ucadvogadoslogo.png" max-width="65" max-height="55"></v-img>
     </v-toolbar-title>
     <span class='mr-4'></span>
     <v-toolbar-items class="d-none d-md-flex">
