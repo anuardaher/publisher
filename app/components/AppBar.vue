@@ -3,7 +3,7 @@
     <v-toolbar-title 
     class="headline text-uppercase"
     @click="$router.push('/artigos', () => {})">
-          <v-img src="ucadvogadoslogo.png" max-width="65" max-height="55"></v-img>
+          <v-img src="/ucadvogadoslogo.png" max-width="65" max-height="55"></v-img>
     </v-toolbar-title>
     <span class='mr-4'></span>
     <v-toolbar-items class="d-none d-md-flex">
