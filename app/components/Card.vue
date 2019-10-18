@@ -6,7 +6,7 @@
     max-height="100%"
     active-class="none"
     nuxt
-    @click.native="$router.push(`${value.type}/${value.title.replace(/[ ?]/g,'-' )}/${value._id}`, () => {})"
+    @click.native="$router.push(`/${value.type}/${value.title.replace(/[ ?]/g,'-' )}/${value._id}`, () => {})"
     >
     <v-img
       height="200px"

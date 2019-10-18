@@ -4,7 +4,7 @@
     temporary
     right
     app
-    height='400px'
+    height='300px'
     touchless
     color='secondary'
 >
@@ -62,34 +62,6 @@
         </v-list-item-content>
     </v-list-item>
     </v-list>
-     <v-autocomplete
-      v-model="select"
-      :loading="loading"
-      :items="articles"
-      :search-input.sync="search"
-      class="ma-4 d-flex d-md-none"
-      hide-no-data
-      hide-details
-      label="Pesquise"
-      append-icon='mdi-magnify'
-      solo
-      single-line
-      item-text="title"
-      return-object
-      clearable
-    >
-     <template v-slot:item="{ item }"> 
-          <v-list-item-avatar>
-            <v-icon
-              class="grey lighten-1 white--text"
-            >mdi-file-document-box</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content 
-          @click="$router.push(`${item.type}/${item.title.replace(/[ ?]/g,'-' )}/${item._id}`, () => {})">
-            <v-list-item-title v-text="item.title"></v-list-item-title>
-          </v-list-item-content>
-      </template>
-    </v-autocomplete>
     <div class='pt-6'
      v-if="!$store.state.isUserLoggedIn">
       <div class="pa-2">
@@ -125,8 +97,6 @@ export default {
     search: null,
     items: [
       { title: 'Publicar', icon: 'edit', route: '/publicar' },
-      { title: 'Artigos', icon: 'question_answer', route: '/artigos' },
-      { title: 'Noticias', icon: 'mdi-newspaper', route: '/noticias' },
     ],
   }),
   watch: {
@@ -141,28 +111,9 @@ export default {
     logout() {
       this.$store.dispatch('setToken', null);
       this.$store.dispatch('setUser', null);
-      this.$router.push('/artigos', () => {});
+      this.$router.push('/', () => {});
       this.drawer = !this.drawer;
     },
-    async searchPosts(value) {
-      if (value.length < 3) return;
-      this.loading = true;
-      try {
-        const data = await this.$axios.$post('/articles/search', {
-          data: { title: value },
-          projection: { text: 0 },
-          options: { limit: 5 },
-        });
-        this.articles = data ? data : [];
-      } catch (error) {
-        EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: 'Erro ao carregar pesquisa. Tente mais tarde.',
-      });
-      } finally {
-         this.loading = false;
-      }
-    }
   },
   mounted () {
     EventBus.$on('callMenu', () => {

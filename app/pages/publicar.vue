@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-row align="center" justify="center">
       <v-col align="center" cols='12'>
           <v-btn
@@ -7,15 +7,6 @@
           @click="publish"
           :disabled='checkFields'>🚀 Publicar</v-btn>
       </v-col>        
-    </v-row>
-    <v-row align="center" justify="center">
-      <span class="gray--text headline mt-2">Qual será o tipo de publicação?</span><br/>
-    </v-row>  
-    <v-row align="center" justify="center"> 
-      <v-radio-group  class="mx-auto" v-model="postType" row>
-        <v-radio label="Artigo" value="artigo"></v-radio>
-        <v-radio label="Notícia" value="noticia"></v-radio>
-      </v-radio-group>
     </v-row>
     <v-row align="center" justify="center" class="mt-n8">
       <v-col 
@@ -43,6 +34,7 @@
           clearable
           label="Selecione temas"
           multiple
+          :rules='[rules.tagsSize]'
         >
         <template v-slot:selection="{ attrs, item, select, selected }">
           <v-chip
@@ -251,7 +243,7 @@
       </client-only>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -311,7 +303,6 @@ export default {
       dialog: false,
       title: '',
       subtitle: '',
-      postType: 'artigo',
       tags: [],
       tagList: [],
       text: '',
@@ -326,6 +317,7 @@ export default {
         titleMaxLength: value => value.length <= 80 || 'Máximo de 80 caracteres.',
         subtitleMaxLength: value => value.length <= 200 || 'Máximo de 200 caracteres.',
         imageSize: value => !value || value.size < 1000000 || 'A imagem deve ter o máximo de 1 MB.',
+        tagsSize: value => value.length < 3 || 'Você pode escolher até 2 tags.'
         }, 
     }
   },
@@ -340,7 +332,6 @@ export default {
         preview: this.preview,
         tags: this.tags,
         text: this.text,
-        type: this.postType,
         author:{
           id: this.$store.getters.userId,
           name: this.$store.getters.fullName,
@@ -398,9 +389,9 @@ export default {
   },
   computed: {
      checkFields() {
-      return (!this.postType ||
-              !this.title ||
-              this.text.length < 200) || false
+      return (!this.title ||
+              this.text.length < 200 ||
+              this.tags.length > 2) || false
     },
   },
   beforeDestroy() {

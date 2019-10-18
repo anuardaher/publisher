@@ -1,25 +1,17 @@
 <template>
   <v-app-bar app dark color='primary'>
-    <v-toolbar-title 
+     <v-spacer></v-spacer>
+     <a
     class="headline text-uppercase"
-    @click="$router.push('/artigos', () => {})">
-          <v-img src="/ucadvogadoslogo.png" max-width="65" max-height="55"></v-img>
-    </v-toolbar-title>
-    <span class='mr-4'></span>
-    <v-toolbar-items class="d-none d-md-flex">
-      <v-btn text @click="$router.push('/artigos', () => {})">
-      ARTIGOS
-      </v-btn>
-      <v-btn text @click="$router.push('/noticias', () => {})">
-      NOTÍCIAS
-      </v-btn>
-    </v-toolbar-items>
+    @click="$router.push('/', () => {})">
+      <v-img src="/ucadvogadoslogo.png" max-width="55" max-height="55"></v-img>
+     </a>
     <v-autocomplete
       v-model="select"
       :loading="loading"
       :items="items"
       :search-input.sync="search"
-      class=" d-none d-md-flex mx-8"
+      class="mx-2"
       hide-no-data
       hide-details
       label="Pesquise"
@@ -37,15 +29,14 @@
             >mdi-file-document-box</v-icon>
           </v-list-item-avatar>
           <v-list-item-content 
-          @click="$router.push(`${item.type}/${item.title.replace(/[ ?]/g,'-' )}/${item._id}`, () => {})">
+          @click="$router.push(`/${item.type}/${item.title.replace(/[ ?]/g,'-' )}/${item._id}`, () => {})">
             <v-list-item-title v-text="item.title"></v-list-item-title>
             <v-list-item-subtitle v-text="item.subtitle.slice(0, 40).concat('...')"></v-list-item-subtitle>
           </v-list-item-content>
       </template>
     </v-autocomplete>
-    <v-spacer></v-spacer>
     <v-app-bar-nav-icon 
-    class="d-flex d-md-none ml-2  "
+    class="d-flex d-md-none  "
     @click.stop="callMenu"
     v-if="!$store.state.isUserLoggedIn">
     </v-app-bar-nav-icon>
@@ -88,6 +79,7 @@
         <span class="white--text headline">{{$store.getters.inicialLetterName}}</span>
       </v-avatar>
     </v-btn>
+     <v-spacer></v-spacer>
   </v-app-bar>
 </template>
 

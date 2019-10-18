@@ -18,7 +18,7 @@ module.exports = {
       user.salt = '';
       console.log(user);
       if (user.provider != 'cadastro') {
-        return res.redirect(`${process.env.HOST}/artigos?user=${user._id}`);
+        return res.redirect(`${process.env.HOST}/?user=${user._id}`);
       }
       return res.status(200).json({
         user,

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-row align='center' justify='center'>
       <v-col
       md="8"
@@ -324,7 +324,7 @@
           <v-list-item
           v-for="article in articles"
           :key='article._id'
-          @click="$router.push(`${article.type}/${article.title.replace(/[ ?]/g,'-' )}/${article._id}`, () => {})"
+          @click="$router.push(`/${article.type}/${article.title.replace(/[ ?]/g,'-' )}/${article._id}`, () => {})"
           >
             <v-list-item-avatar
             v-if="$vuetify.breakpoint.smAndUp">
@@ -357,7 +357,7 @@
        </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -498,7 +498,7 @@ export default {
         return setTimeout(() => {
           this.$store.dispatch('setToken', null);
           this.$store.dispatch('setUser', null);
-          this.$router.push('/artigos', () => {});
+          this.$router.push('/', () => {});
         }, 3000);
       } catch (error) {
         console.log(error);

@@ -1,10 +1,5 @@
 <template>
-  <v-app id="inspire">
-    <v-content>
-      <v-container
-        class=""
-        fluid
-      >
+      <div>
         <v-row
           align="center"
           justify="center"
@@ -79,9 +74,7 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
-    </v-content>
-  </v-app>
+      </div>
 </template>
 
 <script>
@@ -122,7 +115,7 @@ export default {
         });
         this.$store.dispatch('setToken', response.token);
         this.$store.dispatch('setUser', response.user);
-        this.$router.push('/artigos');
+        this.$router.push('/');
       } catch (error) {         
           if (!error.response) {
             return this.error = 'Erro Inesperado'

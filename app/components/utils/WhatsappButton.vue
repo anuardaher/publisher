@@ -17,7 +17,7 @@
 export default {
     methods: {
         goToWhatsapp() {
-            window.open('https://wa.me/556285633378?text=Olá.%20Cheguei%20aqui%20pelo%20UC%20Advogados%20e%20preciso%20de%20orientação%20jurídica')
+            window.open('https://wa.me/556285633378?text=Olá,%20quero%20entrar%20com%20uma%20ação%20judicial,%20preciso%20de%20um%advogado')
         }
     }
 }

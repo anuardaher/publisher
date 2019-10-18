@@ -16,7 +16,6 @@ module.exports = {
         .min(200),
       preview: Joi.optional(),
       author: Joi.object().required(),
-      type: Joi.string().required(),
       img: Joi.string(),
     };
 
@@ -38,9 +37,6 @@ module.exports = {
           break;
         case 'author':
           res.status(422).json({error: `O autor deve ser informado.`,});
-          break;
-        case 'type':
-          res.status(422).json({error: `Você deve informar o tipo da publicação`,});
           break;
         default:
           console.error(error.details[0].message)

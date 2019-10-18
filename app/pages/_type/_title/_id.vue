@@ -56,7 +56,7 @@
           </v-row>
           <v-divider class='mb-4'></v-divider>
           <v-row>
-            <span>Publicado por <b>{{article.author.name}}</b></span>
+            <span>Por <b>{{article.author.name}}</b></span>
             <v-spacer></v-spacer>
             <timeago :datetime='article.createdAt'></timeago>
           </v-row>
