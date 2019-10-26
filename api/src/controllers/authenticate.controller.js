@@ -10,7 +10,14 @@ function jwtSignUser(user) {
 
 module.exports = {
   async register(req, res) {
+    const createUsername = (name) => {
+      name = name.toLowerCase()
+      name = name.replace(/\s/g,'')
+      let normalizedName = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+      return `${normalizedName}.${Math.floor(Math.random() * (10 - 1) + 1)}`
+    }
     try {
+      req.body.username = createUsername(req.body.firstname +'.'+ req.body.lastname)
       const user = await userRepository.create(req.body);
       if (!user)
         return res.status(500).json({ error: 'Erro interno do servidor.' });

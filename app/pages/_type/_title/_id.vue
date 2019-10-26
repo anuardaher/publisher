@@ -27,13 +27,13 @@
           <v-row>
             <span class="subtitle-1">{{article.subtitle}}</span>
           </v-row>
-          <v-row class="mt-2" align="center">
+          <v-row class="mt-2">
             <!-- <v-btn icon @click="thumbsUp">
               <v-icon :color='thumbColor'>mdi-heart</v-icon>
             </v-btn>
             <span v-show="thumbs > 0"> {{thumbs}}</span>
             <v-spacer></v-spacer> -->
-            <social-sharing 
+            <social-sharing
               :url="postUrl"
               :title="article.title"
               :description="article.subtitle"
@@ -41,7 +41,7 @@
               :hashtags="covertTagsToString"
               twitter-user="ucadvogados"
               inline-template>
-              <div class="social-icons">
+              <div class="social-icons ml-auto">
                 <network network="facebook">
                   <button class="mdi mdi-facebook mdi-24px"></button>
                 </network>
@@ -56,9 +56,30 @@
           </v-row>
           <v-divider class='mb-4'></v-divider>
           <v-row>
-            <span>Por <b>{{article.author.name}}</b></span>
-            <v-spacer></v-spacer>
-            <timeago :datetime='article.createdAt'></timeago>
+            <div class="mr-2 float-left">
+              <v-avatar
+              size="44px"
+              v-if="article.author.img">
+                <img
+                :src="`${BASE_URL}/${article.author.img}`"
+                alt="John"
+                >
+              </v-avatar>
+              <v-avatar
+              v-if="!article.author.img" 
+              color="grey"
+              size="44px">
+                <span class="white--text headline">{{article.author.firstname.charAt(0)}}</span>
+              </v-avatar>              
+            </div>
+            <div>  
+              <a 
+              @click="$router.push(`/${article.author.username}`)" 
+              class="text--primary font-weight-bold">
+              {{ `${this.article.author.firstname} ${this.article.author.lastname}`}}
+              </a><br/>
+              <span><timeago :datetime='article.createdAt'></timeago></span>
+            </div>                          
           </v-row>
           <v-row class="my-4" align="center" justify="center">
             <v-img
@@ -86,7 +107,7 @@ export default {
       title: this.article.title,
       meta: [
         { hid: 'description', name: 'description', content: this.article.preview },
-        { hid: 'author', name: 'author', content: this.article.author.name },
+        { hid: 'author', name: 'author', content: `${this.article.author.firstname} ${this.article.author.lastname}` },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:url', property: 'og:url', content: this.postUrl},
         { hid: 'og:title', property: 'og:title', content: this.article.title},
@@ -96,7 +117,7 @@ export default {
         { hid: 'og:image:secure_url', property: 'og:image', content: this.imageUrl },
         { hid: 'og:image:width', property: 'og:image:width', content: '400' },
         { hid: 'og:image:height', property: 'og:image:height', content: '300' },
-        { hid: 'article:author', property: 'article:author', content: this.article.author.name },
+        { hid: 'article:author', property: 'article:author', content: `${this.article.author.firstname} ${this.article.author.lastname}` },
         { hid: 'article:section' ,property: 'article:section', content: this.article.type},
         { hid: 'article:tag', property: 'article:tag', content: this.covertTagsToString },
         { hid: 'article:published', property: 'article:published_time', content: this.article.createdAt},
@@ -111,14 +132,15 @@ export default {
   data() {
     return {
       BASE_URL: process.env.BASE_URL,
-      article: { author: {} },
+      article: { author: { name: ''} },
       thumbs: 0,
       thumbColor: null,
     }
   },
-  async asyncData({ $axios, params, error, redirect }) {
+  async asyncData({ $axios, params, redirect }) {
     try {
       const article = await $axios.$post(`/articles/getPost/${params.id}`);
+      article.author = await $axios.$get(`/users/${article.author.id}`)
       return article ? { article } : redirect('/notfound')
   } catch (e) {
       console.error(e.message)

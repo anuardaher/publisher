@@ -28,6 +28,19 @@ const findById = async (req, res) => {
   }
 };
 
+const findOne = async (req, res) => {
+  console.log('passei aqui')
+  const data = {username: req.params.username}
+  const projection = {password: 0, salt: 0}
+  try {
+    const user = await usersRepository.findOne(data, projection);
+    return res.status(200).json(user);
+  } catch (e) {
+    console.error(e.message);
+    return res.status(500);
+  }
+};
+
 const save = async (req, res) => {
   try {
     const user = await usersRepository.create(req.body);
@@ -104,6 +117,7 @@ module.exports = {
   save,
   remove,
   findById,
+  findOne,
   update,
   editProfileImage,
 };

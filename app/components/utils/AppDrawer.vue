@@ -11,7 +11,7 @@
     <v-list-item 
     v-if="$store.state.isUserLoggedIn"
     list
-    @click="$router.push('/perfil', () => {})">
+    @click="$router.push(`/${$store.state.user.username}`, () => {})">
       <v-list-item-avatar
         color="grey">
         <span

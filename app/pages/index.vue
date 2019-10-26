@@ -2,8 +2,7 @@
   <div :class="$vuetify.breakpoint.width < '400' ? 'px-0' : null">
     <v-row
     align="center"
-    justify="center"
-    v-scroll='bottomVisible'>
+    justify="center">
       <v-col
       xl="10"
       lg="9"
@@ -14,6 +13,7 @@
       :key="article._id">
        <Card
         :value="article"
+        v-scroll='bottomVisible'
         />
       </v-col>
        <v-dialog persistent v-model="showInformationDialog" max-width="500px">
@@ -120,14 +120,16 @@ export default {
           createdAt: -1
         }},
     }
-    try {
-      const articles = await this.$axios.$get('/articles', { params: options })
+    try {      
+      let articles = await this.$axios.$get('/articles', { params: options })
       if (articles.length == 0) return this.totalOfArticles = true;
-      if (infinityScroll) {
-        this.articles = this.articles.concat(articles);
-      } else  {
-        this.articles = articles
-      }
+      await Promise.all(articles.map(async (item) => {        
+        let user = await this.$axios.$get(`/users/${item.author.id}`)
+        item.author.name = `${user.firstname} ${user.lastname}`
+        item.author.img = user.img
+        item.author.username = user.username
+        this.articles.push(item)
+      }))    
       this.skip = this.articles.length;
     } catch (error) {
       return EventBus.$emit('callSnackbar', {

@@ -5,6 +5,7 @@ const multer = require("multer");
 router.get('/', usersController.getAll);
 router.get('/:id', usersController.findById);
 router.post('/', usersController.save);
+router.post('/profile/:username', usersController.findOne);
 router.delete('/:id', usersController.remove);
 router.put('/:id', usersController.update);
 

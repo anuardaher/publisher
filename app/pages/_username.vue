@@ -17,7 +17,7 @@
               color="grey">
               <v-fade-transition>
                 <v-overlay
-                  v-if="hover"
+                  v-if="hover && isTheLoggedUser"
                   absolute
                 >
                   <v-btn @click='editImageDialog = true' text class="mt-12">
@@ -26,14 +26,14 @@
                 </v-overlay>
               </v-fade-transition>
                 <img
-                 v-if="$store.getters.userHasImage"
-                :src="$store.getters.userHasImage"
-                alt="John"
+                 v-if="user.img"
+                :src="imageUrl(user.img)"
+                :alt="user.firstname"
                 >
                 <span 
-                 v-if="!$store.getters.userHasImage" 
+                 v-if="!user.img" 
                 class="white--text display-2"
-                v-text="$store.getters.inicialLetterName">
+                v-text="user.firstname.charAt(0)">
                 </span>
               </v-avatar>
             </template>
@@ -44,7 +44,6 @@
                 <span class="headline">Imagem</span>
               </v-card-title>
               <v-card-text>
-                <v-container>
                   <v-file-input
                     v-model='profileImage'
                     light
@@ -54,7 +53,6 @@
                     showSize
                     :rules='[rules.profileImageSize]'
                   ></v-file-input>
-                </v-container>
               </v-card-text>
               <v-card-actions>
                 <div class="flex-grow-1"></div>
@@ -67,24 +65,31 @@
           </v-dialog>
         </v-row>
         <v-row align='center' justify='center'>
-          <v-chip small>{{ $store.getters.profession }}</v-chip>
+          <v-chip small>{{ user.profession }}</v-chip>
         </v-row>
         <v-row align='center' justify='center'>
           <span 
           class="display-1 mt-4"
-          v-text='$store.getters.fullName'></span>
+          v-text='`${user.firstname} ${user.lastname}`'></span>
         </v-row>
         <v-row align='center' justify='center'>
           <span class="subtitle-1 mt-1">
             <v-icon>mdi-map-marker</v-icon>
-              <span v-text="$store.getters.fullLocation"></span>
+              <span v-text="`${user.address.city} – ${user.address.country}`"></span>
           </span>
         </v-row>
-        <v-row align='center' justify='center'>
-          <v-dialog v-model="perfilDialog" persistent max-width="600px">
+        <v-row align='center' justify='center' v-if="user.bio">          
+             <p class="body-1 pa-2">
+                <v-icon large>mdi-format-quote-open</v-icon>
+               {{ user.bio }}
+                <v-icon large>mdi-format-quote-close</v-icon> 
+             </p>               
+        </v-row>
+        <v-row v-if="isTheLoggedUser" align='center' justify='center'>
+          <v-dialog v-model="perfilDialog" persistent :fullscreen="$vuetify.breakpoint.xsOnly" max-width="600px">
             <template v-slot:activator="{ on }">
               <v-btn 
-              class='my-4' 
+              class='my-2' 
               outlined 
               tile 
               color='primary'
@@ -115,67 +120,84 @@
                   <v-card-title>
                     <span class="headline">Informações Pessoais</span>
                   </v-card-title>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="6">
-                          <v-text-field 
-                          label="Nome" 
-                          required
-                          v-model='user.firstname'></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6" md="6">
-                          <v-text-field 
-                          label="Sobrenome"
-                          required
-                          v-model='user.lastname'></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field 
-                          readonly
-                          filled
-                          label="Email" 
-                          required
-                          v-model='user.email' 
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-select
-                          v-model='user.profession'
-                          :items='perfils'
-                          label="Profissão"
-                          type="password" 
-                          required
-                          ></v-select>
-                        </v-col>
-                        <v-col cols="12" sm="4">
-                          <v-autocomplete
-                            :items="countrys"
-                            label="Estado"
-                            item-text='sigla'
-                            item-value='sigla'                            
+                  <v-card-text>                   
+                      <v-form v-model="userSettingsIsValid">
+                        <v-row>
+                          <v-col cols="12" sm="6" md="6">
+                            <v-text-field 
+                            label="Nome" 
                             required
-                            v-model='user.address.country'
-                            @change="getLocationData(user.address.country)"
-                          ></v-autocomplete>
-                        </v-col>
-                        <v-col cols="12" sm="8">
-                          <v-autocomplete
-                            :items="citys"
-                            label="Cidade"
-                            item-text='nome'
-                            item-value='nome'
-                            v-model='user.address.city'
-                          ></v-autocomplete>
-                        </v-col>
-                      </v-row>
-                    </v-container>
+                            v-model='user.firstname'
+                            :rules='[rules.required]'
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6" md="6">
+                            <v-text-field 
+                            label="Sobrenome"
+                            required
+                            v-model='user.lastname'
+                            :rules='[rules.required]'
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-text-field 
+                            readonly
+                            filled
+                            label="Email" 
+                            required
+                            v-model='user.email' 
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-textarea
+                            label="Conte um pouco sobre você"                            
+                            v-model='user.bio'
+                            outlined
+                            counter
+                            auto-grow
+                            :rules='[rules.bioSize]'
+                            ></v-textarea>
+                          </v-col>
+                          <v-col cols="12">
+                            <v-select
+                            v-model='user.profession'
+                            :items='perfils'
+                            label="Profissão"
+                            type="password" 
+                            required
+                            :rules='[rules.required]'
+                            ></v-select>
+                          </v-col>
+                          <v-col cols="12" sm="4">
+                            <v-autocomplete
+                              :items="countrys"
+                              label="Estado"
+                              item-text='sigla'
+                              item-value='sigla'                            
+                              :rules='[rules.required]'
+                              v-model='user.address.country'
+                              @change="getLocationData(user.address.country)"
+                            ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="12" sm="8">
+                            <v-autocomplete
+                              :items="citys"
+                              label="Cidade"
+                              item-text='nome'
+                              item-value='nome'
+                              :rules='[rules.required]'
+                              v-model='user.address.city'
+                            ></v-autocomplete>
+                          </v-col>
+                        </v-row>
+                      </v-form>
                   </v-card-text>
                   <v-card-actions>
                     <div class="flex-grow-1"></div>
                     <v-btn color="red darken-1" text @click="perfilDialog = false">Fechar</v-btn>
                     <v-btn color="primary"
-                     text 
+                     text
+                     :disabled="!userSettingsIsValid" 
                      @click="editUserProfile"
                      >Salvar
                      </v-btn>
@@ -186,7 +208,6 @@
                     <span class="headline">Mudar senha</span>
                   </v-card-title>
                   <v-card-text>
-                    <v-container>
                       <v-form v-model='passwordForm'>
                         <v-row>
                           <v-col cols='12'>
@@ -226,8 +247,7 @@
                             ></v-text-field>
                           </v-col>
                         </v-row>
-                      </v-form>
-                    </v-container>
+                      </v-form>                  
                   </v-card-text>
                   <v-card-actions>
                     <div class="flex-grow-1"></div>
@@ -246,7 +266,6 @@
                     <span class="headline">Inserir tags</span>
                   </v-card-title>
                   <v-card-text>
-                    <v-container>
                       <v-row>
                        <v-combobox
                           v-model="tags"
@@ -270,7 +289,6 @@
                           </template>
                         </v-combobox>
                       </v-row>
-                    </v-container>
                   </v-card-text>
                   <v-card-actions>
                     <div class="flex-grow-1"></div>
@@ -338,7 +356,7 @@
               <v-list-item-subtitle v-text="article.subtitle"></v-list-item-subtitle>
             </v-list-item-content>
 
-            <v-list-item-action @click.stop="showDeleteDialog(article._id)"> 
+            <v-list-item-action v-if="isTheLoggedUser" @click.stop="showDeleteDialog(article._id)"> 
               <v-icon>mdi-delete</v-icon>                   
             </v-list-item-action>
           </v-list-item>
@@ -368,12 +386,31 @@ import utils from '../utils/utils.js'
 export default {
   head() {
     return {
-      title: "Perfil",
-      meta: [],      
+      title: `${this.user.firstname} ${this.user.lastname}`,
+      meta: [
+        { hid: 'description', name: 'description', content: this.user.about },
+        { hid: 'author', name: 'author', content: `${this.user.firstname} ${this.user.lastname}` },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', property: 'og:url', content: `${this.BASE_URL}/${this.user.username}`},
+        { hid: 'og:title', property: 'og:title', content: `${this.user.firstname} ${this.user.lastname}`},
+        { hid: 'og:description', property: 'og:description', content: this.user.about},
+        { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
+        { hid: 'og:image', property: 'og:image', content: `${this.BASE_URL}/${this.user.img}` },
+        { hid: 'og:image:secure_url', property: 'og:image', content: `${this.BASE_URL}/${this.user.img}`},
+        { hid: 'og:image:width', property: 'og:image:width', content: '400' },
+        { hid: 'og:image:height', property: 'og:image:height', content: '300' },
+        { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
+        { hid: 'twitter:site' ,name: 'twitter:site', content: '@ucadvogados' },
+        { hid: 'twitter:title', name: 'article:tag', content: `${this.user.firstname} ${this.user.lastname}` },
+        { hid: 'twitter:description', name: 'twitter:description', content: this.user.about },
+        { hid: 'twitter:image', name: 'twitter:image', content: `${this.BASE_URL}/${this.user.img}` },
+      ]
     }
   },
   data () {
     return {
+      BASE_URL: process.env.BASE_URL,
+      userSettingsIsValid: true,
       passwordForm: true,
       showPassword1: false,
       showPassword2: false,
@@ -394,7 +431,8 @@ export default {
       confirmDialog: false,
       editImageDialog: false,
       profileImage: null,
-      user: { address: {}},
+      user: { country: {}, address: {}},
+      isTheLoggedUser: false,
       articleId: null,
       citys: [],
       countrys: [],
@@ -407,7 +445,8 @@ export default {
         passwordMatch: value => value == this.password.new || 'Digite a mesma senha do campo acima',
         passwordLength: value => value.length >= 8 || 'Mínimo de 8 caracteres',
         profileImageSize: value => !value || value.size < 1000000 || 'A imagem deve ter o máximo de 1 MB.',
-        profileImageButton: value => !value || value.size > 1000000
+        profileImageButton: value => !value || value.size > 1000000,
+        bioSize: value => value.length <= 200 || 'Máximo de 200 caracteres'
         },
       };
     },
@@ -417,19 +456,21 @@ export default {
         store.dispatch('setUser', cookie.user)
         store.dispatch('setToken', cookie.token)
       }
-      if (!store.getters.state || !cookie) {
-        redirect('/login')
-        return EventBus.$emit('callSnackbar', {
-        color: 'warning',
-        text: 'Você precisa estar logado',
-        });
-      } 
    },
+    async asyncData ({$axios, params, redirect}) {
+      try {
+        const { data } = await $axios.post(`/users/profile/${params.username}`)
+        return { user: data }
+      } catch (error) {
+          console.error(error.message)
+          redirect('/error')
+      }
+    },
     methods: {
     async getArticles() {
       this.loading = true;
       const options = {
-        data: { 'author.id': this.$store.getters.userId },
+        data: { 'author.id': this.user._id},
         projection: { text: 0},
         options: { 
           sort: {
@@ -466,15 +507,14 @@ export default {
         this.confirmDialog = false;
       }
     },
-    setUser() {
-      Object.assign(this.user, this.$store.getters.user);
-      delete this.user.password;
-      delete this.user.salt;
+    checkUser() {
+      if (this.user._id === this.$store.getters.userId) this.isTheLoggedUser = true;
     },
     async editUserProfile() {
       try {
         const data = await this.$axios.$put(`/users/${this.user._id}`, this.user)
         this.$store.dispatch('setUser', data);
+        this.$router.go(this.$router.currentRoute)
         return EventBus.$emit('callSnackbar', {
           color: 'success',
           text: 'Usuário alterado com sucesso.',
@@ -520,6 +560,7 @@ export default {
           }
         });
         this.$store.dispatch('setUser', data);
+        this.$router.go(this.$router.currentRoute)
         EventBus.$emit('callSnackbar', {
           color: 'success',
           text: 'Imagem alterada com sucesso.',
@@ -570,11 +611,14 @@ export default {
         } finally {
             this.tagsLoading = false;
         }
-    }
+    },
+    imageUrl (url) {
+      return `${this.BASE_URL}/${url}`
+    },
   },
   created () {
+    this.checkUser();
     this.getArticles();
-    this.setUser();
     this.getLocationData(this.user.address.country);
   },
 };

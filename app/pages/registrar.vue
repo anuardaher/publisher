@@ -214,7 +214,6 @@ export default {
             city: this.address.city,
           },
         });
-
         this.$store.dispatch('setToken', response.token);
         this.$store.dispatch('setUser', response.user);
         this.$router.push('/');

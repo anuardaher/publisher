@@ -11,6 +11,7 @@ module.exports = {
         .min(3)
         .max(20)
         .required(),
+      username: Joi.string(),
       email: Joi.string()
         .email()
         .required(),

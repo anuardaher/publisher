@@ -1,25 +1,45 @@
 <template>
     <v-card
-    class="mx-auto disable-events"
+    class="mx-auto"
     max-width="650"
-    hover
     max-height="100%"
-    active-class="none"
     nuxt
-    @click.native="$router.push(`/${value.type}/${value.title.replace(/[ ?]/g,'-' )}/${value._id}`, () => {})"
     >
-    <v-img
-      height="200px"
-      v-if="value.img"
-      :src='getImageUrl(value.img)'
-    >
-    </v-img>
-    <v-card-title>{{ value.title }}</v-card-title>
-    
-    <v-card-text>
-      <span class="subtitle-2">{{ value.author ? value.author.name : '' }} – </span><timeago :datetime='value.createdAt'></timeago><br/>
-      <span class="text--primary my-2" v-text='minimizeText(value.preview)'></span>
+    <v-card-text :class="value.img ? '' : 'mb-n4'" >
+      <a @click="$router.push(`/${value.author.username}`)" class="mr-2 float-left">
+        <v-avatar 
+        size="40px"
+        v-if="value.author.img">
+          <img
+          :src="getImageUrl(value.author.img)"
+          :alt="value.author.firstname"
+          >
+        </v-avatar>
+        <v-avatar
+        v-if="!value.author.img" 
+        color="grey"
+        size="40px">
+          <span class="white--text headline">{{value.author.name.charAt(0).toUpperCase()}}</span>
+        </v-avatar>
+      </a>
+      <div>
+        <a @click="$router.push(`/${value.author.username}`)" class="text--primary font-weight-bold">{{ value.author ? value.author.name : '' }}</a><br>
+        <span><timeago :datetime='value.createdAt'></timeago></span>   
+      </div>                     
     </v-card-text>
+    <a @click="$router.push(`/${value.type}/${value.title.replace(/[ ?]/g,'-' )}/${value._id}`, () => {})">
+      <v-img
+        height="200px"
+        v-if="value.img"
+        :src='getImageUrl(value.img)'
+      >
+      </v-img>
+      <v-card-title>{{ value.title }}</v-card-title>
+      
+      <v-card-text>
+        <span class="text--primary my-2" v-text='minimizeText(value.preview)'></span>
+      </v-card-text>
+    </a>
 
     <v-card-actions v-on:click.stop>
       <!-- <v-btn class='enable-events' icon @click="thumbsUp">
