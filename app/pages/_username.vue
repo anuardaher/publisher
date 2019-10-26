@@ -79,11 +79,11 @@
           </span>
         </v-row>
         <v-row align='center' justify='center' v-if="user.bio">          
-             <p class="body-1 pa-2">
+             <span class="body-1 pa-4">
                 <v-icon large>mdi-format-quote-open</v-icon>
                {{ user.bio }}
                 <v-icon large>mdi-format-quote-close</v-icon> 
-             </p>               
+             </span>               
         </v-row>
         <v-row v-if="isTheLoggedUser" align='center' justify='center'>
           <v-dialog v-model="perfilDialog" persistent :fullscreen="$vuetify.breakpoint.xsOnly" max-width="600px">
@@ -388,22 +388,22 @@ export default {
     return {
       title: `${this.user.firstname} ${this.user.lastname}`,
       meta: [
-        { hid: 'description', name: 'description', content: this.user.about },
+        { hid: 'description', name: 'description', content: this.userDescription },
         { hid: 'author', name: 'author', content: `${this.user.firstname} ${this.user.lastname}` },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:url', property: 'og:url', content: `${this.BASE_URL}/${this.user.username}`},
         { hid: 'og:title', property: 'og:title', content: `${this.user.firstname} ${this.user.lastname}`},
-        { hid: 'og:description', property: 'og:description', content: this.user.about},
+        { hid: 'og:description', property: 'og:description', content: this.userDescription},
         { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
-        { hid: 'og:image', property: 'og:image', content: `${this.BASE_URL}/${this.user.img}` },
-        { hid: 'og:image:secure_url', property: 'og:image', content: `${this.BASE_URL}/${this.user.img}`},
+        { hid: 'og:image', property: 'og:image', content: this.imageUrl(this.user.img) },
+        { hid: 'og:image:secure_url', property: 'og:image', content: this.imageUrl(this.user.img)},
         { hid: 'og:image:width', property: 'og:image:width', content: '400' },
         { hid: 'og:image:height', property: 'og:image:height', content: '300' },
         { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
         { hid: 'twitter:site' ,name: 'twitter:site', content: '@ucadvogados' },
         { hid: 'twitter:title', name: 'article:tag', content: `${this.user.firstname} ${this.user.lastname}` },
-        { hid: 'twitter:description', name: 'twitter:description', content: this.user.about },
-        { hid: 'twitter:image', name: 'twitter:image', content: `${this.BASE_URL}/${this.user.img}` },
+        { hid: 'twitter:description', name: 'twitter:description', content: this.userDescription },
+        { hid: 'twitter:image', name: 'twitter:image', content: this.imageUrl(this.user.img) },
       ]
     }
   },
@@ -618,6 +618,9 @@ export default {
         return path
       return `${this.BASE_URL}/${path}`
     },
+    userDescription() {
+      return `${this.user.profession} em ${this.user.address.city} – ${this.user.address.country}`
+    }
   },
   created () {
     this.checkUser();
