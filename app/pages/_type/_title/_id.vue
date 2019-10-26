@@ -61,15 +61,15 @@
               size="44px"
               v-if="article.author.img">
                 <img
-                :src="`${BASE_URL}/${article.author.img}`"
-                alt="John"
+                :src="imageUrl(article.author.img)"
+                :alt="article.author.firstname"
                 >
               </v-avatar>
               <v-avatar
               v-if="!article.author.img" 
               color="grey"
               size="44px">
-                <span class="white--text headline">{{article.author.firstname.charAt(0)}}</span>
+                <span class="white--text headline">{{article.author.firstname.charAt(0).toUpperCase()}}</span>
               </v-avatar>              
             </div>
             <div>  
@@ -84,7 +84,7 @@
           <v-row class="my-4" align="center" justify="center">
             <v-img
               v-if="article.img"
-              :src='imageUrl'
+              :src='imageUrl(article.img)'
               aspect-ratio="1.5"
               :max-width="coverImageSize"
             >
@@ -113,8 +113,8 @@ export default {
         { hid: 'og:title', property: 'og:title', content: this.article.title},
         { hid: 'og:description', property: 'og:description', content: this.article.preview},
         { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
-        { hid: 'og:image', property: 'og:image', content: this.imageUrl },
-        { hid: 'og:image:secure_url', property: 'og:image', content: this.imageUrl },
+        { hid: 'og:image', property: 'og:image', content: this.imageUrl(this.article.img) },
+        { hid: 'og:image:secure_url', property: 'og:image', content: this.imageUrl(this.article.img) },
         { hid: 'og:image:width', property: 'og:image:width', content: '400' },
         { hid: 'og:image:height', property: 'og:image:height', content: '300' },
         { hid: 'article:author', property: 'article:author', content: `${this.article.author.firstname} ${this.article.author.lastname}` },
@@ -125,7 +125,7 @@ export default {
         { hid: 'twitter:site' ,name: 'twitter:site', content: '@ucadvogados' },
         { hid: 'twitter:title', name: 'article:tag', content: this.article.title },
         { hid: 'twitter:description', name: 'twitter:description', content: this.article.preview},
-        { hid: 'twitter:image', name: 'twitter:image', content: this.imageUrl },
+        { hid: 'twitter:image', name: 'twitter:image', content: this.imageUrl(this.article.img) },
       ]
     }
   },
@@ -155,8 +155,11 @@ export default {
         return formatedTags;
       }
     },
-    imageUrl () {
-      return this.article.img ? `${this.BASE_URL}/${this.article.img}` : ''
+    imageUrl (path) {
+      if (!path) return
+      if (/https/.test(path))
+        return path
+      return `${this.BASE_URL}/${path}`
     },
     postUrl () {
       return  `${this.BASE_URL}/${this.$route.params.type}/${this.$route.params.title}/${this.$route.params.id}`

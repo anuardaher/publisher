@@ -33,7 +33,7 @@
                 <span 
                  v-if="!user.img" 
                 class="white--text display-2"
-                v-text="user.firstname.charAt(0)">
+                v-text="user.firstname.charAt(0).toUpperCase()">
                 </span>
               </v-avatar>
             </template>
