@@ -388,12 +388,12 @@ export default {
     return {
       title: `${this.user.firstname} ${this.user.lastname}`,
       meta: [
-        { hid: 'description', name: 'description', content: this.userDescription },
+        { hid: 'description', name: 'description', content: this.userDescription() },
         { hid: 'author', name: 'author', content: `${this.user.firstname} ${this.user.lastname}` },
         { hid: 'og:type', property: 'og:type', content: 'article' },
         { hid: 'og:url', property: 'og:url', content: `${this.BASE_URL}/${this.user.username}`},
         { hid: 'og:title', property: 'og:title', content: `${this.user.firstname} ${this.user.lastname}`},
-        { hid: 'og:description', property: 'og:description', content: this.userDescription},
+        { hid: 'og:description', property: 'og:description', content: this.userDescription()},
         { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
         { hid: 'og:image', property: 'og:image', content: this.imageUrl(this.user.img) },
         { hid: 'og:image:secure_url', property: 'og:image', content: this.imageUrl(this.user.img)},
@@ -402,7 +402,7 @@ export default {
         { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
         { hid: 'twitter:site' ,name: 'twitter:site', content: '@ucadvogados' },
         { hid: 'twitter:title', name: 'article:tag', content: `${this.user.firstname} ${this.user.lastname}` },
-        { hid: 'twitter:description', name: 'twitter:description', content: this.userDescription },
+        { hid: 'twitter:description', name: 'twitter:description', content: this.userDescription() },
         { hid: 'twitter:image', name: 'twitter:image', content: this.imageUrl(this.user.img) },
       ]
     }
