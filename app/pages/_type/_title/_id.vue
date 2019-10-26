@@ -147,6 +147,14 @@ export default {
       redirect('/notfound')
     }
   },
+  methods: {
+     imageUrl (path) {
+      if (!path) return
+      if (/https/.test(path))
+        return path
+      return `${this.BASE_URL}/${path}`
+    },
+  },
   computed: {
      covertTagsToString() {
       if (this.article.tags) {
@@ -154,12 +162,6 @@ export default {
         const formatedTags = tags.toString().replace(/\s/g, '');
         return formatedTags;
       }
-    },
-    imageUrl (path) {
-      if (!path) return
-      if (/https/.test(path))
-        return path
-      return `${this.BASE_URL}/${path}`
     },
     postUrl () {
       return  `${this.BASE_URL}/${this.$route.params.type}/${this.$route.params.title}/${this.$route.params.id}`
