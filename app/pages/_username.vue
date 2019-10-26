@@ -612,8 +612,11 @@ export default {
             this.tagsLoading = false;
         }
     },
-    imageUrl (url) {
-      return `${this.BASE_URL}/${url}`
+    imageUrl (path) {
+      if (!path) return
+      if (/https/.test(path))
+        return path
+      return `${this.BASE_URL}/${path}`
     },
   },
   created () {

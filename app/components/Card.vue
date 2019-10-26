@@ -111,6 +111,8 @@ export default {
       // },
       getImageUrl(path) {
         if (!path) return
+        if (/https/.test(path))
+          return path
         return `${process.env.BASE_URL}/${path}`;
       },
       getPostUrl(post) {
