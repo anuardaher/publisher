@@ -139,8 +139,8 @@ export default {
   },
   async asyncData({ $axios, params, redirect }) {
     try {
-      const article = await $axios.$post(`/articles/getPost/${params.id}`);
-      article.author = await $axios.$get(`/users/${article.author.id}`)
+      const article = await $axios.$post(`/articles/post/${params.id}`);
+      article.author = await $axios.$post(`/users/post/${article.author.id}`)
       return article ? { article } : redirect('/notfound')
   } catch (e) {
       console.error(e.message)

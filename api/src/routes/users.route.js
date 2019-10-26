@@ -8,6 +8,7 @@ router.post('/', usersController.save);
 router.post('/profile/:username', usersController.findOne);
 router.delete('/:id', usersController.remove);
 router.put('/:id', usersController.update);
+router.post('/post/:id', usersController.findById);
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
