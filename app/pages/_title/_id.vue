@@ -164,7 +164,7 @@ export default {
       }
     },
     postUrl () {
-      return  `${this.BASE_URL}/${this.$route.params.type}/${this.$route.params.title}/${this.$route.params.id}`
+      return  `${this.BASE_URL}/${this.$route.params.title}/${this.$route.params.id}`
     },
     sheetClass () { 
       switch (this.$vuetify.breakpoint.name) {
