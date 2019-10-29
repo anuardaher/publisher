@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="article">
     <v-row align="center" justify="center">
       <v-col
       md="8"
-      lg="7"
+      lg="6"
       sm='11'
       xs="12">
         <v-sheet
@@ -193,11 +193,15 @@ export default {
 .text-body > h1, h2, h3, h4, h5, ol, ul {
   width: 100%;
 }
-
+@media only screen and (max-width: 600px) {
 .text-body p {
-  font-size: 18px;
+  font-size: 18px !important;
 }
-
+}
+.text-body p {
+  font-size: 21px;
+  word-break: break-word;
+}
 .text-body p img {
   max-width: 100%;
   max-height: 700px;
