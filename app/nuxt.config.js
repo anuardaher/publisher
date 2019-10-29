@@ -61,28 +61,7 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
-    '@nuxtjs/sitemap'
   ],
-
-  //sitemap
-
-  sitemap: {
-    hostname: URL,
-    gzip: true,
-    exclude: [
-      '/perfil',
-      '/index',
-      '/notfound',
-      '/error'
-
-    ],
-    routes: async () => {
-      const { data } = await axios.get(`${URL}/api/v1/articles`, {params: {
-        projection: { _id: 1, type: 1, title: 1 }
-      }})
-      return data.map(post => `/${post.type}/${post.title.replace(/[ ?]/g,'-' )}/${post._id}`)
-    }
-  },
 
   env: {
     BASE_URL: URL

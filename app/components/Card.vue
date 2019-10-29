@@ -27,7 +27,7 @@
         <span><timeago :datetime='value.createdAt'></timeago></span>   
       </div>                     
     </v-card-text>
-    <a @click="$router.push(`/${value.type}/${value.title.replace(/[ ?]/g,'-' )}/${value._id}`, () => {})">
+    <a @click="$router.push(normalizeLink(value), () => {})">
       <v-img
         height="200px"
         v-if="value.img"
@@ -73,6 +73,7 @@
 
 <script>
 import EventBus from '../event-bus.js';
+import Utils from '../utils/utils.js'
 
 export default {
     name: 'card',
@@ -116,8 +117,11 @@ export default {
         return `${process.env.BASE_URL}/${path}`;
       },
       getPostUrl(post) {
-        return `${process.env.BASE_URL}/${post.type}/${post.title.replace(/[ ?]/g,'-' )}/${post._id}`
+        return `${process.env.BASE_URL}${Utils.normalizeLink(post)}`
       },
+      normalizeLink(post) {
+        return Utils.normalizeLink(post)
+      }
     },
     computed: {
     }

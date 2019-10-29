@@ -248,7 +248,7 @@
 
 <script>
 import EventBus from '../event-bus';
-import utils from '../utils/utils.js';
+import Utils from '../utils/utils.js';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
@@ -340,7 +340,7 @@ export default {
       }
       try {
         const post = await this.$axios.$post('/articles', article);
-        this.$router.push(`${post.type}/${post.title.replace(/[ ?]/g,'-' )}/${post._id}`);
+        this.$router.push(this.normalizeLink(post));
         return EventBus.$emit('callSnackbar', {
         color: 'success',
         text: 'Publicação realizada com sucesso!',
@@ -358,7 +358,7 @@ export default {
     // async inputImage(command) {
     //   if (!this.imgFile) return;
     //   try {
-    //     const imgLink = await utils.convertToBase64(this.imgFile);
+    //     const imgLink = await Utils.convertToBase64(this.imgFile);
     //     command({ 'src': imgLink});
     //     this.imgFile = null;     
     //     this.dialog = !this.dialog; 
@@ -386,6 +386,9 @@ export default {
       return;
       }
     },
+    normalizeLink(post) {
+        return Utils.normalizeLink(post)
+      }
   },
   computed: {
      checkFields() {

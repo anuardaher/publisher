@@ -33,4 +33,12 @@ export default {
       citys: citys.data
     };
   },
+  normalizeLink(post) {
+    const title = post.title.toLowerCase()
+    let normalizedName = title.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+    normalizedName = normalizedName.replace(/[^a-zA-Z0-9 ]/g, "")
+    normalizedName = normalizedName.replace(/[ ]/g, "-")
+    let resumedId = post._id.split("-", 1).shift()
+    return `/${normalizedName}/${resumedId}`
+  },
 }

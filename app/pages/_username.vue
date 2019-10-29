@@ -69,7 +69,7 @@
         </v-row>
         <v-row align='center' justify='center'>
           <span 
-          class="display-1 mt-4"
+          class="display-1 mt-4 px-4"
           v-text='`${user.firstname} ${user.lastname}`'></span>
         </v-row>
         <v-row align='center' justify='center'>
@@ -342,7 +342,7 @@
           <v-list-item
           v-for="article in articles"
           :key='article._id'
-          @click="$router.push(`/${article.type}/${article.title.replace(/[ ?]/g,'-' )}/${article._id}`, () => {})"
+          @click="$router.push(normalizeLink(article), () => {})"
           >
             <v-list-item-avatar
             v-if="$vuetify.breakpoint.smAndUp">
@@ -381,7 +381,7 @@
 <script>
 import AppTabs from '../components/AppTabs.vue'
 import EventBus from '../event-bus.js'
-import utils from '../utils/utils.js'
+import Utils from '../utils/utils.js'
 
 export default {
   head() {
@@ -580,7 +580,7 @@ export default {
     },
      async getLocationData(sigla) {
       try {
-        const data = await utils.getLocationData(sigla)
+        const data = await Utils.getLocationData(sigla)
         this.countrys = data.countrys ? data.countrys : [];
         this.citys = data.citys ? data.citys : [];
       } catch (error) {
@@ -620,6 +620,9 @@ export default {
     },
     userDescription() {
       return `${this.user.profession} em ${this.user.address.city} – ${this.user.address.country}`
+    },
+    normalizeLink(post) {
+      return Utils.normalizeLink(post)
     }
   },
   created () {

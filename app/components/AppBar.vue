@@ -29,7 +29,7 @@
             >mdi-file-document-box</v-icon>
           </v-list-item-avatar>
           <v-list-item-content 
-          @click="$router.push(`/${item.type}/${item.title.replace(/[ ?]/g,'-' )}/${item._id}`, () => {})">
+          @click="$router.push(normalizeLink(item), () => {})">
             <v-list-item-title v-text="item.title"></v-list-item-title>
             <v-list-item-subtitle v-text="item.subtitle.slice(0, 40).concat('...')"></v-list-item-subtitle>
           </v-list-item-content>
@@ -85,6 +85,7 @@
 
 <script>
 import EventBus from '../event-bus.js';
+import Utils from '../utils/utils.js'
 
 export default {
   data: () => ({
@@ -121,7 +122,10 @@ export default {
       } finally {
           this.loading = false;
       }
-    }
+    },
+    normalizeLink(post) {
+        return Utils.normalizeLink(post)
+      }
   },
 };
 </script>

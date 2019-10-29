@@ -3,8 +3,8 @@
     <v-row align="center" justify="center">
       <v-col
       md="8"
-      lg="6"
-      sm='10'
+      lg="7"
+      sm='11'
       xs="12">
         <v-sheet
           tile
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import EventBus from '../../../event-bus';
+import EventBus from '../../event-bus';
 
 export default {
   head() {
@@ -169,7 +169,6 @@ export default {
     sheetClass () { 
       switch (this.$vuetify.breakpoint.name) {
         case 'xs': return 'sheet-mobile'
-        case 'sm': return 'sheet-mobile'
         default: return 'sheet'
     }
   },

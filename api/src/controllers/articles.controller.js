@@ -21,6 +21,16 @@ const findById = async (req, res) => {
   }
 };
 
+const findOne = async (req, res) => {
+  try {
+    const article = await articlesRepository.findOne({_id: {"$regex": req.params.id} });
+    return res.status(200).json(article);
+  } catch (e) {
+    console.error(e.message);
+    return res.status(500).send();
+  }
+};
+
 const save = async (req, res) => {
   try {
     const article = await articlesRepository.create(req.body);
@@ -95,6 +105,7 @@ module.exports = {
   save,
   remove,
   findById,
+  findOne,
   update,
   uploadImage,
   search,
