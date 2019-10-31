@@ -20,7 +20,8 @@ const getAll = async (req, res) => {
 
 const findById = async (req, res) => {
   try {
-    const user = await usersRepository.findById(req.params.id);
+    const {projection} = req.query
+    const user = await usersRepository.findById(req.params.id, projection);
     return res.status(200).json(user);
   } catch (e) {
     console.error(e.message);

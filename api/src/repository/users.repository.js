@@ -5,7 +5,7 @@ const find = async (data, projection) => {
 };
 
 const findById = async (id, projection) => {
-  return UserModel.findById(id, projection);
+  return UserModel.findById(id, projection).lean();
 };
 
 const findOne = async (data, projection) => {

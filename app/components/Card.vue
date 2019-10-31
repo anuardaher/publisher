@@ -23,7 +23,11 @@
         </v-avatar>
       </a>
       <div>
-        <a @click="$router.push(`/${value.author.username}`)" class="text--primary font-weight-bold">{{ value.author ? value.author.name : '' }}</a><br>
+        <a
+        @click="$router.push(`/${value.author.username}`)"
+        class="text--primary font-weight-bold">
+        {{ value.author ? value.author.name : '' }}
+        </a><br>
         <span><timeago :datetime='value.createdAt'></timeago></span>   
       </div>                     
     </v-card-text>
@@ -42,11 +46,8 @@
     </a>
 
     <v-card-actions v-on:click.stop>
-      <!-- <v-btn class='enable-events' icon @click="thumbsUp">
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-      <span v-show="thumbs > 0"> {{thumbs}}</span>
-      <v-spacer></v-spacer> -->
+      <LikeButton :article="value"/>
+      <v-spacer></v-spacer>
       <social-sharing 
       :url="getPostUrl(value)"
       :title="value.title"
@@ -72,20 +73,21 @@
 </template>
 
 <script>
-import EventBus from '../event-bus.js';
+import LikeButton from '../components/LikeButton.vue'
+import EventBus from '../event-bus.js'
 import Utils from '../utils/utils.js'
 
 export default {
     name: 'card',
-    data: () => {
-      return {
-        thumbs: 0,
-      }
+    components: {
+      LikeButton,
     },
+    data: () => ({
+    }),
     props: {
      value: {
        type: Object,
-       default: () => ({})
+       default: {}
      },
     },
     methods: {
@@ -99,17 +101,6 @@ export default {
       minimizeText (text) {
         return text ? text.slice(0,150).concat('...') : '';
       },
-      // thumbsUp () {
-      //   if(this.$store.getters.state){
-      //     this.thumbs++;
-      //   }
-      //   else {
-      //     EventBus.$emit('callSnackbar', {
-      //      text: `Você precisa estar logado para curtir uma publicação.`,
-      //      color: 'warning'
-      //     })
-      //   }
-      // },
       getImageUrl(path) {
         if (!path) return
         if (/https/.test(path))

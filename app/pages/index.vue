@@ -68,7 +68,6 @@
 
 <script>
 import Card from '../components/Card';
-import AppTabs from '../components/AppTabs';
 import EventBus from '../event-bus.js';
 import utils from '../utils/utils.js';
 
@@ -84,6 +83,7 @@ export default {
   },
   data: () => ({
     articles: [],
+    isLoadingArticles: false,
     skip: null,
     totalOfArticles: false,
     showInformationDialog: false,
@@ -110,6 +110,8 @@ export default {
       }
     },
     async loadData(infinityScroll) {
+      if (this.isLoadingArticles) return
+      this.isLoadingArticles = !this.isLoadingArticles
       const options = {
       data: { type: "artigo", active: true },
       projection: {text: 0},
@@ -136,6 +138,8 @@ export default {
         color: 'error',
         text: 'Erro ao carregar artigos. Tente mais tarde.',
       });
+    } finally {
+      this.isLoadingArticles = !this.isLoadingArticles
     }
   },
      bottomVisible() {

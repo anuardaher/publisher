@@ -17,7 +17,7 @@
 export default {
     methods: {
         goToWhatsapp() {
-            window.open('https://wa.me/556285633378?text=Olá,%20quero%20entrar%20com%20uma%20ação%20judicial,%20preciso%20de%20um%advogado')
+            window.open('https://wa.me/556285633378?text=Olá,%20quero%20entrar%20com%20uma%20ação%20judicial,%20preciso%20de%20um%20advogado')
         }
     }
 }

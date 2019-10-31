@@ -22,17 +22,14 @@
             </v-chip>
           </v-row>
           <v-row>
-            <h1>{{article.title}}</h1>
+            <h1 class="display-1">{{article.title}}</h1>
           </v-row>
           <v-row>
-            <span class="subtitle-1">{{article.subtitle}}</span>
+            <span class="body-1">{{article.subtitle}}</span>
           </v-row>
           <v-row class="mt-2">
-            <!-- <v-btn icon @click="thumbsUp">
-              <v-icon :color='thumbColor'>mdi-heart</v-icon>
-            </v-btn>
-            <span v-show="thumbs > 0"> {{thumbs}}</span>
-            <v-spacer></v-spacer> -->
+           <LikeButton :article="article"/>
+            <v-spacer></v-spacer>
             <social-sharing
               :url="postUrl"
               :title="article.title"
@@ -100,8 +97,12 @@
 
 <script>
 import EventBus from '../../event-bus';
+import LikeButton from '../../components/LikeButton'
 
 export default {
+  components: {
+    LikeButton,
+  },
   head() {
     return {
       title: this.article.title,

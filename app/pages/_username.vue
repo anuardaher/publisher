@@ -68,9 +68,10 @@
           <v-chip small>{{ user.profession }}</v-chip>
         </v-row>
         <v-row align='center' justify='center'>
-          <span 
+          <h1 
           class="display-1 mt-4 px-4"
-          v-text='`${user.firstname} ${user.lastname}`'></span>
+          v-text='`${user.firstname} ${user.lastname}`'
+          ></h1>
         </v-row>
         <v-row align='center' justify='center'>
           <span class="subtitle-1 mt-1">
@@ -79,11 +80,11 @@
           </span>
         </v-row>
         <v-row align='center' justify='center' v-if="user.bio">          
-             <span class="body-1 pa-4">
-                <v-icon large>mdi-format-quote-open</v-icon>
-               {{ user.bio }}
-                <v-icon large>mdi-format-quote-close</v-icon> 
-             </span>               
+          <h3 class="body-1 pa-4 align-center">
+            <v-icon>mdi-format-quote-open</v-icon>
+            {{ user.bio }}
+            <v-icon>mdi-format-quote-close</v-icon> 
+          </h3>               
         </v-row>
         <v-row v-if="isTheLoggedUser" align='center' justify='center'>
           <v-dialog v-model="perfilDialog" persistent :fullscreen="$vuetify.breakpoint.xsOnly" max-width="600px">
@@ -342,7 +343,6 @@
           <v-list-item
           v-for="article in articles"
           :key='article._id'
-          @click="$router.push(normalizeLink(article), () => {})"
           >
             <v-list-item-avatar
             v-if="$vuetify.breakpoint.smAndUp">
@@ -351,13 +351,17 @@
               >mdi-file-document-box</v-icon>
             </v-list-item-avatar>
 
-            <v-list-item-content>
-              <v-list-item-title v-text="article.title"></v-list-item-title>
-              <v-list-item-subtitle v-text="article.subtitle"></v-list-item-subtitle>
+            <v-list-item-content @click="$router.push(normalizeLink(article), () => {})">
+              <a>
+                <v-list-item-title v-text="article.title"></v-list-item-title>
+                <v-list-item-subtitle v-text="article.subtitle"></v-list-item-subtitle>
+              </a>              
             </v-list-item-content>
 
-            <v-list-item-action v-if="isTheLoggedUser" @click.stop="showDeleteDialog(article._id)"> 
-              <v-icon>mdi-delete</v-icon>                   
+            <v-list-item-action v-if="isTheLoggedUser" @click="showDeleteDialog(article._id)">
+              <v-btn icon>
+                <v-icon>mdi-delete</v-icon>   
+              </v-btn>                
             </v-list-item-action>
           </v-list-item>
             <v-dialog v-model="confirmDialog" persistent max-width="320px">
@@ -379,7 +383,6 @@
 </template>
 
 <script>
-import AppTabs from '../components/AppTabs.vue'
 import EventBus from '../event-bus.js'
 import Utils from '../utils/utils.js'
 
@@ -480,7 +483,7 @@ export default {
       try {
         const articles = await this.$axios.$get('/articles', { params: options });
         this.articles = articles ? articles : []
-        this.articleStatus = this.articles.length < 1 ? 'Você ainda não possui publicações' : null
+        this.articleStatus = this.articles.length < 1 ? `${this.user.firstname} ainda não possui publicações` : null
       } catch (error) {
           return EventBus.$emit('callSnackbar', {
           color: 'error',

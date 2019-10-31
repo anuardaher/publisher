@@ -1,6 +1,5 @@
 let development = process.env.NODE_ENV !== 'production'
 let URL = development ? 'http://localhost:3001' : 'https://ucadvogados.com.br'
-const axios = require('axios')
 
 module.exports = {
   mode: 'universal',
@@ -21,7 +20,7 @@ module.exports = {
       { hid: "author", name:'author', content:"Uelton Costa"},      
       { hid: "description", name: 'description', content: 'Blog, jornal, noticias e orientações jurídicas para alunos, profissionais e interessados sobre as diversas áreas do direito.' },
       { hid: "keywords", name: 'keywords', content: 'direito, advogados, constituição, lei, noticias, artigos, consumidor, goiânia, goiás, direito constitucional, direito civil, direito penal, direito tributário'},
-      { hid: "og:img", property: 'og:img', content: `${URL}/ucadvogados.jpg`},
+      { hid: "og:image", property: 'og:image', content: `${URL}/ucadvogados.jpg`},
       { hid: "og:image:secure_url", property: 'og:image:secure_url', content: `${URL}/ucadvogados.jpg`}
     ],
     link: [
