@@ -73,7 +73,7 @@ module.exports = {
   },
   async socialLogin(req, res) {
     const { id } = req.params;
-    const user = await userRepository.findById(id);
+    const user = await userRepository.findOne({_id: id});
     if (!user) return res.status(404);
     return res.status(200).json({
       user,
@@ -83,7 +83,7 @@ module.exports = {
   async updatePassword(req, res) {
     const {password} = req.body;
     const {id} = req.params;
-    const user = await userRepository.findById(id);
+    const user = await userRepository.findOne({_id: id});
 
     if (!user) return res.status(404);
     if (!user.validatePassword(password.old)) {
