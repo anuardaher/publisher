@@ -23,10 +23,10 @@
             </v-chip>
           </v-row>
           <v-row>
-            <h1 class="my-1 display-1">{{article.title}}</h1>
+            <h1 class="my-2 display-1">{{article.title}}</h1>
           </v-row>
           <v-row>
-            <span class="my-1 body-1">{{article.subtitle}}</span>
+            <span class="my-2 body-1">{{article.subtitle}}</span>
           </v-row>
           <v-row class="mt-2">
            <LikeButton :article="article"/>

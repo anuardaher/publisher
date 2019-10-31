@@ -1,7 +1,8 @@
 <template>
 	<div>
-		<v-btn :disabled="!$store.getters.state || isLikeButtonLoading" icon @click="thumbsUp(article)">
-			<v-icon :color="isLiked(article) ? 'red' : null">mdi-heart</v-icon>
+		<v-btn text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">
+			<v-icon class="mr-1" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
+      CURTIR
 		</v-btn>
 		<a class="body-1" v-show="article.thumbs.length > 0" @click="showLikes(article)">{{article.thumbs.length}}</a>
 		<v-dialog v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">
@@ -61,28 +62,34 @@ export default {
     },
 	methods: {
 		async thumbsUp (article) {
-        try {
-          this.isLikeButtonLoading = !this.isLikeButtonLoading
-          let userIndex = article.thumbs.indexOf(this.$store.getters.userId)
-          if (userIndex > -1) {          
+      if (!this.$store.getters.state) {
+        return EventBus.$emit('callSnackbar', {
+            color: 'warning',
+            text: 'Você precisa estar logado para curtir uma publicação.',
+          });
+      }
+      try {
+        this.isLikeButtonLoading = !this.isLikeButtonLoading
+        let userIndex = article.thumbs.indexOf(this.$store.getters.userId)
+        if (userIndex > -1) {          
+          await this.$axios.$put(`/articles/${article._id}`, {
+            "$pull": { "thumbs": this.$store.getters.userId}
+          }, { progress: false })
+          article.thumbs.splice(userIndex, 1)       
+        } else {          
             await this.$axios.$put(`/articles/${article._id}`, {
-              "$pull": { "thumbs": this.$store.getters.userId}
+              "$push": { "thumbs": this.$store.getters.userId}
             }, { progress: false })
-            article.thumbs.splice(userIndex, 1)       
-          } else {          
-              await this.$axios.$put(`/articles/${article._id}`, {
-                "$push": { "thumbs": this.$store.getters.userId}
-              }, { progress: false })
-              article.thumbs.push(this.$store.getters.userId)           
-          }          
-        } catch (error) {
-           console.error(error)
-             EventBus.$emit('callSnackbar', {
-              color: 'error',
-              text: 'Não foi possível curtir essa publicação. Tente mais tarde.',
-            });
-          } finally {
-            this.isLikeButtonLoading = !this.isLikeButtonLoading
+            article.thumbs.push(this.$store.getters.userId)           
+        }          
+      } catch (error) {
+          console.error(error)
+            EventBus.$emit('callSnackbar', {
+            color: 'error',
+            text: 'Não foi possível curtir essa publicação. Tente mais tarde.',
+          });
+        } finally {
+          this.isLikeButtonLoading = !this.isLikeButtonLoading
         }
       },
       isLiked(article) {
