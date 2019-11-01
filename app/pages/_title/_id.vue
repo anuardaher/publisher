@@ -88,8 +88,14 @@
             >
             </v-img>
           </v-row>
-          <v-row class="text-body" v-html="article.text">
-          </v-row>
+          <v-row class="text-body" v-html="article.text"> </v-row>
+          <client-only>
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous" data-width='100%' src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v5.0&appId=365056554418853&autoLogAppEvents=1"></script>                     
+            <v-row align="center" justify="center">
+              <div class="fb-comments" :data-href="BASE_URL + $route.path"  data-numposts="5"></div>
+            </v-row>
+          </client-only>
         </v-sheet>
       </v-col>
     </v-row>
@@ -156,6 +162,9 @@ export default {
         return path
       return `${this.BASE_URL}/${path}`
     },
+     initCreationFacebookComments(){
+      FB.XFBML.parse() // Refres comments the XFBML
+    },
   },
   computed: {
      covertTagsToString() {
@@ -180,8 +189,12 @@ export default {
         case 'sm': return '100%'
         default: return '80%'
       }
-    }
+    },
   },
+  mounted () {
+    window.fbAsyncInit = function() { FB.init({ appId: '365056554418853', cookie: true, xfbml: true, version: 'v5.0' }) };
+    setTimeout(() => this.initCreationFacebookComments(), 1000);
+  }
 }
 </script>
 

@@ -1,10 +1,10 @@
 <template>
 	<div>
-		<v-btn text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">
+		<v-btn class="pa-1" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">
 			<v-icon class="mr-1" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
       CURTIR
 		</v-btn>
-		<a class="body-1" v-show="article.thumbs.length > 0" @click="showLikes(article)">{{article.thumbs.length}}</a>
+		<a class="body-2" v-show="article.thumbs.length > 0" @click="showLikes(article)">{{article.thumbs.length}}</a>
 		<v-dialog v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card :loading="isLikeListLoading">
         <v-card-title class="px-4 headline">
