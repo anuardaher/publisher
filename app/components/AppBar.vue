@@ -67,10 +67,10 @@
     >
       <v-avatar 
       v-if="$store.getters.userHasImage">
-        <img
+        <v-img
         :src="$store.getters.userHasImage"
-        alt="John"
-        >
+        :alt="$store.getters.fullName"
+        ></v-img>
       </v-avatar>
       <v-avatar
        v-if="!$store.getters.userHasImage" 

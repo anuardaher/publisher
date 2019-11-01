@@ -25,11 +25,11 @@
                   </v-btn>
                 </v-overlay>
               </v-fade-transition>
-                <img
+                <v-img
                  v-if="user.img"
                 :src="imageUrl(user.img)"
                 :alt="user.firstname"
-                >
+                ></v-img>
                 <span 
                  v-if="!user.img" 
                 class="white--text display-2"

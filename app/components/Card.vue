@@ -10,10 +10,10 @@
         <v-avatar 
         size="40px"
         v-if="value.author.img">
-          <img
+          <v-img
           :src="getImageUrl(value.author.img)"
           :alt="value.author.firstname"
-          >
+          ></v-img>
         </v-avatar>
         <v-avatar
         v-if="!value.author.img" 

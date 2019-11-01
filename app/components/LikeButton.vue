@@ -21,11 +21,11 @@
             :key='user._id'
             >
               <v-list-item-avatar color="grey">
-                <img
+                <v-img
                   v-if="user.img"
                   :src="getImageUrl(user.img)"
                   :alt="user.firstname"
-                >
+                ></v-img>
                 <span v-if="!user.img" class="white--text headline">{{user.firstname.charAt(0).toUpperCase()}}</span>
               </v-list-item-avatar>
               <v-list-item-content @click="$router.push(`/${user.username}`, () => {})">
