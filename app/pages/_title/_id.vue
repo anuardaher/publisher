@@ -58,10 +58,10 @@
               <v-avatar
               size="44px"
               v-if="article.author.img">
-                <img
+                <v-img
                 :src="imageUrl(article.author.img)"
                 :alt="article.author.firstname"
-                >
+                ></v-img>
               </v-avatar>
               <v-avatar
               v-if="!article.author.img" 

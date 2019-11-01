@@ -80,11 +80,13 @@
           </span>
         </v-row>
         <v-row align='center' justify='center' v-if="user.bio">          
-          <h3 class="body-1 pa-4 align-center">
-            <v-icon>mdi-format-quote-open</v-icon>
-            {{ user.bio }}
-            <v-icon>mdi-format-quote-close</v-icon> 
-          </h3>               
+          <span class="pa-4">
+            <h3 class="body-1 align-center">
+               <v-icon>mdi-format-quote-open</v-icon>
+               {{ user.bio }}
+               <v-icon>mdi-format-quote-close</v-icon> 
+            </h3>            
+          </span>               
         </v-row>
         <v-row v-if="isTheLoggedUser" align='center' justify='center'>
           <v-dialog v-model="perfilDialog" persistent :fullscreen="$vuetify.breakpoint.xsOnly" max-width="600px">
