@@ -3,7 +3,6 @@
 		<v-btn class="ml-1" text @click.native="scrollTo('#facebook-comments')">
 			<v-icon color="grey" class="mr-1">mdi-comment</v-icon>
 			<span v-if="!$vuetify.breakpoint.xsOnly">Comentar</span>
-			<span class="fb-comments-count" :data-href="BASE_URL + normalizeLink(article)"></span>
 		</v-btn>
   </div>
 </template>
