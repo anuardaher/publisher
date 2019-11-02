@@ -39,41 +39,26 @@
       >
       </v-img>
       <v-card-title>{{ value.title }}</v-card-title>
-      
       <v-card-text>
         <span class="text--primary my-2" v-text='minimizeText(value.preview)'></span>
       </v-card-text>
     </a>
-
-    <v-card-actions v-on:click.stop>
-      <LikeButton :article="value"/>
-      <v-spacer></v-spacer>
-      <social-sharing 
-      :url="getPostUrl(value)"
-      :title="value.title"
-      :description="value.subtitle"
-      :hashtags="covertTagsToString(value)"
-      :quote="value.title"
-      twitter-user="ucadvogados"
-      inline-template>
-      <div class="social-icons-card enable-events">
-        <network network="facebook">
-          <button class="mdi mdi-facebook mdi-24px"></button>
-        </network>
-        <network network="twitter">
-          <button class="mdi mdi-twitter mdi-24px"></button>
-        </network>
-        <network network="linkedin">
-          <button class="mdi mdi-linkedin mdi-24px"></button>
-        </network>
-      </div>
-      </social-sharing>
-    </v-card-actions>
+    <client-only>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <LikeButton :article="value"/>
+        <CommentButton :article="value"/>
+        <ShareButton :article="value"/>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </client-only>
   </v-card>
 </template>
 
 <script>
-import LikeButton from '../components/LikeButton.vue'
+import LikeButton from '../components/posts/LikeButton'
+import ShareButton from '../components/posts/Sharebutton'
+import CommentButton from '../components/posts/CommentsButton'
 import EventBus from '../event-bus.js'
 import Utils from '../utils/utils.js'
 
@@ -81,6 +66,8 @@ export default {
     name: 'card',
     components: {
       LikeButton,
+      ShareButton,
+      CommentButton,
     },
     data: () => ({
     }),

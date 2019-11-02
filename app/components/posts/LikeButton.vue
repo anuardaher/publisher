@@ -1,10 +1,12 @@
 <template>
 	<div>
-		<v-btn class="pa-1" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">
-			<v-icon class="mr-1" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
-      CURTIR
-		</v-btn>
-		<a class="body-2" v-show="article.thumbs.length > 0" @click="showLikes(article)">{{article.thumbs.length}}</a>
+    <div class="mr-2">
+      <v-btn class="" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">
+        <v-icon class="mr-1" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
+      <span v-if="!$vuetify.breakpoint.xsOnly">Curtir</span>
+      </v-btn>
+      <a class="body-2 mr-2" v-show="article.thumbs.length > 0" @click="showLikes(article)">{{article.thumbs.length}}</a>
+    </div>
 		<v-dialog v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card :loading="isLikeListLoading">
         <v-card-title class="px-4 headline">
@@ -45,7 +47,7 @@
 </template>
 
 <script>
-import EventBus from '../event-bus.js';
+import EventBus from '../../event-bus.js';
 
 export default {
 	data: () => ({
@@ -57,7 +59,7 @@ export default {
 	props: {
      article: {
        type: Object,
-       default: {}
+       default: () => {}
      },
     },
 	methods: {

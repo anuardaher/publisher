@@ -28,30 +28,13 @@
           <v-row>
             <span class="my-2 body-1">{{article.subtitle}}</span>
           </v-row>
-          <v-row class="mt-2">
-           <LikeButton :article="article"/>
-            <v-spacer></v-spacer>
-            <social-sharing
-              :url="postUrl"
-              :title="article.title"
-              :description="article.subtitle"
-              :quote="article.title"
-              :hashtags="covertTagsToString"
-              twitter-user="ucadvogados"
-              inline-template>
-              <div class="social-icons ml-auto">
-                <network network="facebook">
-                  <button class="mdi mdi-facebook mdi-24px"></button>
-                </network>
-                 <network network="twitter">
-                  <button class="mdi mdi-twitter mdi-24px"></button>
-                </network>
-                 <network network="linkedin">
-                  <button class="mdi mdi-linkedin mdi-24px"></button>
-                </network>
-              </div>
-            </social-sharing>
-          </v-row>
+          <client-only>
+            <v-row align="center" justify="center" class="mt-2">
+              <LikeButton :article="article"/>
+              <CommentButton :article="article"/>
+              <ShareButton :article="article" />
+            </v-row>
+          </client-only>
           <v-divider class='mb-4'></v-divider>
           <v-row>
             <div class="mr-2 float-left">
@@ -88,11 +71,17 @@
             >
             </v-img>
           </v-row>
-          <v-row class="text-body" v-html="article.text"> </v-row>
+          <v-row class="text-body" v-html="article.text"></v-row>
+          <client-only>
+            <v-row align="center" justify="center" class="my-2">
+              <LikeButton :article="article"/>
+              <ShareButton :article="article" />
+            </v-row>
+          </client-only>
           <client-only>
             <div id="fb-root"></div>
             <script async defer crossorigin="anonymous" data-width='100%' src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v5.0&appId=365056554418853&autoLogAppEvents=1"></script>                     
-            <v-row align="center" justify="center">
+            <v-row id="facebook-comments" align="center" justify="center">
               <div class="fb-comments" :data-href="BASE_URL + $route.path"  data-numposts="5"></div>
             </v-row>
           </client-only>
@@ -104,11 +93,15 @@
 
 <script>
 import EventBus from '../../event-bus';
-import LikeButton from '../../components/LikeButton'
+import LikeButton from '../../components/posts/LikeButton'
+import ShareButton from '../../components/posts/Sharebutton.vue'
+import CommentButton from '../../components/posts/CommentsButton'
 
 export default {
   components: {
     LikeButton,
+    ShareButton,
+    CommentButton,
   },
   head() {
     return {
@@ -167,7 +160,7 @@ export default {
     },
   },
   computed: {
-     covertTagsToString() {
+    covertTagsToString() {
       if (this.article.tags) {
         const tags = this.article.tags.map((tag) => tag.name);
         const formatedTags = tags.toString().replace(/\s/g, '');
@@ -194,6 +187,9 @@ export default {
   mounted () {
     window.fbAsyncInit = function() { FB.init({ appId: '365056554418853', cookie: true, xfbml: true, version: 'v5.0' }) };
     setTimeout(() => this.initCreationFacebookComments(), 1000);
+    if (this.$route.hash) {
+      setTimeout(() => location.href = this.$route.hash, 2000)
+    }
   }
 }
 </script>
