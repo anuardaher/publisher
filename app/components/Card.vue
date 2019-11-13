@@ -1,6 +1,6 @@
 <template>
     <v-card
-    class="mx-auto"
+    class="mx-auto mb-4"
     max-width="650"
     max-height="100%"
     nuxt

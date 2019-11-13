@@ -1,7 +1,7 @@
 const UserModel = require('../models/users.model');
 
 const find = async (data, projection) => {
-  return UserModel.find(data, projection);
+  return UserModel.find(data, projection).lean();
 };
 
 const findById = async (id, projection) => {

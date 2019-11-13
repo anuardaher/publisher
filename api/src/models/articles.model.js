@@ -22,7 +22,7 @@ const articleSchema = new Schema(
     thumbs: [{type: String, ref: 'users'}],
     type: {type: String, default: 'artigo'},
     views: Number,
-    active: {type: Boolean, default: true},
+    active: {type: Boolean, default: false},
     img: String,
     views: Number,
   },

@@ -12,8 +12,8 @@
           <v-hover>
             <template v-slot:default="{ hover }">
               <v-avatar 
-              class="ma-2"
-              size='100'
+              class="my-2"
+              size='120'
               color="grey">
               <v-fade-transition>
                 <v-overlay
@@ -32,7 +32,7 @@
                 ></v-img>
                 <span 
                  v-if="!user.img" 
-                class="white--text display-2"
+                class="white--text display-3"
                 v-text="user.firstname.charAt(0).toUpperCase()">
                 </span>
               </v-avatar>
@@ -69,19 +69,19 @@
         </v-row>
         <v-row align='center' justify='center'>
           <h1 
-          class="display-1 mt-4 px-4"
+          class="display-1 mt-4 px-4 text-center"
           v-text='`${user.firstname} ${user.lastname}`'
           ></h1>
         </v-row>
         <v-row align='center' justify='center'>
-          <span class="subtitle-1 mt-1">
+          <span class="subtitle-1 mt-1 text-center">
             <v-icon>mdi-map-marker</v-icon>
               <span v-text="`${user.address.city} – ${user.address.country}`"></span>
           </span>
         </v-row>
         <v-row align='center' justify='center' v-if="user.bio">          
           <span class="pa-4">
-            <h3 class="body-1 align-center">
+            <h3 class="body-1 text-center">
                <v-icon>mdi-format-quote-open</v-icon>
                {{ user.bio }}
                <v-icon>mdi-format-quote-close</v-icon> 
@@ -362,7 +362,7 @@
 
             <v-list-item-action v-if="isTheLoggedUser" @click="showDeleteDialog(article._id)">
               <v-btn icon>
-                <v-icon>mdi-delete</v-icon>   
+                <v-icon color="red">mdi-delete</v-icon>   
               </v-btn>                
             </v-list-item-action>
           </v-list-item>
@@ -465,6 +465,7 @@ export default {
     async asyncData ({$axios, params, redirect}) {
       try {
         const { data } = await $axios.post(`/users/profile/${params.username}`)
+        if (!data) return redirect('/notfound')
         return { user: data }
       } catch (error) {
           console.error(error.message)

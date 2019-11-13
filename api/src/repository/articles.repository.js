@@ -25,11 +25,14 @@ const update = async function(id, data) {
   return ArticleModel.findOneAndUpdate({ _id: id }, data, { new: true });
 };
 
+const aggregate = stages => ArticleModel.aggregate(stages)
+
 module.exports = {
   find,
   findOne,
   create,
   remove,
   update,
-  findById
+  findById,
+  aggregate,
 };

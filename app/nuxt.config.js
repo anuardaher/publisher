@@ -44,6 +44,7 @@ module.exports = {
     '@plugins/vuetify',
     '@plugins/timeago',
     '@plugins/socialSharing',
+    '@plugins/axios'
   ],
 
   /*

@@ -1,66 +1,68 @@
 <template>
   <div :class="$vuetify.breakpoint.width < '400' ? 'px-0' : null">
     <v-row
-    align="center"
     justify="center">
+      <ProfileCard v-if="$vuetify.breakpoint.mdAndUp"/>
       <v-col
-      xl="10"
-      lg="9"
-      md="8"
-      sm='7'
+      xl="4"
+      lg="5"
+      md="6"
+      sm='10'
       cols="12"
-      v-for="article in articles"
-      :key="article._id">
-       <Card
+      >
+        <Card
+        v-for="article in articles"
+        :key="article._id"
         :value="article"
         v-scroll='bottomVisible'
         />
       </v-col>
-       <v-dialog persistent v-model="showInformationDialog" max-width="500px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Antes de iniciarmos...</span>
-          </v-card-title>
-          <v-card-text>
-              <v-row>
-                <v-col cols="12">
-                  <v-select
-                  v-model='user.profession'
-                  :items='perfils'
-                  label="Ocupação"
-                  type="password" 
+      <WeekPostsCard v-if="$vuetify.breakpoint.mdAndUp"/>
+      <v-dialog persistent v-model="showInformationDialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Antes de iniciarmos...</span>
+        </v-card-title>
+        <v-card-text>
+            <v-row>
+              <v-col cols="12">
+                <v-select
+                v-model='user.profession'
+                :items='perfils'
+                label="Ocupação"
+                type="password" 
+                required
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="4">
+                <v-autocomplete
+                  :items="countrys"
+                  label="Estado"
+                  item-text='sigla'
+                  item-value='sigla'                            
                   required
-                  ></v-select>
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <v-autocomplete
-                    :items="countrys"
-                    label="Estado"
-                    item-text='sigla'
-                    item-value='sigla'                            
-                    required
-                    v-model='user.address.country'
-                    @change="getLocationData(user.address.country)"
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="12" sm="8">
-                  <v-autocomplete
-                    :items="citys"
-                    label="Cidade"
-                    item-text='nome'
-                    item-value='nome'
-                    v-model='user.address.city'
-                  ></v-autocomplete>
-                </v-col>
-              </v-row>
-          </v-card-text>
-          <v-card-actions>
-            <div class="flex-grow-1"></div>
-            <v-btn text color='primary'
-              :disabled='!user.address.city || !user.address.city || !user.profession'
-              @click="saveUserInformation">Salvar</v-btn>
-          </v-card-actions>
-        </v-card>
+                  v-model='user.address.country'
+                  @change="getLocationData(user.address.country)"
+                ></v-autocomplete>
+              </v-col>
+              <v-col cols="12" sm="8">
+                <v-autocomplete
+                  :items="citys"
+                  label="Cidade"
+                  item-text='nome'
+                  item-value='nome'
+                  v-model='user.address.city'
+                ></v-autocomplete>
+              </v-col>
+            </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <div class="flex-grow-1"></div>
+          <v-btn text color='primary'
+            :disabled='!user.address.city || !user.address.city || !user.profession'
+            @click="saveUserInformation">Salvar</v-btn>
+        </v-card-actions>
+      </v-card>
       </v-dialog>
     </v-row>
   </div>
@@ -68,12 +70,16 @@
 
 <script>
 import Card from '../components/Card';
+import ProfileCard from '../components/index/ProfileCard'
+import WeekPostsCard from '../components/index/WeekPostsCard'
 import EventBus from '../event-bus.js';
 import utils from '../utils/utils.js';
 
 export default {
   components: {
     Card,
+    ProfileCard,
+    WeekPostsCard,
   },
    head() {
     return {
@@ -126,7 +132,14 @@ export default {
       let articles = await this.$axios.$get('/articles', { params: options })
       if (articles.length == 0) return this.totalOfArticles = true;
       await Promise.all(articles.map(async (item) => {        
-        let user = await this.$axios.$get(`/users/${item.author.id}`)
+        let user = await this.$axios.$get(`/users/${item.author.id}`, {params: {
+              projection: {
+                firstname: 1,
+                lastname: 1,
+                username: 1,
+                img: 1
+                }
+            }})
         item.author.name = `${user.firstname} ${user.lastname}`
         item.author.img = user.img
         item.author.username = user.username
@@ -193,3 +206,10 @@ export default {
   },
 };
 </script>
+<style>
+.fixed {
+	position:	-webkit-sticky;
+	position: sticky;
+	top: 96px;
+}
+</style>

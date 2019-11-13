@@ -141,7 +141,14 @@ export default {
   async asyncData({ $axios, params, redirect }) {
     try {
       const article = await $axios.$post(`/articles/post/${params.id}`);
-      article.author = await $axios.$post(`/users/post/${article.author.id}`)
+      article.author = await $axios.$post(`/users/post/${article.author.id}`, {params: {
+              projection: {
+                firstname: 1,
+                lastname: 1,
+                username: 1,
+                img: 1
+                }
+            }})
       return article ? { article } : redirect('/notfound')
   } catch (e) {
       console.error(e.message)

@@ -100,6 +100,54 @@ const search = async (req, res) => {
   }
 };
 
+const weekPosts = async (req, res) => {
+  const currentDate = new Date();
+  const beggingOfTheWeek = currentDate.setDate(currentDate.getDate() - 7);
+
+  let stages = [
+      // Stage 1
+      {
+        $project: {
+            "thumbs": 1, "title": 1, "createdAt": 1, "active": 1
+        }
+      },
+      // Stage 2
+      {
+        $match: {
+          "createdAt": { 
+            "$gte": new Date(beggingOfTheWeek),
+            "$lte": new Date() 
+          },
+          "active": true
+        }
+      },
+      // Stage 3
+      {
+        $addFields: {
+          "thumbsCount": {"$size": { "$ifNull": [ "$thumbs", [] ] } }
+        }
+      },
+      // Stage 4
+      {
+        $sort: {
+          "thumbsCount": -1
+        }
+      },
+      // Stage 5
+      {
+        $limit: 5
+      },
+    ]
+
+  try {
+    const articles = await articlesRepository.aggregate(stages)
+    return res.status(200).json(articles)
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(500)
+  }
+}
+
 module.exports = {
   getAll,
   save,
@@ -109,4 +157,5 @@ module.exports = {
   update,
   uploadImage,
   search,
+  weekPosts,
 };

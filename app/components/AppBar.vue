@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dark color='primary'>
+  <v-app-bar app dark hide-on-scroll color='primary'>
      <v-spacer></v-spacer>
      <a
     class="headline text-uppercase"
@@ -62,7 +62,6 @@
     icon
     @click.stop="callMenu"
     v-if="$store.state.isUserLoggedIn"
-    class="mr-2"
     size="42px"
     >
       <v-avatar 

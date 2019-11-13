@@ -5,9 +5,9 @@
         <v-icon class="mr-1" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
       <span v-if="!$vuetify.breakpoint.xsOnly">Curtir</span>
       </v-btn>
-      <a class="body-2 mr-2" v-show="article.thumbs.length > 0" @click="showLikes(article)">{{article.thumbs.length}}</a>
+      <a class="body-2 mr-2" v-show="article.thumbs.length > 0" @click.stop="showLikes(article)">{{article.thumbs.length}}</a>
     </div>
-		<v-dialog v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">
+		<v-dialog persistent v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card :loading="isLikeListLoading">
         <v-card-title class="px-4 headline">
           <v-btn class="mr-5" icon @click="likesDialog = false">
@@ -102,7 +102,15 @@ export default {
         this.isLikeListLoading = !this.isLikeListLoading
         try {
           this.likes = await Promise.all(article.thumbs.map(user => {
-            return this.$axios.$get(`/users/${user}`)
+            return this.$axios.$get(`/users/${user}`, {params: {
+              projection: {
+                firstname: 1,
+                lastname: 1,
+                username: 1,
+                img: 1,
+                address: 1
+                }
+            }})
           }))
         } catch (error) {
           this.likesDialog = false

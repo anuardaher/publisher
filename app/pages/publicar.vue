@@ -343,7 +343,7 @@ export default {
         this.$router.push(this.normalizeLink(post));
         return EventBus.$emit('callSnackbar', {
         color: 'success',
-        text: 'Publicação realizada com sucesso!',
+        text: 'Sua publicação será analisada antes de ser publicada.',
       });
       } catch(error) {
         let errorMessage = error.response ? error.response.data : 'Erro inesperado. Tente novamente mais tarde.'

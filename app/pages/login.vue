@@ -48,6 +48,7 @@
                     :append-icon="show ? 'visibility' : 'visibility_off'"
                     @click:append="show = !show"
                     :type='show ? "text" : "password"'
+                    @keyup.enter="login"
                   ></v-text-field>
                    <div class="text-center">
                     <v-alert

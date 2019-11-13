@@ -27,7 +27,9 @@ export const getters = {
   profession: state => state.user ? state.user.profession : null,
   fullLocation: state => state.user ? `${state.user.address.city} – ${state.user.address.country}` : null,
   provider: state => state.user ? state.user.provider : null,
-  role: state => state.user ? state.user.role : null
+  role: state => state.user ? state.user.role : null,
+  token: state => state.user ? state.token : null,
+  username: state => state.user ? state.user.username : null,
 }
 
 export const actions = {

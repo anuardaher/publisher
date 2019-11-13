@@ -11,7 +11,7 @@ const getAll = async (req, res) => {
     users = await usersRepository.find({});
     return res
       .status(200)
-      .json({users});
+      .json(users);
   } catch (e) {
     console.error(e.message);
     return res.status(500);
@@ -20,8 +20,8 @@ const getAll = async (req, res) => {
 
 const findById = async (req, res) => {
   try {
-    const {projection} = req.query
-    const user = await usersRepository.findById(req.params.id, projection);
+    const {projection = null} = req.query
+    const user = await usersRepository.findById(req.params.id, JSON.parse(projection));
     return res.status(200).json(user);
   } catch (e) {
     console.error(e.message);

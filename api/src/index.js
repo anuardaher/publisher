@@ -21,7 +21,6 @@ const init = () => {
   app.use(cors());
   app.use(morgan('combined'));
   app.use(passport.initialize());
-  app.use(require('prerender-node').set('prerenderToken', 'aLDjTZCYjjqLgMEz2upX'));
 
   // routes
   app.use('/', routes);
