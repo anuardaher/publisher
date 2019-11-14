@@ -1,5 +1,6 @@
 let development = process.env.NODE_ENV !== 'production'
 let URL = development ? 'http://localhost:3001' : 'https://ucadvogados.com.br'
+const siteMapRoutes = require('./utils/siteMapRoutes')
 
 module.exports = {
   mode: 'universal',
@@ -61,8 +62,24 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
+    '@nuxtjs/sitemap'
   ],
 
+  sitemap: {
+    hostname: 'https://ucadvogados.com.br',
+    exclude: [
+      '/admin',
+      '/error',
+      '/notfound'
+    ],
+    routes: async () => { 
+      const usersRoutes = await siteMapRoutes.getUsers(URL)
+      const articlesRoutes = await siteMapRoutes.getArticles(URL)
+      if (!usersRoutes || !articlesRoutes) return
+      return usersRoutes.concat(articlesRoutes);
+    }, 
+    gzip: true,
+  },
   env: {
     BASE_URL: URL
   },

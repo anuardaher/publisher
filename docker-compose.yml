@@ -33,7 +33,7 @@ services:
     environment:
       - BASE_URL
     networks:
-    - backend
+      - backend
 volumes:
   mongodata:
     external: true
