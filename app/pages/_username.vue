@@ -65,7 +65,7 @@
           </v-dialog>
         </v-row>
         <v-row align='center' justify='center'>
-          <v-chip small>{{ user.profession }}</v-chip>
+          <v-chip label small>{{ user.profession }}</v-chip>
         </v-row>
         <v-row align='center' justify='center'>
           <h1 
@@ -318,10 +318,6 @@
       lg="6"
       sm="12"
       >
-        <v-card
-        class="pa-2"
-        outlined
-        >
         <div class='text-center'>
           <v-progress-circular
           v-if="loading"
@@ -336,49 +332,22 @@
           {{articleStatus}}
           </span>
         </div>
-        <v-list 
-        two-line 
-        subheader
-        v-if='articles.length > 0'
-        >
-          <v-subheader inset>Publicações ({{articles.length}})</v-subheader>
-          <v-list-item
-          v-for="article in articles"
-          :key='article._id'
-          >
-            <v-list-item-avatar
-            v-if="$vuetify.breakpoint.smAndUp">
-              <v-icon
-                class="grey lighten-1 white--text"
-              >mdi-file-document-box</v-icon>
-            </v-list-item-avatar>
-
-            <v-list-item-content @click="$router.push(normalizeLink(article), () => {})">
-              <a>
-                <v-list-item-title v-text="article.title"></v-list-item-title>
-                <v-list-item-subtitle v-text="article.subtitle"></v-list-item-subtitle>
-              </a>              
-            </v-list-item-content>
-
-            <v-list-item-action v-if="isTheLoggedUser" @click="showDeleteDialog(article._id)">
-              <v-btn icon>
-                <v-icon color="red">mdi-delete</v-icon>   
-              </v-btn>                
-            </v-list-item-action>
-          </v-list-item>
-            <v-dialog v-model="confirmDialog" persistent max-width="320px">
-              <v-card>
-                <v-card-title class="headline">Excluir publicação?</v-card-title>
-                <v-card-text>Ao excluir, todas as informações dessa publicação serão perdidas.</v-card-text>
-                <v-card-actions>
-                  <div class="flex-grow-1"></div>
-                  <v-btn color="primary" text @click="confirmDialog = false">Não</v-btn>
-                  <v-btn color="error" text @click="deleteArticle(articleId)">Excluir</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>           
-          </v-list>
-       </v-card>
+        <Card
+        v-for="article in articles"
+        :key="article._id"
+        :value="article"
+        />
+          <v-dialog v-model="confirmDialog" persistent max-width="320px">
+          <v-card>
+            <v-card-title class="headline">Excluir publicação?</v-card-title>
+            <v-card-text>Ao excluir, todas as informações dessa publicação serão perdidas.</v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="primary" text @click="confirmDialog = false">Não</v-btn>
+              <v-btn color="error" text @click="deleteArticle(articleId)">Excluir</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>      
       </v-col>
     </v-row>
   </div>
@@ -387,8 +356,12 @@
 <script>
 import EventBus from '../event-bus.js'
 import Utils from '../utils/utils.js'
+import Card from '../components/Card'
 
 export default {
+  components: {
+    Card,
+  },
   head() {
     return {
       title: `${this.user.firstname} ${this.user.lastname}`,
@@ -590,7 +563,7 @@ export default {
         this.countrys = data.countrys ? data.countrys : [];
         this.citys = data.citys ? data.citys : [];
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
          return EventBus.$emit('callSnackbar', {
             color: 'error',
             text: 'Não foi possível obter a lista de Estados.',

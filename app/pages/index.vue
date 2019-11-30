@@ -83,7 +83,7 @@ export default {
   },
    head() {
     return {
-      title: "Home",
+      title: "Artigos e noticias do mundo jurídico em um só lugar",
       meta: []
     }
   },
@@ -131,20 +131,7 @@ export default {
     try {      
       let articles = await this.$axios.$get('/articles', { params: options })
       if (articles.length == 0) return this.totalOfArticles = true;
-      await Promise.all(articles.map(async (item) => {        
-        let user = await this.$axios.$get(`/users/${item.author.id}`, {params: {
-              projection: {
-                firstname: 1,
-                lastname: 1,
-                username: 1,
-                img: 1
-                }
-            }})
-        item.author.name = `${user.firstname} ${user.lastname}`
-        item.author.img = user.img
-        item.author.username = user.username
-        this.articles.push(item)
-      }))    
+      this.articles = this.articles.concat(articles)  
       this.skip = this.articles.length;
     } catch (error) {
       return EventBus.$emit('callSnackbar', {

@@ -14,8 +14,9 @@ router.get(
     failureRedirect: process.env.HOST,
     session: false,
   }),
-  (req, res) => {
+  async (req, res) => {
     if (req.user._id) {
+
       res.redirect(`${process.env.HOST}/?user=${req.user._id}`);
     } else {
       req.body = req.user;

@@ -334,7 +334,6 @@ export default {
         text: this.text,
         author:{
           id: this.$store.getters.userId,
-          name: this.$store.getters.fullName,
         },
         img: await this.inputCoverImage(),
       }

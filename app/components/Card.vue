@@ -7,20 +7,12 @@
     >
     <v-card-text :class="value.img ? '' : 'mb-n4'" >
       <a @click="$router.push(`/${value.author.username}`)" class="mr-2 float-left">
-        <v-avatar 
-        size="40px"
-        v-if="value.author.img">
-          <v-img
-          :src="getImageUrl(value.author.img)"
-          :alt="value.author.firstname"
-          ></v-img>
-        </v-avatar>
-        <v-avatar
-        v-if="!value.author.img" 
-        color="grey"
-        size="40px">
-          <span class="white--text headline">{{value.author.name.charAt(0).toUpperCase()}}</span>
-        </v-avatar>
+       <UserImage
+       size="44"
+       :img="value.author.img"
+       :author="value.author.firstname"
+       letterStyle="headline"
+       />
       </a>
       <div>
         <a
@@ -61,6 +53,7 @@ import ShareButton from '../components/posts/Sharebutton'
 import CommentButton from '../components/posts/CommentsButton'
 import EventBus from '../event-bus.js'
 import Utils from '../utils/utils.js'
+import UserImage from '../components/utils/UserImage'
 
 export default {
     name: 'card',
@@ -68,6 +61,7 @@ export default {
       LikeButton,
       ShareButton,
       CommentButton,
+      UserImage
     },
     data: () => ({
     }),
@@ -78,6 +72,19 @@ export default {
      },
     },
     methods: {
+      async getAuthor() {
+        let user = await this.$axios.$get(`/users/${this.value.author.id}`, {params: {
+          projection: {
+            firstname: 1,
+            lastname: 1,
+            username: 1,
+            img: 1
+            }
+        }})
+        this.value.author = user;
+        this.value.author.name = `${user.firstname} ${user.lastname}`
+        
+      },
       covertTagsToString(article) {
       if (article.tags) {
         const tags = article.tags.map((tag) => tag.name);
@@ -101,7 +108,8 @@ export default {
         return Utils.normalizeLink(post)
       }
     },
-    computed: {
+    created() {
+      this.getAuthor();
     }
 }
 </script>

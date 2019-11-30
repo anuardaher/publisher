@@ -3,7 +3,7 @@
     <v-row align="center" justify="center">
       <v-col
       md="8"
-      lg="6"
+      lg="7"
       sm='11'
       xs="12">
         <v-sheet
@@ -25,7 +25,7 @@
           <v-row>
             <h1 class="my-2 display-1">{{article.title}}</h1>
           </v-row>
-          <v-row>
+          <v-row v-if="article.subtitle">
             <span class="my-2 body-1">{{article.subtitle}}</span>
           </v-row>
           <client-only>
@@ -38,20 +38,7 @@
           <v-divider class='mb-4'></v-divider>
           <v-row>
             <div class="mr-2 float-left">
-              <v-avatar
-              size="44px"
-              v-if="article.author.img">
-                <v-img
-                :src="imageUrl(article.author.img)"
-                :alt="article.author.firstname"
-                ></v-img>
-              </v-avatar>
-              <v-avatar
-              v-if="!article.author.img" 
-              color="grey"
-              size="44px">
-                <span class="white--text headline">{{article.author.firstname.charAt(0).toUpperCase()}}</span>
-              </v-avatar>              
+               <UserImage :img="article.author.img" size="44" :author="article.author.firstname" letterStyle="headline"/>
             </div>
             <div>  
               <a 
@@ -72,6 +59,26 @@
             </v-img>
           </v-row>
           <v-row class="text-body" v-html="article.text"></v-row>
+          <v-divider class="my-2"></v-divider>
+          <v-row class="mt-4" align="center" justify="center">
+            <UserImage :img="article.author.img" size="100" :author="article.author.firstname" letterStyle="display-3"/>
+          </v-row>
+          <v-row align="center" justify="center">
+            <div class="text-center my-1">
+              <div>
+                 <a 
+                  @click="$router.push(`/${article.author.username}`)" 
+                  class="title">
+                  {{ `${this.article.author.firstname} ${this.article.author.lastname}`}}
+                  </a>
+              </div>
+              <v-chip class="mb-2" label small>
+                <div><span class="body-2">{{article.author.profession}}</span></div>
+              </v-chip>              
+              <div v-if="article.author.bio"><span>{{article.author.bio}}</span></div>              
+            </div>      
+          </v-row>
+          <v-divider class="my-2"></v-divider>
           <client-only>
             <v-row align="center" justify="center" class="my-2">
               <LikeButton :article="article"/>
@@ -96,12 +103,14 @@ import EventBus from '../../event-bus';
 import LikeButton from '../../components/posts/LikeButton'
 import ShareButton from '../../components/posts/Sharebutton.vue'
 import CommentButton from '../../components/posts/CommentsButton'
+import UserImage from '../../components/utils/UserImage'
 
 export default {
   components: {
     LikeButton,
     ShareButton,
     CommentButton,
+    UserImage
   },
   head() {
     return {

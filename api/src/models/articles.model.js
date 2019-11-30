@@ -14,7 +14,6 @@ const articleSchema = new Schema(
     subtitle: {type: String, trim: true},
     author: {
       id: { type: String, ref: 'users' },
-      name: String
     },
     tags: [{ type: Object, ref: 'tags' }],
     text: { type: String, required: true },

@@ -38,7 +38,12 @@ passport.use(
       const data = profile._json;
       try {
         let user = await userRepository.findOne({ email: data.email });
-        if (user) return cb(null, user);
+        if (user) {
+          if (user.img && /https/.test(user.img)) {
+            await userRepository.update({"_id": user._id}, {"$set": { "img": data.picture.data.url }})
+          }
+          return cb(null, user);
+        }
         user = {
           provider: 'facebook',
           firstname: data.first_name,

@@ -12,14 +12,14 @@
 			</v-avatar>			
 		</v-row>
 		<v-row justify="center" align="center">
-			<span class="headline text-center">
+			<h1 class="headline text-center">
 				UC ADVOGADOS
-			</span>
+			</h1>
 		</v-row>
 		<v-row justify="center" align="center">
-			<span class="body-1 text-center ma-4">
+			<h2 class="body-1 text-center ma-4">
 				Publique conteúdos de qualidade e seja observado pela comunidade jurídica de todo o Brasil.
-			</span>
+			</h2>
 		</v-row>
 		<v-row justify="center" align="center">
 			<div class="ma-4">
