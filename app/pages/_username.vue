@@ -2,8 +2,9 @@
   <div>
     <v-row align='center' justify='center'>
       <v-col
-      md="8"
-      lg="6"
+      xl="6"
+      lg="8"
+      md="10"     
       sm="12">
         <v-card 
         class="pa-2"
@@ -333,9 +334,12 @@
           </span>
         </div>
         <Card
+        ref="articlesCard"
         v-for="article in articles"
         :key="article._id"
         :value="article"
+        @delete-article="showDeleteDialog(article._id)"
+        :showDeleteButton="isTheLoggedUser"
         />
           <v-dialog v-model="confirmDialog" persistent max-width="320px">
           <v-card>
@@ -476,7 +480,7 @@ export default {
             color: 'success',
             text: 'Publicação excluída com sucesso.',
           });
-        return this.getArticles();
+          window.location.reload();
     } catch (error) {
         return EventBus.$emit('callSnackbar', {
           color: 'error',

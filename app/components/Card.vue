@@ -6,6 +6,13 @@
     nuxt
     >
     <v-card-text :class="value.img ? '' : 'mb-n4'" >
+      <v-btn
+      v-if="showDeleteButton"
+      class="float-right"
+      icon
+      @click="$emit('delete-article')">
+        <v-icon color="red">mdi-delete</v-icon>
+      </v-btn>   
       <a @click="$router.push(`/${value.author.username}`)" class="mr-2 float-left">
        <UserImage
        size="44"
@@ -21,7 +28,7 @@
         {{ value.author ? value.author.name : '' }}
         </a><br>
         <span><timeago :datetime='value.createdAt'></timeago></span>   
-      </div>                     
+      </div>                 
     </v-card-text>
     <a @click="$router.push(normalizeLink(value), () => {})">
       <v-img
@@ -70,6 +77,7 @@ export default {
        type: Object,
        default: {}
      },
+     showDeleteButton: Boolean
     },
     methods: {
       async getAuthor() {
@@ -83,7 +91,6 @@ export default {
         }})
         this.value.author = user;
         this.value.author.name = `${user.firstname} ${user.lastname}`
-        
       },
       covertTagsToString(article) {
       if (article.tags) {
