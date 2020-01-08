@@ -7,9 +7,9 @@
     bottom
     right
     color="green"
-    small
+    :small="isMobile"
     >
-    <v-icon>mdi-whatsapp</v-icon>
+    <v-icon :large="!isMobile">mdi-whatsapp</v-icon>
   </v-btn>  
 </template>
 
@@ -19,6 +19,11 @@ export default {
         goToWhatsapp() {
             window.open('https://wa.me/556285633378?text=Olá,%20quero%20entrar%20com%20uma%20ação%20judicial,%20preciso%20de%20um%20advogado')
         }
+    },
+    computed: {
+      isMobile () {
+        return this.$vuetify.breakpoint.xsOnly
+      }
     }
 }
 </script>

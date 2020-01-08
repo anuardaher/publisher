@@ -1,63 +1,51 @@
 <template>
-  <v-app-bar app dark hide-on-scroll color='primary'>
+  <v-app-bar color="primary" app flat dark extended>
      <v-spacer></v-spacer>
-     <a
-    class="headline text-uppercase"
-    @click="$router.push('/', () => {})">
-      <v-img src="/ucadvogadoslogo.png" max-width="55" max-height="55"></v-img>
+     <a class="headline text-uppercase" @click="$router.push('/', () => {})">
+      <span :class="$vuetify.breakpoint.xsOnly ? 'body-2 white--text mr-1' : 'headline white--text mr-1'">
+        <i><b>UC</b>ADVOGADOS</i>
+      </span>
      </a>
-    <v-autocomplete
-      v-model="select"
-      :loading="loading"
-      :items="items"
-      :search-input.sync="search"
-      class="mx-2"
-      hide-no-data
-      hide-details
-      label="Pesquise"
-      solo-inverted
-      prepend-inner-icon="search"
-      single-line
-      return-object
-      item-text='title'
-      clearable
+    <v-toolbar-items>
+      <SearchBar/>
+    </v-toolbar-items>
+    <v-app-bar-nav-icon
+      class="d-flex d-md-none"
+      @click.stop="callMenu"
+      v-if="!$store.state.isUserLoggedIn"
     >
-      <template v-slot:item="{ item }"> 
-          <v-list-item-avatar>
-            <v-icon
-              class="grey lighten-1 white--text"
-            >mdi-file-document-box</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content 
-          @click="$router.push(normalizeLink(item), () => {})">
-            <v-list-item-title v-text="item.title"></v-list-item-title>
-            <v-list-item-subtitle v-text="item.subtitle.slice(0, 40).concat('...')"></v-list-item-subtitle>
-          </v-list-item-content>
-      </template>
-    </v-autocomplete>
-    <v-app-bar-nav-icon 
-    class="d-flex d-md-none  "
-    @click.stop="callMenu"
-    v-if="!$store.state.isUserLoggedIn">
     </v-app-bar-nav-icon>
-    <v-toolbar-items class='d-none d-md-flex'>
-        <v-btn text @click="$router.push('/publicar', () => {})">
-        PUBLICAR
-        </v-btn>
-        <v-btn
+    <v-btn class="mx-2 d-none d-md-flex" color="green" dark @click="$router.push('/publicar', () => {})">
+      🚀 Publicar
+    </v-btn>
+    <div class="pa-3 d-none d-md-flex">
+      <v-btn 
+        v-for="btn in buttons"
+        :key="btn.name"
+        @click="openTab(btn.link)"
+        class="mx-1"
+        icon 
+        small
+      >
+        <v-icon :color="btn.color">{{btn.name}}</v-icon>
+      </v-btn>
+    </div>
+    <div class="d-none d-md-flex">
+      <v-btn
         text
         @click="$router.push('/registrar', () => {})"
-        v-if="!$store.state.isUserLoggedIn">
-        REGISTRAR
-        </v-btn>
-        <v-btn
+        v-if="!$store.state.isUserLoggedIn"
+      >
+      REGISTRAR
+      </v-btn>
+      <v-btn
         text
         @click="$router.push('/login', () => {})"
-        v-if="!$store.state.isUserLoggedIn">
-        ENTRAR
-        </v-btn>
-    </v-toolbar-items>
-    <span class='mr-2'></span>
+        v-if="!$store.state.isUserLoggedIn"
+      >
+      ENTRAR
+      </v-btn>
+    </div>
     <v-btn
     icon
     @click.stop="callMenu"
@@ -79,52 +67,52 @@
       </v-avatar>
     </v-btn>
      <v-spacer></v-spacer>
+     <template v-slot:extension>
+        <v-tabs
+          show-arrows
+          optional
+          fixed-tabs
+          centered
+          center-active
+          align-with-title
+          background-color="transparent"
+        >
+          <v-tab @click="$router.push('/', () => {})">Home</v-tab>
+          <v-tab @click="$router.push('/servicos', () => {})">Serviços</v-tab>
+          <v-tab @click="$router.push('/blog', () => {})">Blog</v-tab>
+          <v-tab @click="$router.push('/advogados', () => {})">Advogados</v-tab>
+          <v-tab @click="$router.push('/contato', () => {})">Contato</v-tab>
+        </v-tabs>
+      </template>
   </v-app-bar>
 </template>
 
 <script>
-import EventBus from '../event-bus.js';
-import Utils from '../utils/utils.js'
+import SearchBar from './utils/SearchBar'
+import EventBus from '../event-bus'
 
 export default {
+  components: {
+    SearchBar,
+  },
   data: () => ({
-    loading: false,
-    items: [],
-    select: {},
-    search: null
-
+    buttons: [
+      {color: "#4064ad", name: "mdi-facebook-box", link: "https://web.facebook.com/UCAdvogado/"},
+      {color: "#d41a42", name: "mdi-instagram", link: "https://www.instagram.com/uc.advogados/"},
+      {color: "#1da1f2", name: "mdi-twitter", link: "https://twitter.com/UAdvogados"},
+      {color: "#d62824", name: "mdi-youtube", link: "https://www.youtube.com/c/UCAdvogados"},
+      {color: "#2ea4d4", name: "mdi-telegram", link: "https://t.me/ucadvogados"},
+      {color: "#0271ae", name: "mdi-linkedin-box", link: "https://www.linkedin.com/in/uc-advogado/"}
+    ],
   }),
-  watch: {
-      search (val) {
-        val && val !== this.select && this.searchPosts(val)
-      },
-    },
   methods: {
     callMenu: () => {
       EventBus.$emit('callMenu');
     },
-    async searchPosts(value) {
-      if (value.length < 3) return;
-      this.loading = true;
-      try {
-         const data = await this.$axios.$post('/articles/search', {
-          data: { title: value },
-          projection: { text: 0 },
-          options: { limit: 5 },
-        });
-        this.items = data ? data : [];
-      } catch (error) {
-        EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: 'Erro ao carregar pesquisa. Tente mais tarde.',
-      });
-      } finally {
-          this.loading = false;
-      }
-    },
-    normalizeLink(post) {
-        return Utils.normalizeLink(post)
-      }
+    openTab(link) {
+      window.open(link, '_blank')
+    }
+
   },
 };
 </script>

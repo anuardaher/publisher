@@ -6,7 +6,6 @@
     app
     height='300px'
     touchless
-    color='secondary'
 >
     <v-list-item 
     v-if="$store.state.isUserLoggedIn"

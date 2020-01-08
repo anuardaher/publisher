@@ -6,9 +6,9 @@ const path = require('path');
 const unlinkAsync = promisify(fs.unlink)
 
 const getAll = async (req, res) => {
-  let users;
+  const {data = {}, projection = null} = req.query
   try {
-    users = await usersRepository.find({});
+    let users = await usersRepository.find(JSON.parse(data), JSON.parse(projection));
     return res
       .status(200)
       .json(users);

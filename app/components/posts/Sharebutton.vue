@@ -11,12 +11,14 @@
 			<div class="social-icons ml-auto">
 				<v-menu bottom offset-y>
 					<template v-slot:activator="{ on }">
+            <div class="text-center">
+             <v-icon color="grey">mdi-share</v-icon>
+            </div>
 						<v-btn
 							text
 							v-on="on"
 						>
-						<v-icon color="grey">mdi-share</v-icon>
-							<span v-if="!$vuetify.breakpoint.xsOnly">Compartilhar</span>
+							<span :class="$vuetify.breakpoint.xs ? 'caption' : null">Compartilhar</span>
 						</v-btn>
 					</template>
 					<v-list style="display: flex">

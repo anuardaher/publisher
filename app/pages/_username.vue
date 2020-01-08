@@ -8,7 +8,8 @@
       sm="12">
         <v-card 
         class="pa-2"
-        outlined>
+        outlined
+        >
         <v-row align='center' justify='center'>
           <v-hover>
             <template v-slot:default="{ hover }">

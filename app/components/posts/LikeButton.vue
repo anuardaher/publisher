@@ -1,11 +1,15 @@
 <template>
-	<div>
-    <div class="mr-2">
-      <v-btn class="" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">
-        <v-icon class="mr-1" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
-      <span v-if="!$vuetify.breakpoint.xsOnly">Curtir</span>
+	<div class="mr-2">
+    <div class="text-center">
+      <v-icon class="mr-n2" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
+      <v-btn fab icon x-small class="body-2 mb-n2" v-show="article.thumbs.length > 0" @click.stop="showLikes(article)">
+        {{article.thumbs.length}}
       </v-btn>
-      <a class="body-2 mr-2" v-show="article.thumbs.length > 0" @click.stop="showLikes(article)">{{article.thumbs.length}}</a>
+    </div>
+    <div class="">
+      <v-btn class="" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">        
+        <span :class="$vuetify.breakpoint.xs ? 'caption' : null"> {{article.thumbs.length > 0 ? 'Curtiu' : 'Curtir' }}</span>
+      </v-btn>
     </div>
 		<v-dialog persistent v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card :loading="isLikeListLoading">
