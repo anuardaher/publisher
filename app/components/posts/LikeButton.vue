@@ -8,7 +8,7 @@
     </div>
     <div class="">
       <v-btn class="" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">        
-        <span :class="$vuetify.breakpoint.xs ? 'caption' : null"> {{article.thumbs.length > 0 ? 'Curtiu' : 'Curtir' }}</span>
+        <span :class="$vuetify.breakpoint.xs ? 'caption' : null"> Curtir </span>
       </v-btn>
     </div>
 		<v-dialog persistent v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">

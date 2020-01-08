@@ -1,13 +1,13 @@
 <template>
   <v-form v-model="isValid" class="ma-4">
     <v-row>
-      <v-text-field v-model="name" :rules="[rules.required, rules.length]" placeholder="Nome" solo-inverted></v-text-field>
+      <v-text-field v-model="name" :rules="[rules.required, rules.length]" placeholder="Nome" solo></v-text-field>
     </v-row>
     <v-row>
-      <v-text-field v-model="email" :rules="[rules.required, rules.email]" placeholder="E-mail" solo-inverted></v-text-field>
+      <v-text-field v-model="email" :rules="[rules.required, rules.email]" placeholder="E-mail" solo></v-text-field>
     </v-row>
     <v-row>
-      <v-textarea v-model="message" :rules="[rules.required]" placeholder="Mensagem" solo-inverted></v-textarea>
+      <v-textarea v-model="message" :rules="[rules.required]" placeholder="Mensagem" solo></v-textarea>
     </v-row>
     <v-row>
       <v-btn @click="sendMessage()" :loading="isLoading" :disabled="!isValid || isLoading" color="green" block> Enviar </v-btn>
@@ -43,6 +43,9 @@ export default {
           email: this.email,
           message: this.message
           })
+          this.name = ''
+          this.email = ''
+          this.message = ''
         return EventBus.$emit('callSnackbar', {
           color: 'success',
           text: 'Mensagem enviada com sucesso. Responderemos em breve!',
