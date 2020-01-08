@@ -3,7 +3,7 @@
   class="mx-auto"
   max-width="344"
   min-height="250"
-  @click.native="normalizeLink(article)"
+  @click.native="$router.push(normalizeLink(article))"
   >
     <v-img
       :src="getImageUrl(article.img)"
@@ -32,9 +32,6 @@ export default {
         if (/https/.test(path))
           return path
         return `${process.env.BASE_URL}/${path}`;
-      },
-      getPostUrl(post) {
-        return `${process.env.BASE_URL}${Utils.normalizeLink(post)}`
       },
       normalizeLink(post) {
         return Utils.normalizeLink(post)

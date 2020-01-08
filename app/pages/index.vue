@@ -74,8 +74,13 @@ export default {
     const options = {
     data: { active: true },
     projection: {text: 0},
-    options: {limit: 4}
-  }
+    options: {
+      limit: 4,
+      sort: {
+          createdAt: -1
+        },
+      }
+    }
     try {
       let articles = await $axios.$get('/articles', { params: options })
       return { articles }
