@@ -30,39 +30,31 @@
         <span>1K</span>
       </v-btn>
     </v-row>
-    <v-row justify="center">
-      <v-col class="mt-2 mx-auto" cols="12" sm="5" md="8">
-        <div class="float-left ma-2">
-          <v-icon large>mdi-phone</v-icon>
-        </div>
-        <div>
-          <span><b>Telefone</b></span><br/>
-          <span>(62) 3238-5687</span>
-        </div>         
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col class="mt-2" cols="12" sm="5" md="8">
-        <div class="float-left ma-2">
-          <v-icon large class="float-left">mdi-cellphone</v-icon>
-        </div>
-        <div>
-          <span><b>Whatsapp</b></span><br/>
-          <span>(62) 98563-3378</span>
-        </div>         
-      </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col class="mt-2" cols="12" sm="5" md="8">
-        <div class="float-left ma-2">
-          <v-icon large class="float-left">mdi-email</v-icon>
-        </div>
-        <div>
-          <span><b>Email</b></span><br/>
-          <span>advogadosuc@gmail.com</span>
-        </div>         
-      </v-col>
-    </v-row>
+    <div class="text-center">
+      <v-row justify="center">
+        <v-col class="mb-n2" cols="12" sm="3" md="12">
+          <v-icon class="" large>mdi-phone</v-icon>
+          <span><b>Telefone</b></span>
+          <div>
+            <span>(62) 3238-5687</span>
+          </div>         
+        </v-col>
+        <v-col class="mb-n2" cols="12" sm="3" md="12">
+          <v-icon large>mdi-cellphone</v-icon>
+            <span><b>Whatsapp</b></span>
+          <div>
+            <span>(62) 98563-3378</span>
+          </div>         
+        </v-col>
+        <v-col class="mb-n2" cols="12" sm="3" md="12">
+          <v-icon large>mdi-email</v-icon>
+          <span><b>Email</b></span>
+          <div>
+            <span>advogadosuc@gmail.com</span>
+          </div>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 

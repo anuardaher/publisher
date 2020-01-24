@@ -2,8 +2,8 @@
   <div class="home">
     <v-row justify="center">
       <v-col class="about" 
-      md="7"
-      xl="5"
+      md="5"
+      xl="4"
       cols="12"
       >
         <h1 class="display-2 mb-4 text-center">UC Advogados</h1>
@@ -20,7 +20,7 @@
         </ul>
       </v-col>
       <v-col class="contacts" 
-      md="5"
+      md="4"
       xl="3"
       cols="12"
       >
@@ -29,8 +29,8 @@
     </v-row>
     <v-row justify="center">
       <v-col class="blog" 
-      md="7"
-      xl="5"
+      md="5"
+      xl="4"
       cols="12"
       >
         <v-row justify="center">
@@ -47,7 +47,7 @@
         </v-row>
       </v-col>
       <v-col class="weekposts mt-3" 
-      md="5"
+      md="4"
       xl="3"
       cols="12">
         <WeekPosts/>

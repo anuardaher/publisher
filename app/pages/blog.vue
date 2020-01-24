@@ -2,9 +2,9 @@
   <div :class="$vuetify.breakpoint.width < '400' ? 'px-0' : null">
     <v-row justify="center">
       <v-col
-      xl="3"
+      xl="2"
       lg="3"
-      md="4"
+      md="3"
       sm='10'
       cols="12"
       >
@@ -12,8 +12,8 @@
       </v-col>
       <v-col
       xl="4"
-      lg="4"
-      md="5"
+      lg="6"
+      md="6"
       sm='10'
       cols="12"
       >

@@ -1,4 +1,5 @@
 <template>
+  <client-only>
   <v-autocomplete
       max-width="100"
       v-model="select"
@@ -8,7 +9,7 @@
       class="ma-4"
       hide-no-data
       hide-details
-      label="Pesquise"
+      :label="showSearchText"
       prepend-inner-icon="search"
       single-line
       return-object
@@ -28,6 +29,7 @@
           </v-list-item-content>
       </template>
     </v-autocomplete>
+    </client-only>
 </template>
 
 <script>
@@ -69,6 +71,11 @@ export default {
     normalizeLink(post) {
         return Utils.normalizeLink(post)
       }
+  },
+  computed: {
+    showSearchText () {
+      return this.$vuetify.breakpoint.xs ? null : 'Pesquise'
+    }
   }
 }
 </script>

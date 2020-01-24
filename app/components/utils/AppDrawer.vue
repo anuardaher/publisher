@@ -4,7 +4,7 @@
     temporary
     right
     app
-    height='300px'
+    height='350px'
     touchless
 >
     <v-list-item 
@@ -48,18 +48,6 @@
         <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item-content>
     </v-list-item>
-    <v-list-item
-        link
-        @click="openSocialMedia('https://m.facebook.com/send_page_invite/?pageid=251934688995340')"
-    >
-        <v-list-item-icon>
-        <v-icon>mdi-facebook</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-        <v-list-item-title>Convidar Amigos</v-list-item-title>
-        </v-list-item-content>
-    </v-list-item>
     </v-list>
     <div class='pt-6'
      v-if="!$store.state.isUserLoggedIn">
@@ -95,7 +83,11 @@ export default {
     select: null,
     search: null,
     items: [
-      { title: 'Publicar', icon: 'edit', route: '/publicar' },
+      { title: 'Home', icon: 'house', route: '/' },
+      { title: 'Serviços', icon: 'mdi-tools', route: '/servicos' },
+      { title: 'Blog', icon: 'book', route: '/blog' },
+      { title: 'Advogados', icon: 'mdi-briefcase', route: '/advogados' },
+      { title: 'Contato', icon: 'mdi-account-box', route: '/contato' },
     ],
   }),
   watch: {

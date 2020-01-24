@@ -67,7 +67,7 @@
         <span class="subtitle mt-2">Bem-vindo</span>
       </v-row>
       <v-row justify="center" align="center"> 
-        <h1 class="title mt-n2 text-center">{{ $store.getters.fullName }}</h1>
+        <h1 class="title mt-n2 text-center">{{ $store.state.user.firstname }}</h1>
       </v-row>
       <v-row align='center' justify='center'>
       <span class="subtitle-1 mt-1 text-center">

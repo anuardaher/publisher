@@ -1,5 +1,6 @@
 <template>
-  <v-app-bar color="primary" app flat dark extended>
+  <client-only>
+  <v-app-bar color="primary" app flat dark :extended="resizeAppBar">
      <v-spacer></v-spacer>
      <a class="headline text-uppercase" @click="$router.push('/', () => {})">
       <span :class="$vuetify.breakpoint.xsOnly ? 'body-2 white--text mr-1' : 'headline white--text mr-1'">
@@ -66,25 +67,30 @@
         <span class="white--text headline">{{$store.getters.inicialLetterName}}</span>
       </v-avatar>
     </v-btn>
-     <v-spacer></v-spacer>
-     <template v-slot:extension>
-        <v-tabs
-          show-arrows
-          optional
-          fixed-tabs
-          centered
-          center-active
-          align-with-title
-          background-color="transparent"
-        >
-          <v-tab @click="$router.push('/', () => {})">Home</v-tab>
-          <v-tab @click="$router.push('/servicos', () => {})">Serviços</v-tab>
-          <v-tab @click="$router.push('/blog', () => {})">Blog</v-tab>
-          <v-tab @click="$router.push('/advogados', () => {})">Advogados</v-tab>
-          <v-tab @click="$router.push('/contato', () => {})">Contato</v-tab>
-        </v-tabs>
-      </template>
+    <v-spacer></v-spacer>
+     <template v-slot:extension v-if="$vuetify.breakpoint.mdAndUp">
+      <v-row justify="center">
+        <v-col md="8" lg="6">
+          <v-tabs
+            show-arrows
+            optional
+            fixed-tabs
+            centered
+            center-active
+            align-with-title
+            background-color="transparent"
+          >
+            <v-tab @click="$router.push('/', () => {})">Home</v-tab>
+            <v-tab @click="$router.push('/servicos', () => {})">Serviços</v-tab>
+            <v-tab @click="$router.push('/blog', () => {})">Blog</v-tab>
+            <v-tab @click="$router.push('/advogados', () => {})">Advogados</v-tab>
+            <v-tab @click="$router.push('/contato', () => {})">Contato</v-tab>
+          </v-tabs>
+        </v-col>
+      </v-row>
+    </template>
   </v-app-bar>
+  </client-only>
 </template>
 
 <script>
@@ -112,8 +118,13 @@ export default {
     openTab(link) {
       window.open(link, '_blank')
     }
-
   },
+  computed: {
+    resizeAppBar () {
+      if (this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm) return false
+      return true
+    }
+  }
 };
 </script>
 
