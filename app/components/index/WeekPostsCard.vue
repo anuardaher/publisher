@@ -2,14 +2,14 @@
 <client-only>
 		<v-card class="pa-4" outlined>
 			<v-row class="mx-auto" justify="center" align="center">
-				<h1 class="title text-center mb-2">Mais discutidos da semana 🔥</h1>
+				<h1 class="title text-center mb-2">Mais discutidos da semana</h1>
 			</v-row>
 			<v-row>
 				<ol class="ma-2">
-					<li	class="mb-2 body-1"
+					<li	class="mb-2 body-2"
 					v-for="article in articles"
 					:key="article._id">
-						<a :href="normalizeLink(article)">
+						<a style="text-decoration: none" :href="normalizeLink(article)">
 						{{ article.title }}
 						</a>
 					</li>					

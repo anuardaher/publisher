@@ -1,10 +1,14 @@
 <template>
   <div>
-    <client-only>
-      <DataIterator :items="lawyers" :keys="keys"/>
-    </client-only>
     <v-row justify="center">
-      <v-col class="ma-2 body-1" md="6" cols="12">
+      <v-col class="ma-2" cols="12" md="10" lg="9" xl="7">
+        <client-only>
+          <DataIterator :items="lawyers" :keys="keys"/>
+        </client-only>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col class="ma-2 body-1" cols="12" md="10" lg="9" xl="7">
         <h3>IMPORTANTE</h3>
         <p>
           Para se tornar um colunista não é necessário obrigatoriamente trabalhar, ser redator ou escritor profissional. 

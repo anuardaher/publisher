@@ -36,7 +36,7 @@
           <v-icon class="" large>mdi-phone</v-icon>
           <span><b>Telefone</b></span>
           <div>
-            <span>(62) 3238-5687</span>
+            <span>(62) 98563-3378</span>
           </div>         
         </v-col>
         <v-col class="mb-n2" cols="12" sm="3" md="12">

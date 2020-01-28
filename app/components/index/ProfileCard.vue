@@ -46,7 +46,7 @@
     <v-card v-if="$store.getters.state" class="fixed pa-6" outlined>
       <v-row justify="center" align="center">
         <v-avatar 
-        size='120'
+        size='100'
         color="grey">
           <v-img
           v-if="$store.getters.userHasImage"
@@ -70,7 +70,7 @@
         <h1 class="title mt-n2 text-center">{{ $store.state.user.firstname }}</h1>
       </v-row>
       <v-row align='center' justify='center'>
-      <span class="subtitle-1 mt-1 text-center">
+      <span class="body-2 mt-1 text-center">
         <v-icon>mdi-map-marker</v-icon>
           <span>{{ $store.getters.fullLocation }}</span>
       </span>
@@ -85,7 +85,7 @@
           color='primary'
           @click="$router.push(`/${$store.getters.username}`)"
           >
-            <v-icon class="ma-2" small>mdi-account</v-icon>
+            <v-icon class="ma-1" small>mdi-account</v-icon>
             Ver Meu Perfil
         </v-btn>
         <v-btn 
@@ -96,23 +96,11 @@
           color='primary'
           @click="$router.push(`/publicar`)"
           >
-            <v-icon class="ma-2" small>mdi-pencil-plus</v-icon>
+            <v-icon class="ma-1" small>mdi-pencil-plus</v-icon>
             Publicar
           </v-btn>
       </v-row>
     </div>
-    <v-row>
-        <v-btn 
-        class='mt-2'
-        block 
-        tile
-        text
-        @click="openSocialMedia('https://m.facebook.com/send_page_invite/?pageid=251934688995340')"
-        >
-          <v-icon large class="mr-1" color="#4267b2">mdi-facebook-box</v-icon>
-          Convidar Amigos
-        </v-btn>		
-      </v-row>
     </v-card>
   </div>
 </template>

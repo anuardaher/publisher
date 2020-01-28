@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col
       xl="2"
-      lg="3"
+      lg="2"
       md="3"
       sm='10'
       cols="12"
@@ -12,7 +12,7 @@
       </v-col>
       <v-col
       xl="4"
-      lg="6"
+      lg="5"
       md="6"
       sm='10'
       cols="12"
@@ -25,8 +25,8 @@
         />
       </v-col>
       <v-col
-      xl="3"
-      lg="3"
+      xl="2"
+      lg="2"
       md="3"
       cols="12"
       >

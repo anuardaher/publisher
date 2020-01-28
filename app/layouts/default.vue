@@ -1,5 +1,5 @@
 <template>
-  <v-app> 
+  <v-app>
     <!-- Menu do usuário -->
     <AppDrawer/>
     <!-- Cabeçalho da aplicação -->

@@ -10,7 +10,7 @@
     class="flex primary white--text text-center"
     >
       <v-row justify="center">
-        <v-col md="4" cols="12" lg="4" sm="10">
+        <v-col cols="12" sm="9" md="4" lg="3" xl="3">
           <span class="headline">Categorias</span>
           <v-row
           class="ma-4"
@@ -27,11 +27,11 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col md="4" cols="12" sm="10">
+        <v-col cols="12" sm="9" md="4" lg="3" xl="3">
           <span class="headline">Contato</span>
           <ContactForm/>
         </v-col>
-        <v-col md="4" cols="12" lg="4" sm="10">
+        <v-col cols="12" sm="9" md="4" lg="3" xl="3" >
           <span class="headline">Endereço</span>
           <v-row justify="center">
             <span class="body-1 ma-4">Rua Arco do Triunfo, 29, Setor Village Garavelo, Aparecida de Goiânia – GO, 74968-538</span>
@@ -89,10 +89,10 @@
       resizeGoogleMap () {
         switch (this.$vuetify.breakpoint.name) {
         case 'xs': return '320'
-        case 'sm': return '650'
-        case 'md': return '300'
-        case 'lg': return '400'
-        case 'xl': return '550'
+        case 'sm': return '550'
+        case 'md': return '250'
+        case 'lg': return '250'
+        case 'xl': return '300'
         default: return '450'
       }
       }

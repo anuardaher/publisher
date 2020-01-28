@@ -158,8 +158,12 @@ export default {
 	}),
 	methods: {
 		async getUsers() {
+			const options = {
+				data: {},
+				projection: {password: 0, salt: 0}
+			}
 			try {
-				const { data } = await this.$axios.get('/users')
+				const { data } = await this.$axios.get('/users', {params: options})
 				this.users = data;
 			} catch (error) {
 				console.error(error.message)

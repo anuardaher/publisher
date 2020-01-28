@@ -4,9 +4,10 @@
       <v-col class="about" 
       md="5"
       xl="4"
+      sm="9"
       cols="12"
       >
-        <h1 class="display-2 mb-4 text-center">UC Advogados</h1>
+        <h1 class="display-2 mb-4">UC Advogados</h1>
         <p class="body-1">
           Acreditamos no aperfeiçoamento da sociedade pelo Direito
           e na Advocacia compromissada com a ética, com a responsabilidade,
@@ -14,6 +15,8 @@
           clientes e com a realização pessoal dos nossos integrantes.
         </p>
         <ul class="body-1">
+          <li>Especialistas em Direito do Trabalho (verbas trabalhistas, rescisão indireta, assédio moral).</li>
+          <li>Especialistas em Direito do Consumidor, Direito Previdenciário, Direito de Família.</li>
           <li>Especialização dos serviços, áreas segmentadas e direcionamento</li>
           <li>Orientações para empresas de médio e grande porte</li>
           <li>Soluções voltadas para correção e prevenção de riscos jurídicos</li>
@@ -47,6 +50,7 @@
         </v-row>
       </v-col>
       <v-col class="weekposts mt-3" 
+      sm="9"
       md="4"
       xl="3"
       cols="12">

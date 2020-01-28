@@ -1,20 +1,19 @@
 <template>
   <client-only>
   <v-autocomplete
-      max-width="100"
-      v-model="select"
-      :loading="loading"
-      :items="items"
-      :search-input.sync="search"
-      class="ma-4"
-      hide-no-data
-      hide-details
-      :label="showSearchText"
-      prepend-inner-icon="search"
-      single-line
-      return-object
-      item-text='title'
-      clearable
+    v-model="select"
+    :loading="loading"
+    :items="items"
+    :search-input.sync="search"
+    class="ma-4"
+    hide-no-data
+    hide-details
+    :label="showSearchText"
+    prepend-inner-icon="search"
+    single-line
+    return-object
+    item-text='title'
+    clearable
     >
       <template v-slot:item="{ item }"> 
           <v-list-item-avatar>

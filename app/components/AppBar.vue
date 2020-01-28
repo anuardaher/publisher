@@ -6,10 +6,8 @@
       <span :class="$vuetify.breakpoint.xsOnly ? 'body-2 white--text mr-1' : 'headline white--text mr-1'">
         <i><b>UC</b>ADVOGADOS</i>
       </span>
-     </a>
-    <v-toolbar-items>
-      <SearchBar/>
-    </v-toolbar-items>
+    </a>
+    <SearchBar/>
     <v-app-bar-nav-icon
       class="d-flex d-md-none"
       @click.stop="callMenu"
@@ -32,13 +30,6 @@
       </v-btn>
     </div>
     <div class="d-none d-md-flex">
-      <v-btn
-        text
-        @click="$router.push('/registrar', () => {})"
-        v-if="!$store.state.isUserLoggedIn"
-      >
-      REGISTRAR
-      </v-btn>
       <v-btn
         text
         @click="$router.push('/login', () => {})"
@@ -70,12 +61,11 @@
     <v-spacer></v-spacer>
      <template v-slot:extension v-if="$vuetify.breakpoint.mdAndUp">
       <v-row justify="center">
-        <v-col md="8" lg="6">
+        <v-col md="9" lg="9" xl="7">
           <v-tabs
+            class="ml-n6"
             show-arrows
             optional
-            fixed-tabs
-            centered
             center-active
             align-with-title
             background-color="transparent"
@@ -128,5 +118,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+ .v-tab {
+  opacity: 0.9 !important;
+  color: #fff !important;
+  }
 </style>
