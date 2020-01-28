@@ -2,9 +2,9 @@
   <div class="article">
     <v-row align="center" justify="center">
       <v-col
-      md="8"
-      lg="7"
-      sm='11'
+      md="9"
+      lg="9"
+      xl="7"
       xs="12">
         <v-sheet
           tile
