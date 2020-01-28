@@ -1,6 +1,6 @@
 <template>
 <v-row justify="center">
-    <v-col cols="12" sm="10" md="9" lg="9" xl="7">
+    <v-col cols="12" sm="10" md="10" lg="8" xl="6">
       <v-expansion-panels focusable>
         <v-expansion-panel>
         <v-expansion-panel-header>Trabalhista</v-expansion-panel-header>

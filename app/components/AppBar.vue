@@ -7,7 +7,7 @@
         <i><b>UC</b>ADVOGADOS</i>
       </span>
     </a>
-    <SearchBar/>
+    <div><SearchBar/></div>
     <v-app-bar-nav-icon
       class="d-flex d-md-none"
       @click.stop="callMenu"
@@ -61,9 +61,9 @@
     <v-spacer></v-spacer>
      <template v-slot:extension v-if="$vuetify.breakpoint.mdAndUp">
       <v-row justify="center">
-        <v-col md="9" lg="9" xl="7">
+        <v-col md="10" lg="8" xl="6">
           <v-tabs
-            class="ml-n6"
+            class="ml-n4"
             show-arrows
             optional
             center-active

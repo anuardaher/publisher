@@ -9,9 +9,10 @@
       </v-col>        
     </v-row>
     <v-row align="center" justify="center" class="mt-n8">
-      <v-col 
+      <v-col
+      xl="6"
       md="8"
-      lg="6"
+      lg="8"
       sm="12">
       <client-only>
       <div class="editor">
@@ -74,7 +75,7 @@
           placeholder="Escreva um subtítulo..."
           :rules='[rules.subtitleMaxLength]'
           ></v-textarea>
-          <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, on }">
+          <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
             <div class="menubar">
               <button
                 class="menubar__button mr-1"

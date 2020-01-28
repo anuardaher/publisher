@@ -2,12 +2,13 @@
   <div class="home">
     <v-row justify="center">
       <v-col class="about" 
-      md="5"
+      md="6"
+      lg="5"
       xl="4"
-      sm="9"
+      sm="7"
       cols="12"
       >
-        <h1 class="display-2 mb-4">UC Advogados</h1>
+        <h1 class="display-1 mb-4">UC Advogados</h1>
         <p class="body-1">
           Acreditamos no aperfeiçoamento da sociedade pelo Direito
           e na Advocacia compromissada com a ética, com a responsabilidade,
@@ -22,9 +23,11 @@
           <li>Soluções voltadas para correção e prevenção de riscos jurídicos</li>
         </ul>
       </v-col>
-      <v-col class="contacts" 
+      <v-col class="contacts"
+      sm="7"
       md="4"
-      xl="3"
+      lg="3"
+      xl="2"
       cols="12"
       >
         <SocialMedia/>      
@@ -32,7 +35,9 @@
     </v-row>
     <v-row justify="center">
       <v-col class="blog" 
-      md="5"
+      sm="7"
+      md="6"
+      lg="5"
       xl="4"
       cols="12"
       >
@@ -49,10 +54,11 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col class="weekposts mt-3" 
-      sm="9"
+      <v-col class="weekposts mt-3"
+      lg="3" 
+      sm="7"
       md="4"
-      xl="3"
+      xl="2"
       cols="12">
         <WeekPosts/>
       </v-col>

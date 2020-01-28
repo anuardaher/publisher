@@ -4,7 +4,7 @@
       <v-col
       md="9"
       lg="9"
-      xl="7"
+      xl="6"
       xs="12">
         <v-sheet
           tile

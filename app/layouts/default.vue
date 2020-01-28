@@ -7,6 +7,7 @@
     <!-- Conteúdo gerido pelas rotas -->
     <v-content>
       <WhatsappButton/>
+      <PublishButton/>
       <Snackbar/>
       <v-container fluid>
         <router-view :key="$route.fullPath"></router-view>
@@ -23,6 +24,7 @@ import AppDrawer from '../components/utils/AppDrawer.vue';
 import Snackbar from '../components/utils/Snackbar.vue';
 import WhatsappButton from '../components/utils/WhatsappButton.vue';
 import Footer from '../components/Footer.vue';
+import PublishButton from '../components/utils/PublishButton'
 
 export default {
   name: 'App',
@@ -38,6 +40,7 @@ export default {
     Snackbar,
     WhatsappButton,
     Footer,
+    PublishButton,
   },
   data: () => ({
   }),

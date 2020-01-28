@@ -86,7 +86,7 @@
           @click="$router.push(`/${$store.getters.username}`)"
           >
             <v-icon class="ma-1" small>mdi-account</v-icon>
-            Ver Meu Perfil
+            <span class="body-2">Ver Meu Perfil</span>
         </v-btn>
         <v-btn 
           class='my-2'
@@ -97,7 +97,7 @@
           @click="$router.push(`/publicar`)"
           >
             <v-icon class="ma-1" small>mdi-pencil-plus</v-icon>
-            Publicar
+           <span class="body-2"> Publicar </span>
           </v-btn>
       </v-row>
     </div>

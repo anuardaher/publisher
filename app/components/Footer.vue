@@ -10,19 +10,19 @@
     class="flex primary white--text text-center"
     >
       <v-row justify="center">
-        <v-col cols="12" sm="9" md="4" lg="3" xl="3">
+        <v-col cols="12" sm="9" md="4" lg="3" xl="2">
           <span class="headline">Categorias</span>
           <v-row
           class="ma-4"
           justify="center"
           v-for="categoria in categorias"
-          :key="categoria">
-            <v-btn text>
-              <span class="body-1">{{categoria}}</span><br/>
+          :key="categoria.name">
+            <v-btn text @click="$router.push(categoria.path)">
+              <span class="body-1">{{categoria.name}}</span><br/>
             </v-btn>
           </v-row>
           <v-row justify="center"> 
-            <v-col cols='12' md='12' lg="10" xl="8" sm="10">
+            <v-col cols='12' md='12' lg="10" xl="12" sm="10">
               <SearchBar/> 
             </v-col>
           </v-row>
@@ -31,7 +31,7 @@
           <span class="headline">Contato</span>
           <ContactForm/>
         </v-col>
-        <v-col cols="12" sm="9" md="4" lg="3" xl="3" >
+        <v-col cols="12" sm="9" md="4" lg="3" xl="2" >
           <span class="headline">Endereço</span>
           <v-row justify="center">
             <span class="body-1 ma-4">Rua Arco do Triunfo, 29, Setor Village Garavelo, Aparecida de Goiânia – GO, 74968-538</span>
@@ -56,7 +56,13 @@
       SearchBar,
     },
     data: () => ({
-      categorias: ["Home", "Serviços", "Blog", "Advogados", "Contato"],
+      categorias: [
+        { name: "Home", path: '/' },
+        { name: "Serviços", path: '/servicos' },  
+        { name: "Blog", path: '/blog' },
+        { name: "Advogados", path: '/advogados' }, 
+        { name: "Contato", path: '/contato' }
+        ],
       icons: [
         {
           name: 'mdi-facebook',
@@ -92,7 +98,7 @@
         case 'sm': return '550'
         case 'md': return '250'
         case 'lg': return '250'
-        case 'xl': return '300'
+        case 'xl': return '250'
         default: return '450'
       }
       }

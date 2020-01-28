@@ -13,8 +13,8 @@
     </v-row>
     <v-row justify="center">
       <h1 
-      class="title mt-3 px-4 text-center"
-      v-text='`${lawyer.firstname} ${lawyer.lastname}`'>
+      class="body-1 mt-3 px-4 text-center">
+      <b> {{ lawyer.firstname }} {{ lawyer.lastname }} </b>
       </h1>
     </v-row>
     <v-row justify="center">
