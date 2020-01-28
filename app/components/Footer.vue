@@ -7,39 +7,38 @@
     <v-card
     flat
     tile
-    class="flex primary white--text text-center"
+    class="flex primary white--text"
     >
       <v-row justify="center">
-        <v-col cols="12" sm="9" md="4" lg="3" xl="2">
-          <span class="headline">Categorias</span>
+        <v-col class="ml-2" cols="12" sm="9" md="3" lg="2" xl="2">
+          <span class="headline text-left">Categorias</span>
           <v-row
-          class="ma-4"
-          justify="center"
+          class="mt-4"
           v-for="categoria in categorias"
           :key="categoria.name">
             <v-btn text @click="$router.push(categoria.path)">
               <span class="body-1">{{categoria.name}}</span><br/>
             </v-btn>
           </v-row>
-          <v-row justify="center"> 
-            <v-col cols='12' md='12' lg="10" xl="12" sm="10">
-              <SearchBar/> 
+          <v-row> 
+            <v-col cols='12' md='12' lg="12" xl="10" sm="10">
+              <SearchBar class="ml-n2"/> 
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" sm="9" md="4" lg="3" xl="3">
+        <v-col class="ml-2" cols="12" sm="9" md="4" lg="3" xl="3">
           <span class="headline">Contato</span>
           <ContactForm/>
         </v-col>
-        <v-col cols="12" sm="9" md="4" lg="3" xl="2" >
+        <v-col class="ml-2" cols="12" sm="9" md="4" lg="3" xl="2" >
           <span class="headline">Endereço</span>
-          <v-row justify="center">
-            <span class="body-1 ma-4">Rua Arco do Triunfo, 29, Setor Village Garavelo, Aparecida de Goiânia – GO, 74968-538</span>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15276.54861217019!2d-49.2525772!3d-16.8195507!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xfab9c4c80bf47735!2sUC%20Advogados!5e0!3m2!1spt-BR!2sbr!4v1578084864031!5m2!1spt-BR!2sbr" :width="resizeGoogleMap" height="250" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-          </v-row>
+          <div class="my-2">
+            <span class="body-1">Rua Arco do Triunfo, 29, Setor Village Garavelo, Aparecida de Goiânia – GO, 74968-538</span>
+          </div>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15276.54861217019!2d-49.2525772!3d-16.8195507!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xfab9c4c80bf47735!2sUC%20Advogados!5e0!3m2!1spt-BR!2sbr!4v1578084864031!5m2!1spt-BR!2sbr" :width="resizeGoogleMap" height="260" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
         </v-col>
       </v-row>
-    <v-card-text class="white--text">
+    <v-card-text class="white--text text-center">
         {{ new Date().getFullYear() }} — <strong>UC Advogados</strong>
     </v-card-text>
     </v-card>
@@ -97,8 +96,8 @@
         case 'xs': return '320'
         case 'sm': return '550'
         case 'md': return '250'
-        case 'lg': return '250'
-        case 'xl': return '250'
+        case 'lg': return '280'
+        case 'xl': return '300'
         default: return '450'
       }
       }
