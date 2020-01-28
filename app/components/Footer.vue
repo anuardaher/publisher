@@ -93,7 +93,7 @@
     computed: {
       resizeGoogleMap () {
         switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return '320'
+        case 'xs': return '300'
         case 'sm': return '550'
         case 'md': return '250'
         case 'lg': return '280'
