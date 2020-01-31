@@ -1,6 +1,7 @@
 <template>
   <client-only>
   <v-autocomplete
+    ref="search"
     v-model="select"
     :loading="loading"
     :items="items"
@@ -9,11 +10,11 @@
     hide-no-data
     hide-details
     :label="showSearchText"
-    prepend-inner-icon="search"
     single-line
     return-object
     item-text='title'
     clearable
+    transition="fade-transition"
     >
       <template v-slot:item="{ item }"> 
           <v-list-item-avatar>
@@ -69,16 +70,12 @@ export default {
     },
     normalizeLink(post) {
         return Utils.normalizeLink(post)
-      }
+      },
   },
   computed: {
     showSearchText () {
       return this.$vuetify.breakpoint.xs ? null : 'Pesquise'
     }
-  }
+  },
 }
 </script>
-
-<style>
-
-</style>

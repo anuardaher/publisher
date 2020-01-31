@@ -86,7 +86,7 @@ export default {
       { title: 'Home', icon: 'house', route: '/' },
       { title: 'Serviços', icon: 'mdi-tools', route: '/servicos' },
       { title: 'Blog', icon: 'book', route: '/blog' },
-      { title: 'Advogados', icon: 'mdi-briefcase', route: '/advogados' },
+      { title: 'Associe-se', icon: 'mdi-briefcase', route: '/advogados' },
       { title: 'Contato', icon: 'mdi-account-box', route: '/contato' },
     ],
   }),

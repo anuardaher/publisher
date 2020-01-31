@@ -1,23 +1,42 @@
 <template>
   <client-only>
-  <v-app-bar color="primary" app flat dark :extended="resizeAppBar">
-     <v-spacer></v-spacer>
-     <a class="headline text-uppercase" @click="$router.push('/', () => {})">
-      <span :class="$vuetify.breakpoint.xsOnly ? 'body-2 white--text mr-1' : 'headline white--text mr-1'">
-        <i><b>UC</b>ADVOGADOS</i>
-      </span>
-    </a>
-    <div><SearchBar/></div>
+  <v-app-bar color="primary" app flat dark>
+    <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
     <v-app-bar-nav-icon
       class="d-flex d-md-none"
       @click.stop="callMenu"
-      v-if="!$store.state.isUserLoggedIn"
-    >
-    </v-app-bar-nav-icon>
-    <v-btn class="mx-2 d-none d-md-flex" color="green" dark @click="$router.push('/publicar', () => {})">
-      🚀 Publicar
+    > </v-app-bar-nav-icon>
+    <a href="/">
+      <div><v-img src="logo.png" width="70" aspect-ratio="1.7"></v-img></div>
+    </a>
+    <div class="d-none d-sm-flex">
+      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/', () => {})">Home </v-btn>
+      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/servicos', () => {})">Serviços </v-btn>
+      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/blog', () => {})">Blog </v-btn>
+      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/advogados', () => {})">Associe-se </v-btn>
+      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/contato', () => {})">Contato </v-btn>
+    </div>
+    <v-btn icon @click="openSearchBar()">
+      <v-icon>search</v-icon>
     </v-btn>
-    <div class="pa-3 d-none d-md-flex">
+    <div><SearchBar v-if="showSearchBar" ref="procurar"/></div>
+    <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
+    <v-btn
+    :small="$vuetify.breakpoint.xs" 
+    v-if="!showSearchBar" 
+    class="d-none d-md-flex mx-1" 
+    color="green"
+    dark @click="$router.push('/publicar', () => {})">
+    Publicar
+    </v-btn>
+    <v-btn
+    icon 
+    v-if="!showSearchBar" 
+    class="d-flex d-md-none" 
+    dark @click="$router.push('/publicar', () => {})">
+      <span class="title">🚀</span>
+    </v-btn>
+    <div v-if="!showSearchBar" class="pa-3 d-none d-md-flex">
       <v-btn 
         v-for="btn in buttons"
         :key="btn.name"
@@ -29,7 +48,7 @@
         <v-icon :color="btn.color">{{btn.name}}</v-icon>
       </v-btn>
     </div>
-    <div class="d-none d-md-flex">
+    <div v-if="!showSearchBar">
       <v-btn
         text
         @click="$router.push('/login', () => {})"
@@ -39,10 +58,11 @@
       </v-btn>
     </div>
     <v-btn
+    class="mx-2"
     icon
-    @click.stop="callMenu"
-    v-if="$store.state.isUserLoggedIn"
-    size="42px"
+    @click.stop="userPhotoAction"
+    v-if="$store.state.isUserLoggedIn && !showSearchBar"
+    size="40px"
     >
       <v-avatar 
       v-if="$store.getters.userHasImage">
@@ -54,31 +74,11 @@
       <v-avatar
        v-if="!$store.getters.userHasImage" 
        color="grey"
-       size="42px">
+       size="40px">
         <span class="white--text headline">{{$store.getters.inicialLetterName}}</span>
       </v-avatar>
     </v-btn>
-    <v-spacer></v-spacer>
-     <template v-slot:extension v-if="$vuetify.breakpoint.mdAndUp">
-      <v-row justify="center">
-        <v-col md="10" lg="8" xl="6">
-          <v-tabs
-            class="ml-n4"
-            show-arrows
-            optional
-            center-active
-            align-with-title
-            background-color="transparent"
-          >
-            <v-tab @click="$router.push('/', () => {})">Home</v-tab>
-            <v-tab @click="$router.push('/servicos', () => {})">Serviços</v-tab>
-            <v-tab @click="$router.push('/blog', () => {})">Blog</v-tab>
-            <v-tab @click="$router.push('/advogados', () => {})">Advogados</v-tab>
-            <v-tab @click="$router.push('/contato', () => {})">Contato</v-tab>
-          </v-tabs>
-        </v-col>
-      </v-row>
-    </template>
+    <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
   </v-app-bar>
   </client-only>
 </template>
@@ -92,6 +92,7 @@ export default {
     SearchBar,
   },
   data: () => ({
+    showSearchBar: false,
     buttons: [
       {color: "#4064ad", name: "mdi-facebook-box", link: "https://web.facebook.com/UCAdvogado/"},
       {color: "#d41a42", name: "mdi-instagram", link: "https://www.instagram.com/uc.advogados/"},
@@ -107,20 +108,24 @@ export default {
     },
     openTab(link) {
       window.open(link, '_blank')
+    },
+    openSearchBar () {
+      this.showSearchBar = true
+      this.$nextTick(() => {
+        const element = this.$refs.procurar.$el.children[0].children[0].children[0].children[1]
+        element.focus()
+        element.addEventListener("blur", event => this.closeSearchBar())
+      })
+    },
+    closeSearchBar () {
+      this.showSearchBar = false
+    },
+    userPhotoAction () {
+      if (this.$vuetify.breakpoint.smAndDown) {
+         return this.$router.push("/blog")
+      }
+      return this.callMenu()
     }
   },
-  computed: {
-    resizeAppBar () {
-      if (this.$vuetify.breakpoint.xs || this.$vuetify.breakpoint.sm) return false
-      return true
-    }
-  }
 };
 </script>
-
-<style scoped>
- .v-tab {
-  opacity: 0.9 !important;
-  color: #fff !important;
-  }
-</style>

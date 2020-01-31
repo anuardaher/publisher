@@ -98,7 +98,7 @@
         case 'md': return '250'
         case 'lg': return '280'
         case 'xl': return '300'
-        default: return '450'
+        default: return '350'
       }
       }
     }
