@@ -4,9 +4,9 @@
     <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
     <v-app-bar-nav-icon
       class="d-flex d-md-none"
-      @click.stop="callMenu"
+      @click.stop="callMenu(true)"
     > </v-app-bar-nav-icon>
-    <a href="/">
+    <a href="/blog">
       <div><v-img src="logo.png" width="70" aspect-ratio="1.7"></v-img></div>
     </a>
     <div class="d-none d-sm-flex">
@@ -16,8 +16,11 @@
       <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/advogados', () => {})">Associe-se </v-btn>
       <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/contato', () => {})">Contato </v-btn>
     </div>
-    <v-btn icon @click="openSearchBar()">
+    <v-btn v-if="!showSearchBar" icon @click="openSearchBar()">
       <v-icon>search</v-icon>
+    </v-btn>
+    <v-btn v-if="showSearchBar" icon @click="closeSearchBar()">
+      <v-icon>mdi-close</v-icon>
     </v-btn>
     <div><SearchBar v-if="showSearchBar" ref="procurar"/></div>
     <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
@@ -51,7 +54,7 @@
     <div v-if="!showSearchBar">
       <v-btn
         text
-        @click="$router.push('/login', () => {})"
+        @click="callMenu(false)"
         v-if="!$store.state.isUserLoggedIn"
       >
       ENTRAR
@@ -60,7 +63,7 @@
     <v-btn
     class="mx-2"
     icon
-    @click.stop="userPhotoAction"
+    @click.stop="callMenu(false)"
     v-if="$store.state.isUserLoggedIn && !showSearchBar"
     size="40px"
     >
@@ -103,8 +106,8 @@ export default {
     ],
   }),
   methods: {
-    callMenu: () => {
-      EventBus.$emit('callMenu');
+    callMenu: (isMenuButton) => {
+      EventBus.$emit('callMenu', isMenuButton);
     },
     openTab(link) {
       window.open(link, '_blank')
@@ -120,12 +123,6 @@ export default {
     closeSearchBar () {
       this.showSearchBar = false
     },
-    userPhotoAction () {
-      if (this.$vuetify.breakpoint.smAndDown) {
-         return this.$router.push("/blog")
-      }
-      return this.callMenu()
-    }
   },
 };
 </script>

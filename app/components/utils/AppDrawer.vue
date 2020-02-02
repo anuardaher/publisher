@@ -1,14 +1,16 @@
 <template>
+  <client-only>
     <v-navigation-drawer
     v-model="drawer"
     temporary
-    right
+    :right="!isMenuButton"
+    :left="isMenuButton"
     app
-    height='350px'
     touchless
+    height="auto"
 >
     <v-list-item 
-    v-if="$store.state.isUserLoggedIn"
+    v-if="$store.state.isUserLoggedIn && !isMenuButton"
     list
     @click="$router.push(`/${$store.state.user.username}`, () => {})">
       <v-list-item-avatar
@@ -32,8 +34,7 @@
 
     <v-divider></v-divider>
 
-    <v-list dense>
-
+    <v-list dense v-if="isMenuButton || $vuetify.breakpoint.mdAndUp ">
     <v-list-item
         v-for="item in items"
         :key="item.title"
@@ -50,7 +51,7 @@
     </v-list-item>
     </v-list>
     <div class='pt-6'
-     v-if="!$store.state.isUserLoggedIn">
+     v-if="!$store.state.isUserLoggedIn && !isMenuButton">
       <div class="pa-2">
           <v-btn block
             @click="$router.push('/login', () => {})"
@@ -64,12 +65,13 @@
     </div>
     <template
       v-slot:append
-      v-if="$store.state.isUserLoggedIn">
+      v-if="$store.state.isUserLoggedIn && !isMenuButton">
     <div class="pa-2">
         <v-btn color='error' dark block @click="logout">Sair</v-btn>
     </div>
     </template>
-</v-navigation-drawer>
+    </v-navigation-drawer>
+  </client-only>
 </template>
 
 <script>
@@ -77,6 +79,7 @@ import EventBus from '../../event-bus.js';
 
 export default {
   data: () => ({
+    isMenuButton: false,
     drawer: null, 
     loading: false,
     articles: [],
@@ -107,8 +110,9 @@ export default {
     },
   },
   mounted () {
-    EventBus.$on('callMenu', () => {
+    EventBus.$on('callMenu', (event) => {
       this.drawer = !this.drawer;
+      this.isMenuButton = event
     });
   },
 };
