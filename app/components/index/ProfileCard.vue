@@ -2,13 +2,13 @@
   <div>
     <v-card v-if="!$store.getters.state" class="pa-6" outlined>
       <v-row justify="center" align="center">
-        <v-avatar size='80'>
-          <v-img src="logopreto.png"></v-img>
+        <v-avatar size='70'>
+          <v-img src="logo.png"></v-img>
         </v-avatar>			
       </v-row>
       <v-row justify="center" align="center">
         <h1 class="headline text-center">
-          UC ADVOGADOS
+          ADVOGADOS
         </h1>
       </v-row>
       <v-row justify="center" align="center">

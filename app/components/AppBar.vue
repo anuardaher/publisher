@@ -37,7 +37,7 @@
     v-if="!showSearchBar" 
     class="d-flex d-md-none" 
     dark @click="$router.push('/publicar', () => {})">
-      <span class="title">🚀</span>
+      <v-icon>mdi-square-edit-outline</v-icon>
     </v-btn>
     <div v-if="!showSearchBar" class="pa-3 d-none d-md-flex">
       <v-btn 
@@ -97,12 +97,12 @@ export default {
   data: () => ({
     showSearchBar: false,
     buttons: [
-      {color: "#4064ad", name: "mdi-facebook-box", link: "https://web.facebook.com/UCAdvogado/"},
+      {color: "#4064ad", name: "mdi-facebook", link: "https://web.facebook.com/UCAdvogado/"},
       {color: "#d41a42", name: "mdi-instagram", link: "https://www.instagram.com/uc.advogados/"},
       {color: "#1da1f2", name: "mdi-twitter", link: "https://twitter.com/UAdvogados"},
       {color: "#d62824", name: "mdi-youtube", link: "https://www.youtube.com/c/UCAdvogados"},
       {color: "#2ea4d4", name: "mdi-telegram", link: "https://t.me/ucadvogados"},
-      {color: "#0271ae", name: "mdi-linkedin-box", link: "https://www.linkedin.com/in/uc-advogado/"}
+      {color: "#0271ae", name: "mdi-linkedin", link: "https://www.linkedin.com/in/uc-advogado/"}
     ],
   }),
   methods: {

@@ -4,7 +4,7 @@
     <p class="body-1">Deixe sua mensagem e nos siga nas redes sociais!</p>
     <v-row class="pa-1">
       <v-btn class="mr-2 social" color="#4064ad" rounded dark @click="openTab('https://web.facebook.com/UCAdvogado/')">
-        <v-icon class="mr-2">mdi-facebook-box</v-icon>
+        <v-icon class="mr-2">mdi-facebook</v-icon>
         <span class="body-2">2.5K</span>
       </v-btn>
       <v-btn class="mr-2 social" color="#d41a42" rounded dark @click="openTab('https://www.instagram.com/uc.advogados/')">
@@ -18,7 +18,7 @@
     </v-row>
     <v-row class="pa-1"> 
       <v-btn class="mr-2 social" color="#0271ae" rounded dark @click="openTab('https://www.linkedin.com/in/uc-advogado/')">
-        <v-icon class="mr-2">mdi-linkedin-box</v-icon>
+        <v-icon class="mr-2">mdi-linkedin</v-icon>
         <span class="body-2">500</span>
       </v-btn>
       <v-btn class="mr-2 social" color="#d62824" rounded dark @click="openTab('https://www.youtube.com/c/UCAdvogados')">
