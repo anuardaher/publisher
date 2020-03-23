@@ -5,7 +5,7 @@
 - NPM
 - Vue-cli
 - Docker
-- Docker-Compose
+- Docker-compose
 
 ## Configurando e rodando local
 
