@@ -61,28 +61,6 @@
         { name: "Blog", path: '/blog' },
         { name: "Advogados", path: '/advogados' }, 
         { name: "Contato", path: '/contato' }
-        ],
-      icons: [
-        {
-          name: 'mdi-facebook',
-          link: 'https://www.facebook.com/UC.advogado/'
-        },
-         {
-          name: 'mdi-twitter',
-          link: 'https://twitter.com/UAdvogados'
-        },
-         {
-          name: 'mdi-linkedin',
-          link: 'https://www.linkedin.com/in/uc-advogados-73599113b/'
-        },
-         {
-          name:'mdi-instagram',
-          link: 'https://www.instagram.com/uc.advogados'
-        },
-         {
-          name:'mdi-youtube',
-          link: 'https://www.youtube.com/channel/UCkpbWPMj1mASdIO6B7pfSqw'
-        },
       ],
     }),
     methods: {

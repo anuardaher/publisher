@@ -99,7 +99,7 @@ export default {
     buttons: [
       {color: "#4064ad", name: "mdi-facebook", link: "https://web.facebook.com/UCAdvogado/"},
       {color: "#d41a42", name: "mdi-instagram", link: "https://www.instagram.com/uc.advogados/"},
-      {color: "#1da1f2", name: "mdi-twitter", link: "https://twitter.com/UAdvogados"},
+      {color: "#1da1f2", name: "mdi-twitter", link: "https://twitter.com/uc_advogados"},
       {color: "#d62824", name: "mdi-youtube", link: "https://www.youtube.com/c/UCAdvogados"},
       {color: "#2ea4d4", name: "mdi-telegram", link: "https://t.me/ucadvogados"},
       {color: "#0271ae", name: "mdi-linkedin", link: "https://www.linkedin.com/in/uc-advogado/"}

@@ -7,11 +7,11 @@
         <v-icon class="mr-2">mdi-facebook</v-icon>
         <span class="body-2">2.5K</span>
       </v-btn>
-      <v-btn class="mr-2 social" color="#d41a42" rounded dark @click="openTab('https://www.instagram.com/uc.advogados/')">
+      <v-btn class="mr-2 social" color="#d41a42" rounded dark @click="openTab('https://instagram.com/uc_juris/')">
         <v-icon class="mr-2">mdi-instagram</v-icon>
         <span class="body-2">86K</span>
       </v-btn>
-      <v-btn class="mr-2 social" color="#1da1f2" rounded dark @click="openTab('https://twitter.com/UAdvogados')">
+      <v-btn class="mr-2 social" color="#1da1f2" rounded dark @click="openTab('https://twitter.com/uc_advogados')">
         <v-icon class="mr-2">mdi-twitter</v-icon>
         <span class="body-2">5</span>
       </v-btn>
