@@ -5,11 +5,11 @@
 - NPM
 - Vue-cli
 - Docker
-- Docker-Compose
+- Docker-compose
 
 ## Configurando e rodando local
 
-Primeiro, renomeie o arquivo .env.example para .env e insira as variáveis conforme ambiente.
+Primeiro, renomeie o arquivo **.env.example** para **.env** e insira as variáveis conforme ambiente.
 
 ### Construindo e subindo os containers
 
@@ -19,7 +19,7 @@ Primeiro, renomeie o arquivo .env.example para .env e insira as variáveis confo
 
 Para rodar o projeto local, é necessário criar o usuário do banco de dados ucadvogados que utilizamos no sistema. Acesse o container docker do mongo pelo terminal:
 
-`docker exec -it eadapi-mongo /bin/bash`
+`docker exec -it mongo /bin/bash`
 
 Execute o seguinte comando dentro do container:
 
