@@ -1,77 +1,75 @@
 <template>
   <div>
-		<social-sharing
-			:url="postUrl"
-			:title="article.title"
-			:description="article.subtitle"
-			:quote="article.subtitle"
-			:hashtags="covertTagsToString"
-			twitter-user="ucadvogados"
-			inline-template>
-			<div class="social-icons ml-auto">
-				<v-menu bottom offset-y>
-					<template v-slot:activator="{ on }">
+    <social-sharing
+      :url="postUrl"
+      :title="article.title"
+      :description="article.subtitle"
+      :quote="article.subtitle"
+      :hashtags="covertTagsToString"
+      twitter-user="publisher"
+      inline-template
+    >
+      <div class="social-icons ml-auto">
+        <v-menu bottom offset-y>
+          <template v-slot:activator="{ on }">
             <div class="text-center">
-             <v-icon color="grey">mdi-share</v-icon>
+              <div>
+                <v-icon color="grey">mdi-share</v-icon>
+              </div>
+              <v-btn text v-on="on">
+                <span class="text-caption text-md-button ">Enviar</span>
+              </v-btn>
             </div>
-						<v-btn
-							text
-							v-on="on"
-						>
-							<span :class="$vuetify.breakpoint.xs ? 'caption' : null">Compartilhar</span>
-						</v-btn>
-					</template>
-					<v-list style="display: flex">
-						<v-list-item>
-							<network network="facebook">
-								<button class="mdi mdi-facebook mdi-24px"></button>
-							</network>
-						</v-list-item>
-						<v-list-item>
-							<network network="twitter">
-								<button class="mdi mdi-twitter mdi-24px"></button>
-							</network>		
-						</v-list-item>
-						<v-list-item>
-							<network network="linkedin">
-								<button class="mdi mdi-linkedin mdi-24px"></button>
-							</network>
-						</v-list-item>
-					</v-list>
-				</v-menu>
-			</div>
-		</social-sharing>
+          </template>
+          <v-list style="display: flex">
+            <v-list-item>
+              <network network="facebook">
+                <button class="mdi mdi-facebook mdi-24px"></button>
+              </network>
+            </v-list-item>
+            <v-list-item>
+              <network network="twitter">
+                <button class="mdi mdi-twitter mdi-24px"></button>
+              </network>
+            </v-list-item>
+            <v-list-item>
+              <network network="linkedin">
+                <button class="mdi mdi-linkedin mdi-24px"></button>
+              </network>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+    </social-sharing>
   </div>
 </template>
 
 <script>
-import Utils from '../../utils/utils'
+import Utils from "../../utils/utils";
 
 export default {
-	data: () => ({
-		BASE_URL: process.env.BASE_URL,
-	}),
-	props: {
-     article: {
-       type: Object,
-       default: () => {}
-     },
+  data: () => ({
+    BASE_URL: process.env.BASE_URL,
+  }),
+  props: {
+    article: {
+      type: Object,
+      default: () => {},
+    },
   },
-	computed: {
-		 covertTagsToString() {
+  computed: {
+    covertTagsToString() {
       if (this.article.tags) {
         const tags = this.article.tags.map((tag) => tag.name);
-        const formatedTags = tags.toString().replace(/\s/g, '');
+        const formatedTags = tags.toString().replace(/\s/g, "");
         return formatedTags;
       }
     },
     postUrl() {
-      return  `${this.BASE_URL}${Utils.normalizeLink(this.article)}`
+      return `${this.BASE_URL}${Utils.normalizeLink(this.article)}`;
     },
-	}
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

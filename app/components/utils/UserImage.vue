@@ -2,14 +2,15 @@
   <div>
     <v-avatar
     :size="size"
-    color="grey"
+    color="thirdy"
+    class="user-avatar"
     >
         <v-img
         v-if="img"
         :src="imageUrl(img)"
         :alt="author.firstname"
         ></v-img>
-        <span v-if="!img" :class="`white--text ${letterStyle}`">
+        <span v-else :class="`primary--text ${letterStyle}`">
             {{ getFirstLetter }}
         </span> 
     </v-avatar>     
@@ -30,7 +31,7 @@ export default {
     methods: {
         imageUrl (path) {
             if (!path) return ""
-            if (/https/.test(path))
+            if (/http/.test(path))
                 return path
             return `${this.BASE_URL}/${path}`
         },
@@ -45,5 +46,9 @@ export default {
 </script>
 
 <style>
+
+.user-avatar {
+    border: 1px solid;
+}
 
 </style>

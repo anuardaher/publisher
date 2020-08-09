@@ -1,16 +1,16 @@
 <template>
   <v-form v-model="isValid" class="ma-4">
     <v-row>
-      <v-text-field v-model="name" :rules="[rules.required, rules.length]" placeholder="Nome" solo></v-text-field>
+      <v-text-field v-model="name" :rules="[rules.required, rules.length]" placeholder="Nome"></v-text-field>
     </v-row>
     <v-row>
-      <v-text-field v-model="email" :rules="[rules.required, rules.email]" placeholder="E-mail" solo></v-text-field>
+      <v-text-field v-model="email" :rules="[rules.required, rules.email]" placeholder="E-mail"></v-text-field>
     </v-row>
     <v-row>
-      <v-textarea v-model="message" :rules="[rules.required]" placeholder="Mensagem" solo></v-textarea>
+      <v-textarea v-model="message" :rules="[rules.required]" placeholder="Mensagem"></v-textarea>
     </v-row>
     <v-row>
-      <v-btn @click="sendMessage()" :loading="isLoading" :disabled="!isValid || isLoading" color="green" block> Enviar </v-btn>
+      <v-btn @click="sendMessage()" :loading="isLoading" :disabled="!isValid || isLoading" color="primary" block> Enviar </v-btn>
     </v-row>
   </v-form>
 </template>

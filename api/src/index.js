@@ -1,4 +1,4 @@
-require('dotenv-safe').config();
+require('dotenv').config();
 require('./services/mongo');
 require('passport');
 

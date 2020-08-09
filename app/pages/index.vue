@@ -1,133 +1,124 @@
 <template>
-  <div class="home">
+  <div :class="$vuetify.breakpoint.width < '400' ? 'px-0' : null">
     <v-row justify="center">
-      <v-col class="about" 
-      md="6"
-      lg="5"
-      xl="4"
-      sm="7"
-      cols="12"
-      >
-        <h1 class="display-1 mb-4">UC Advogados</h1>
-        <p class="body-1">
-          Acreditamos no aperfeiçoamento da sociedade pelo Direito
-          e na Advocacia compromissada com a ética, com a responsabilidade,
-          com a excelência das soluções legais, com a satisfação dos nossos
-          clientes e com a realização pessoal dos nossos integrantes.
-        </p>
-        <ul class="body-1">
-          <li>Especialistas em Direito do Trabalho (verbas trabalhistas, rescisão indireta, assédio moral).</li>
-          <li>Especialistas em Direito do Consumidor, Direito Previdenciário, Direito de Família.</li>
-          <li>Especialização dos serviços, áreas segmentadas e direcionamento</li>
-          <li>Orientações para empresas de médio e grande porte</li>
-          <li>Soluções voltadas para correção e prevenção de riscos jurídicos</li>
-        </ul>
+      <v-col lg="3" md="3" sm="10" cols="12">
+        <client-only>
+          <ProfileCard class="fixed" v-if="$vuetify.breakpoint.mdAndUp" />
+        </client-only>
       </v-col>
-      <v-col class="contacts"
-      sm="7"
-      md="4"
-      lg="3"
-      xl="2"
-      cols="12"
-      >
-        <SocialMedia/>      
+      <v-col lg="5" xl="4" md="6" sm="10" cols="12">
+        <div v-if="articles.length > 0">
+          <Card
+            v-for="article in articles"
+            :key="article._id"
+            :value="article"
+            v-scroll="bottomVisible"
+          />
+        </div>
+        <div class="text-center" v-else-if="articles.length == 0 && !isLoadingArticles">
+          <div class="text-h1 mb-4">🥱</div>
+          <div class="text-body">
+            Nenhuma publicação foi feita até o momento.
+          </div>
+        </div>
       </v-col>
-    </v-row>
-    <v-row justify="center">
-      <v-col class="blog" 
-      sm="7"
-      md="6"
-      lg="5"
-      xl="4"
-      cols="12"
-      >
-        <v-row justify="center">
-          <v-col
-          md="6"
-          cols="12"
-          v-for="article in articles"
-          :key="article._id"
-          >
-            <ShortCard
-            :article="article"
-            />
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col class="weekposts mt-3"
-      lg="3" 
-      sm="7"
-      md="4"
-      xl="2"
-      cols="12">
-        <WeekPosts/>
+      <v-col lg="3" md="3" cols="12">
+        <WeekPostsCard class="fixed" v-if="$vuetify.breakpoint.mdAndUp" />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import WeekPosts from '../components/index/WeekPostsCard'
-import ShortCard from '../components/index/ShortCard'
-import SocialMedia from '../components/contact/SocialMedia'
+import Card from "../components/Card";
+import ProfileCard from "../components/index/ProfileCard";
+import WeekPostsCard from "../components/index/WeekPostsCard";
+import EventBus from "../event-bus.js";
+import utils from "../utils/utils.js";
 
 export default {
   components: {
-    WeekPosts,
-    ShortCard,
-    SocialMedia
+    Card,
+    ProfileCard,
+    WeekPostsCard,
+  },
+  head() {
+    return {
+      title: "Artigos e noticias do mundo jurídico em um só lugar",
+      meta: [],
+    };
   },
   data: () => ({
-    articles: []
+    show: false,
+    articles: [],
+    isLoadingArticles: false,
+    skip: null,
+    totalOfArticles: false,
+    showInformationDialog: false,
+    user: { address: {} },
+    countrys: [],
+    citys: [],
+    perfils: [
+      "Advogado",
+      "Bacharel em Direito",
+      "Estudante de Direito",
+      "Administrador",
+      "Contador",
+      "Assistente Administrativo",
+      "Representante Comercial",
+      "Engenheiro Civil",
+      "Corretor de Imóveis",
+      "Procurador e Advogado Público",
+      "Político",
+      "Outros",
+    ],
   }),
-  async asyncData({$axios, redirect}) {
-    const options = {
-    data: { active: true },
-    projection: {text: 0},
-    options: {
-      limit: 4,
-      sort: {
-          createdAt: -1
-        },
-      }
-    }
-    try {
-      let articles = await $axios.$get('/articles', { params: options })
-      return { articles }
-    } catch (error) {
-      redirect('/error')
-    }
-  },
   methods: {
-    async authSocialLogin() {
+    async loadData(infinityScroll) {
+      if (this.isLoadingArticles) return;
+      this.isLoadingArticles = !this.isLoadingArticles;
+      const options = {
+        data: { type: "artigo", active: true },
+        projection: { text: 0 },
+        options: {
+          limit: 5,
+          skip: this.skip,
+          sort: {
+            createdAt: -1,
+          },
+        },
+      };
       try {
-        if (this.$route.query && this.$route.query.user) {
-        const { data } = await this.$axios.get(`/auth/socialLogin/${this.$route.query.user}`);
-        this.$store.dispatch('setToken', data.token);
-        this.$store.dispatch('setUser', data.user);
-        this.$router.push('/')
-        }
-      } catch (e) {
-        console.log(e)
-        this.$router.push('/error')
+        let articles = await this.$axios.$get("/articles", { params: options });
+        if (articles.length == 0) return (this.totalOfArticles = true);
+        this.articles = this.articles.concat(articles);
+        this.skip = this.articles.length;
+      } catch (error) {
+        return EventBus.$emit("callSnackbar", {
+          color: "error",
+          text: "Erro ao carregar artigos. Tente mais tarde.",
+        });
+      } finally {
+        this.isLoadingArticles = !this.isLoadingArticles;
       }
     },
-    checkUserInformation() {
-      if (this.$store.getters.state) {
-        if (!this.$store.state.user.address || !this.$store.state.user.profession) {
-        this.showInformationDialog = true;
-        this.getLocationData();
+    bottomVisible() {
+      if (utils.isTheBottomOfThePage())
+        if (!this.totalOfArticles) {
+          // Se já tiver acabado os posts, não requisita mais
+          this.loadData(true);
         }
-      }
-    }
+    },
   },
-  created () {
-    this.authSocialLogin();
-    this.checkUserInformation();
-  }
-}
+  created() {
+    this.loadData();
+  },
+};
 </script>
-
-<style scoped>
-
+<style>
+.fixed {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 82px;
+}
 </style>

@@ -1,127 +1,102 @@
 <template>
   <client-only>
-  <v-app-bar color="primary" app flat dark>
-    <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
-    <v-app-bar-nav-icon
-      class="d-flex d-md-none"
-      @click.stop="callMenu(true)"
-    > </v-app-bar-nav-icon>
-    <a href="/blog">
-      <div><v-img src="logo.png" width="70" aspect-ratio="1.7"></v-img></div>
-    </a>
-    <div class="d-none d-sm-flex">
-      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/', () => {})">Home </v-btn>
-      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/servicos', () => {})">Serviços </v-btn>
-      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/blog', () => {})">Blog </v-btn>
-      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/advogados', () => {})">Associe-se </v-btn>
-      <v-btn :small="$vuetify.breakpoint.mdAndDown" text @click="$router.push('/contato', () => {})">Contato </v-btn>
-    </div>
-    <v-btn v-if="!showSearchBar" icon @click="openSearchBar()">
-      <v-icon>search</v-icon>
-    </v-btn>
-    <v-btn v-if="showSearchBar" icon @click="closeSearchBar()">
-      <v-icon>mdi-close</v-icon>
-    </v-btn>
-    <div><SearchBar v-if="showSearchBar" ref="procurar"/></div>
-    <v-spacer v-if="$vuetify.breakpoint.xs"></v-spacer>
-    <v-btn
-    :small="$vuetify.breakpoint.xs" 
-    v-if="!showSearchBar" 
-    class="d-none d-md-flex mx-1" 
-    color="green"
-    dark @click="$router.push('/publicar', () => {})">
-    Publicar
-    </v-btn>
-    <v-btn
-    icon 
-    v-if="!showSearchBar" 
-    class="d-flex d-md-none" 
-    dark @click="$router.push('/publicar', () => {})">
-      <v-icon>mdi-square-edit-outline</v-icon>
-    </v-btn>
-    <div v-if="!showSearchBar" class="pa-3 d-none d-md-flex">
-      <v-btn 
-        v-for="btn in buttons"
-        :key="btn.name"
-        @click="openTab(btn.link)"
-        class="mx-1"
-        icon 
-        small
-      >
-        <v-icon :color="btn.color">{{btn.name}}</v-icon>
-      </v-btn>
-    </div>
-    <div v-if="!showSearchBar">
-      <v-btn
-        text
-        @click="callMenu(false)"
-        v-if="!$store.state.isUserLoggedIn"
-      >
-      ENTRAR
-      </v-btn>
-    </div>
-    <v-btn
-    class="mx-2"
-    icon
-    @click.stop="callMenu(false)"
-    v-if="$store.state.isUserLoggedIn && !showSearchBar"
-    size="40px"
-    >
-      <v-avatar 
-      v-if="$store.getters.userHasImage">
-        <v-img
-        :src="$store.getters.userHasImage"
-        :alt="$store.getters.fullName"
-        ></v-img>
-      </v-avatar>
-      <v-avatar
-       v-if="!$store.getters.userHasImage" 
-       color="grey"
-       size="40px">
-        <span class="white--text headline">{{$store.getters.inicialLetterName}}</span>
-      </v-avatar>
-    </v-btn>
-    <v-spacer v-if="!$vuetify.breakpoint.smAndDown"></v-spacer>
-  </v-app-bar>
+    <v-app-bar color="secondary" app dense>
+      <v-spacer />
+      <NuxtLink class="mx-2" to="/">
+       <v-avatar color="thirdy" size="40">
+          <span class="logo text-h5 primary--text">AD</span>
+        </v-avatar>
+      </NuxtLink>
+      <SearchBar ref="procurar" dark class="mx-6" />
+      <div class="d-none d-md-flex">
+        <v-btn
+          :small="$vuetify.breakpoint.xs"
+          class="d-none d-md-flex mx-12"
+          color="primary"
+          rounded
+          @click="$router.push('/publicar', () => {})"
+        >
+          <v-icon left dark>mdi-square-edit-outline</v-icon>
+          CRIAR PUBLICAÇÃO
+        </v-btn>
+        <div class="mx-6">
+          <NuxtLink to="/login">
+            <v-btn
+              dark
+              class="mx-2"
+              rounded
+              color="secondary"
+              v-if="!$store.state.isUserLoggedIn"
+            >
+              <v-icon left dark>mdi-login</v-icon>
+              ENTRAR
+            </v-btn>
+          </NuxtLink>
+          <NuxtLink to="/registrar">
+            <v-btn
+              dark
+              rounded
+              color="secondary"
+              v-if="!$store.state.isUserLoggedIn"
+            >
+              <v-icon left dark>mdi-pencil-plus</v-icon>
+              CADASTRAR
+            </v-btn>
+          </NuxtLink>
+        </div>
+      </div>
+      <div v-if="$store.getters.state" class="d-none d-sm-flex">
+        <NuxtLink
+          :to="`/${$store.getters.username}`"
+        >
+          <UserImage
+            class="float-left"
+            size="40"
+            :img="$store.getters.userHasImage"
+            :author="$store.getters.fullName"
+            letterStyle="headline"
+          />
+        </NuxtLink>
+
+        <div class="float-right ml-2">
+          <NuxtLink
+            :to="`/${$store.getters.username}`"
+            class="white--text"
+          >
+            <div class="body-2">{{ $store.getters.firstName }}</div>
+          </NuxtLink>
+          <div class="caption"><a @click="logout" class="thirdy--text">sair da conta</a></div>
+        </div>
+      </div>
+      <!-- </v-btn> -->
+      <v-spacer />
+      <v-app-bar-nav-icon
+        dark
+        class="d-flex d-md-none"
+        @click.stop="callMenu()"
+      ></v-app-bar-nav-icon>
+    </v-app-bar>
   </client-only>
 </template>
 
 <script>
-import SearchBar from './utils/SearchBar'
-import EventBus from '../event-bus'
+import SearchBar from "./utils/SearchBar";
+import EventBus from "../event-bus";
+import UserImage from "../components/utils/UserImage";
 
 export default {
   components: {
     SearchBar,
+    UserImage,
   },
-  data: () => ({
-    showSearchBar: false,
-    buttons: [
-      {color: "#4064ad", name: "mdi-facebook", link: "https://web.facebook.com/UCAdvogado/"},
-      {color: "#d41a42", name: "mdi-instagram", link: "https://www.instagram.com/uc.advogados/"},
-      {color: "#1da1f2", name: "mdi-twitter", link: "https://twitter.com/uc_advogados"},
-      {color: "#d62824", name: "mdi-youtube", link: "https://www.youtube.com/c/UCAdvogados"},
-      {color: "#2ea4d4", name: "mdi-telegram", link: "https://t.me/ucadvogados"},
-      {color: "#0271ae", name: "mdi-linkedin", link: "https://www.linkedin.com/in/uc-advogado/"}
-    ],
-  }),
   methods: {
-    callMenu: (isMenuButton) => {
-      EventBus.$emit('callMenu', isMenuButton);
+    callMenu() {
+      EventBus.$emit("callMenu");
     },
-    openTab(link) {
-      window.open(link, '_blank')
-    },
-    openSearchBar () {
-      this.showSearchBar = true
-      this.$nextTick(() => {
-        const element = this.$refs.procurar.$el.children[0].children[0].children[0].children[1]
-        element.focus()
-        element.addEventListener("blur", event => this.closeSearchBar())
-      })
-    },
-    closeSearchBar () {
-      this.showSearchBar = false
+    logout() {
+      this.$store.dispatch("setToken", null);
+      this.$store.dispatch("setUser", null);
+      this.$router.push("/", () => {});
     },
   },
 };

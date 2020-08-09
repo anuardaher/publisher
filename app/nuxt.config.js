@@ -1,5 +1,5 @@
 let development = process.env.NODE_ENV !== 'production'
-let URL = development ? 'http://localhost:3001' : 'https://ucadvogados.com.br'
+let URL = development ? 'http://localhost:3001' : 'https://publisher.com.br'
 const siteMapRoutes = require('./utils/siteMapRoutes')
 
 module.exports = {
@@ -28,8 +28,8 @@ module.exports = {
       quem tem direito ao fgts, quem tem direito ao pis, coordenação geral de reconhecimento de direitos inss, tabela inss 2020,
       salário mínimo 2020, reforma da previdência, advogados em Goiânia, advogados em aparecida de Goiânia, dano moral, ipva 2020, 
       fim da multa de 40%, seguro desemprego, calculo de rescisão, rescisão trabalhista`},
-      { hid: "og:image", property: 'og:image', content: `${URL}/ucadvogados.jpg`},
-      { hid: "og:image:secure_url", property: 'og:image:secure_url', content: `${URL}/ucadvogados.jpg`}
+      { hid: "og:image", property: 'og:image', content: `${URL}/publisher.jpg`},
+      { hid: "og:image:secure_url", property: 'og:image:secure_url', content: `${URL}/publisher.jpg`}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -73,7 +73,7 @@ module.exports = {
   ],
 
   sitemap: {
-    hostname: 'https://ucadvogados.com.br',
+    hostname: 'https://publisher.com.br',
     exclude: [
       '/admin',
       '/error',

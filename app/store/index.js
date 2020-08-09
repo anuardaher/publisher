@@ -18,6 +18,7 @@ export const getters = {
   user: state => state.user,
   userId: state => state.user ? state.user._id : null,
   fullName: state => state.user ? `${state.user.firstname} ${state.user.lastname}` : null,
+  firstName: state => state.user ? state.user.firstname : null,
   state: state => state.isUserLoggedIn,
   inicialLetterName: state => state.user ? state.user.firstname.charAt(0).toUpperCase() : null,
   userHasImage: (state) => {

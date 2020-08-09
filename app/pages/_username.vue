@@ -3,20 +3,24 @@
     <v-row align='center' justify='center'>
       <v-col
       xl="6"
-      lg="8"
+      lg="10"
       md="10"     
       sm="12">
         <v-card 
         class="pa-2"
         outlined
+        min-height="380"
+        color="fivety"
+        rounded
+        raised
         >
         <v-row align='center' justify='center'>
           <v-hover>
             <template v-slot:default="{ hover }">
               <v-avatar 
               class="my-2"
-              size='120'
-              color="grey">
+              size='150'
+              color="thirdy">
               <v-fade-transition>
                 <v-overlay
                   v-if="hover && isTheLoggedUser"
@@ -34,7 +38,7 @@
                 ></v-img>
                 <span 
                  v-if="!user.img" 
-                class="white--text display-3"
+                class="primary--text text-h1"
                 v-text="user.firstname.charAt(0).toUpperCase()">
                 </span>
               </v-avatar>
@@ -94,18 +98,18 @@
           <v-dialog v-model="perfilDialog" persistent :fullscreen="$vuetify.breakpoint.xsOnly" max-width="600px">
             <template v-slot:activator="{ on }">
               <v-btn 
-              class='my-2' 
-              outlined 
-              tile 
-              color='primary'
+              class='my-4' 
+              dark
+              rounded
+              color='secondary'
               v-on="on"
               >
-                <v-icon class="ma-2" small>mdi-pencil-plus</v-icon>
+                <v-icon class="ma-2">mdi-pencil-plus</v-icon>
                 Editar Perfil
               </v-btn>
               </template>
             <v-card>
-              <v-toolbar dense color="primary" dark>
+              <v-toolbar dense color="secondary" dark>
                 <v-toolbar-title>Perfil do Usuário</v-toolbar-title>
               </v-toolbar>
               <v-tabs center-active>
@@ -116,10 +120,6 @@
                 <v-tab v-if='$store.getters.provider == "cadastro"'>
                   <v-icon left>mdi-lock</v-icon>
                   Senha
-                </v-tab>
-                <v-tab v-if='$store.getters.role == "admin"'>
-                  <v-icon left>mdi-tag</v-icon>
-                  Tags
                 </v-tab>
                 <v-tab-item>
                   <v-card-title>
@@ -200,7 +200,7 @@
                   <v-card-actions>
                     <div class="flex-grow-1"></div>
                     <v-btn color="red darken-1" text @click="perfilDialog = false">Fechar</v-btn>
-                    <v-btn color="primary"
+                    <v-btn color="success"
                      text
                      :disabled="!userSettingsIsValid" 
                      @click="editUserProfile"
@@ -258,54 +258,13 @@
                     <div class="flex-grow-1"></div>
                     <v-btn color="red darken-1" text @click="perfilDialog = false">Fechar</v-btn>
                     <v-btn 
-                    color="primary" 
+                    color="success" 
                     text 
                     @click="editUserPassword"
                     :disabled="!passwordForm">
                     Salvar
                     </v-btn>
                   </v-card-actions>
-                </v-tab-item>
-                <v-tab-item v-if='$store.getters.role == "admin"'>
-                    <v-card-title>
-                    <span class="headline">Inserir tags</span>
-                  </v-card-title>
-                  <v-card-text>
-                      <v-row>
-                       <v-combobox
-                          v-model="tags"
-                          :loading='tagsLoading'
-                          hide-selected
-                          hint="Máximo de 5 tags"
-                          label="Tags"
-                          multiple
-                          persistent-hint
-                          small-chips
-                          clearable
-                        >
-                          <template v-slot:no-data>
-                            <v-list-item>
-                              <v-list-item-content>
-                                <v-list-item-title>
-                                  Digite e aperte <kbd>enter</kbd> para criar uma nova tag
-                                </v-list-item-title>
-                              </v-list-item-content>
-                            </v-list-item>
-                          </template>
-                        </v-combobox>
-                      </v-row>
-                  </v-card-text>
-                  <v-card-actions>
-                    <div class="flex-grow-1"></div>
-                    <v-btn color="red darken-1" text @click="perfilDialog = false">Fechar</v-btn>
-                    <v-btn 
-                    color="primary" 
-                    text 
-                    @click="saveTags"
-                    :disabled="tags.length < 1 || tags.length > 5">
-                    Salvar
-                    </v-btn>
-                </v-card-actions>
                 </v-tab-item>
               </v-tabs>
             </v-card>
@@ -348,7 +307,7 @@
             <v-card-text>Ao excluir, todas as informações dessa publicação serão perdidas.</v-card-text>
             <v-card-actions>
               <div class="flex-grow-1"></div>
-              <v-btn color="primary" text @click="confirmDialog = false">Não</v-btn>
+              <v-btn color="success" text @click="confirmDialog = false">Não</v-btn>
               <v-btn color="error" text @click="deleteArticle(articleId)">Excluir</v-btn>
             </v-card-actions>
           </v-card>
@@ -362,10 +321,12 @@
 import EventBus from '../event-bus.js'
 import Utils from '../utils/utils.js'
 import Card from '../components/Card'
+import UserImage from '../components/utils/UserImage'
 
 export default {
   components: {
     Card,
+    UserImage
   },
   head() {
     return {
@@ -383,7 +344,7 @@ export default {
         { hid: 'og:image:width', property: 'og:image:width', content: '400' },
         { hid: 'og:image:height', property: 'og:image:height', content: '300' },
         { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
-        { hid: 'twitter:site' ,name: 'twitter:site', content: '@ucadvogados' },
+        { hid: 'twitter:site' ,name: 'twitter:site', content: '@publisher' },
         { hid: 'twitter:title', name: 'article:tag', content: `${this.user.firstname} ${this.user.lastname}` },
         { hid: 'twitter:description', name: 'twitter:description', content: this.userDescription() },
         { hid: 'twitter:image', name: 'twitter:image', content: this.imageUrl(this.user.img) },

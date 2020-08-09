@@ -3,7 +3,9 @@
     <v-row align="center" justify="center">
       <v-col align="center" cols='12'>
           <v-btn
-          color="primary"
+          min-width="150"
+          rounded
+          color="success"
           @click="publish"
           :disabled='checkFields'>🚀 Publicar</v-btn>
       </v-col>        
@@ -29,26 +31,12 @@
           dense
           prepend-icon="mdi-tag"
           v-model="tags"
-          :items="tagList"
-          item-text="name"
           chips
           clearable
           label="Selecione temas"
           multiple
           :rules='[rules.tagsSize]'
-        >
-        <template v-slot:selection="{ attrs, item, select, selected }">
-          <v-chip
-            v-bind="attrs"
-            :input-value="selected"
-            close
-            @click="select"
-            @click:close="remove(item)"
-          >
-            <strong>{{ item.name }}</strong>&nbsp;
-          </v-chip>
-        </template>
-        </v-combobox>
+        />
         <v-divider class='my-2'></v-divider>
         <v-card
           outlined
@@ -172,50 +160,6 @@
               >
                 <v-icon>mdi-format-quotes-close</v-icon>
               </button> 
-            <!-- Botão com dialog para inserir imagem ao texto
-              <v-dialog v-model="dialog" max-width="500px">
-             <template v-slot:activator="{ on }">
-                <button
-                  class="menubar__button mx-1"
-                  v-on='on'
-                  >
-                  <v-icon>mdi-image</v-icon>
-                </button>
-              </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">Imagem</span>
-              </v-card-title>
-              <v-card-text>
-                <span class='subtitle-1'>Você também pode arrastar a imagem para o campo de texto.</span>
-                <v-container>
-                  <v-row>
-                  <v-file-input
-                    v-model='imgFile'
-                    light
-                    accept="image/*"
-                    label="Escolha uma imagem"
-                    prepend-icon="mdi-image"
-                    @change='inputImage(commands.image)'
-                  ></v-file-input>
-                  </v-row>
-                  <v-row align='center' justify='center'>
-                  <span class='subtitle-1'>Ou então...</span>
-                  </v-row>
-                  <v-row>
-                  <v-text-field
-                  v-model='imgLink'
-                  text
-                  prepend-icon="mdi-link"
-                  light
-                  label='Insira um endereço de imagem'
-                  @change='inputImageLink(commands.image)'>
-                  </v-text-field>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-            </v-card>
-          </v-dialog> -->
               <button
                 class="menubar__button mx-1"
                 @click="commands.horizontal_rule"
@@ -305,7 +249,6 @@ export default {
       title: '',
       subtitle: '',
       tags: [],
-      tagList: [],
       text: '',
       preview: '',
       coverImgFile: null,
@@ -318,7 +261,7 @@ export default {
         titleMaxLength: value => value.length <= 80 || 'Máximo de 80 caracteres.',
         subtitleMaxLength: value => value.length <= 200 || 'Máximo de 200 caracteres.',
         imageSize: value => !value || value.size < 1000000 || 'A imagem deve ter o máximo de 1 MB.',
-        tagsSize: value => value.length < 3 || 'Você pode escolher até 2 tags.'
+        tagsSize: value => value.length <= 5 || 'Você pode escolher até 5 tags.'
         }, 
     }
   },
@@ -353,24 +296,6 @@ export default {
       });
       } 
     },
-    // Funções para inserir imagem e link de uma imagem
-
-    // async inputImage(command) {
-    //   if (!this.imgFile) return;
-    //   try {
-    //     const imgLink = await Utils.convertToBase64(this.imgFile);
-    //     command({ 'src': imgLink});
-    //     this.imgFile = null;     
-    //     this.dialog = !this.dialog; 
-    //   } catch (error) {
-    //   }
-    // },
-    // inputImageLink(command) {
-    //   if (!this.imgLink) return;
-    //   command({ 'src': this.imgLink});
-    //   this.imgLink = null;     
-    //   this.dialog = !this.dialog;
-    // },
     async inputCoverImage() {
       if (!this.coverImgFile) return;
       let fd = new FormData();
@@ -400,17 +325,7 @@ export default {
   beforeDestroy() {
     this.editor.destroy()
   },
-  async created() {
-    try {
-      const { data } = await this.$axios.get('/tags');
-      this.tagList = data ? data : [];
-    } catch (error) {
-     EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: 'Erro ao carregar temas.'
-      });
-    }
-  },
+
   mounted() {
      this.editor = new Editor({
         extensions: [

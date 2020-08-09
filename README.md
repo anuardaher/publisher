@@ -1,4 +1,4 @@
-# UC Advogados
+# Publisher
 
 ## Dependências
 
@@ -17,7 +17,7 @@ Primeiro, renomeie o arquivo **.env.example** para **.env** e insira as variáve
 
 ### Configure o MongoDB
 
-Para rodar o projeto local, é necessário criar o usuário do banco de dados ucadvogados que utilizamos no sistema. Acesse o container docker do mongo pelo terminal:
+Para rodar o projeto local, é necessário criar o usuário do banco de dados publisher que utilizamos no sistema. Acesse o container docker do mongo pelo terminal:
 
 `docker exec -it mongo /bin/bash`
 
@@ -25,7 +25,7 @@ Execute o seguinte comando dentro do container:
 
 ~~~~
 mongo -uroot -p example
-  use ucadvogados
+  use publisher
   db.createUser({
     user: "uc_user",
     pwd: "123456",

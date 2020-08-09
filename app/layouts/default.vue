@@ -1,36 +1,38 @@
 <template>
   <v-app>
     <!-- Menu do usuário -->
-    <AppDrawer/>
+    <AppDrawer />
     <!-- Cabeçalho da aplicação -->
-    <AppBar/>
+    <AppBar />
     <!-- Conteúdo gerido pelas rotas -->
-    <v-content>
-      <WhatsappButton/>
-      <Snackbar/>
+    <v-main>
+      <WhatsappButton />
+      <Snackbar />
       <v-container fluid>
-        <router-view :key="$route.fullPath"></router-view>
+        <v-scroll-x-transition :hide-on-leave="true">
+          <router-view :key="$route.fullPath"></router-view>
+        </v-scroll-x-transition>
       </v-container>
-    </v-content>
+    </v-main>
     <!-- Rodapé -->
-    <Footer/>
+    <Footer />
   </v-app>
 </template>
 
 <script>
-import AppBar from '../components/AppBar.vue';
-import AppDrawer from '../components/utils/AppDrawer.vue';
-import Snackbar from '../components/utils/Snackbar.vue';
-import WhatsappButton from '../components/utils/WhatsappButton.vue';
-import Footer from '../components/Footer.vue';
+import AppBar from "../components/AppBar.vue";
+import AppDrawer from "../components/utils/AppDrawer.vue";
+import Snackbar from "../components/utils/Snackbar.vue";
+import WhatsappButton from "../components/utils/WhatsappButton.vue";
+import Footer from "../components/Footer.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   head: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: 'Site',
+    title: "Site",
     // all titles will be injected into this template
-    titleTemplate: '%s – UC Advogados'
+    titleTemplate: "%s – UC Advogados",
   },
   components: {
     AppBar,
@@ -39,20 +41,38 @@ export default {
     WhatsappButton,
     Footer,
   },
-  data: () => ({
-  }),
-  methods: {
-  },
-  computed: {
-  },
+  data: () => ({}),
+  methods: {},
+  computed: {},
 };
 </script>
+
 <style>
-.v-content {
-  background-image: radial-gradient( circle farthest-corner at 18.7% 37.8%,  rgba(250,250,250,1) 0%, rgba(225,234,238,1) 90% );
+
+.v-main {
+  min-height: 70vh;
+  background: #ECE9E6;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 body {
-  overflow-x: hidden
+  overflow-x: hidden;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+.logo {
+  -webkit-transform: rotate(-180deg);
+  -moz-transform: rotate(-180deg);
+  -o-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 }
 </style>

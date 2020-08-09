@@ -1,4 +1,4 @@
-# ucadvogadosSSR
+# publisherSSR
 
 > My solid Nuxt.js project
 

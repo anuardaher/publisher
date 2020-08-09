@@ -1,21 +1,21 @@
 <template>
-	<div class="mr-2">
+	<div class="">
     <div class="text-center">
-      <v-icon class="mr-n2" :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
-      <v-btn fab icon x-small class="body-2 mb-n2" v-show="article.thumbs.length > 0" @click.stop="showLikes(article)">
+      <v-icon :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
+      <v-btn fab icon x-small class="body-2" v-if="article.thumbs.length > 0" @click.stop="showLikes(article)">
         {{article.thumbs.length}}
       </v-btn>
     </div>
-    <div class="">
+    <div class="text-center mt-n2">
       <v-btn class="" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">        
         <span :class="$vuetify.breakpoint.xs ? 'caption' : null"> Curtir </span>
       </v-btn>
     </div>
 		<v-dialog persistent v-model="likesDialog" scrollable max-width="400px" :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card :loading="isLikeListLoading">
-        <v-card-title class="px-4 headline">
+        <v-card-title class="px-4 text-h5">
           <v-btn class="mr-5" icon @click="likesDialog = false">
-            <v-icon size="40">mdi-keyboard-backspace</v-icon>
+            <v-icon size="30">mdi-keyboard-backspace</v-icon>
           </v-btn>
           Curtidas
         </v-card-title>
@@ -34,11 +34,11 @@
                 ></v-img>
                 <span v-if="!user.img" class="white--text headline">{{user.firstname.charAt(0).toUpperCase()}}</span>
               </v-list-item-avatar>
-              <v-list-item-content @click="$router.push(`/${user.username}`, () => {})">
-                <a>
-                  <v-list-item-title v-text="`${user.firstname} ${user.lastname}`"></v-list-item-title>
+              <v-list-item-content>
+                <NuxtLink :to="`/${user.username}`">
+                  <v-list-item-title class="grey--text text--darken-4" v-text="`${user.firstname} ${user.lastname}`"></v-list-item-title>
                   <v-list-item-subtitle v-text="`${user.address.city} – ${user.address.country}`"></v-list-item-subtitle>
-                </a>              
+                </NuxtLink>              
               </v-list-item-content>
               <v-list-item-action>          
               </v-list-item-action>

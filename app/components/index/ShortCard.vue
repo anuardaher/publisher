@@ -28,7 +28,7 @@ export default {
         return text.length > 80 ? text.slice(0,80).concat('...') : text;
       },
       getImageUrl(path) {
-        if (!path) return '/ucadvogados.jpg'
+        if (!path) return '/publisher.jpg'
         if (/https/.test(path))
           return path
         return `${process.env.BASE_URL}/${path}`;

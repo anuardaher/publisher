@@ -1,6 +1,7 @@
 <template>
   <client-only>
   <v-autocomplete
+    :dark="dark"
     ref="search"
     v-model="select"
     :loading="loading"
@@ -15,6 +16,9 @@
     item-text='title'
     clearable
     transition="fade-transition"
+    full-width
+    prepend-icon="search"
+    dense
     >
       <template v-slot:item="{ item }"> 
           <v-list-item-avatar>
@@ -43,6 +47,12 @@ export default {
     search: null,
     select: {},
   }),
+  props: {
+    dark: {
+      type: Boolean,
+      default: false
+    }
+  },
    watch: {
       search (val) {
         val && val !== this.select && this.searchPosts(val)

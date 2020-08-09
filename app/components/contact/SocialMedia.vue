@@ -21,11 +21,11 @@
         <v-icon class="mr-2">mdi-linkedin</v-icon>
         <span class="body-2">500</span>
       </v-btn>
-      <v-btn class="mr-2 social" color="#d62824" rounded dark @click="openTab('https://www.youtube.com/c/UCAdvogados')">
+      <v-btn class="mr-2 social" color="#d62824" rounded dark @click="openTab('https://www.youtube.com/c/publisher')">
         <v-icon class="mr-2">mdi-youtube</v-icon>
         <span class="body-2">152</span>
       </v-btn>
-      <v-btn class="mr-2 social" color="#2ea4d4" rounded dark @click="openTab('https://t.me/ucadvogados')">
+      <v-btn class="mr-2 social" color="#2ea4d4" rounded dark @click="openTab('https://t.me/publisher')">
         <v-icon class="mr-2">mdi-telegram</v-icon>
         <span class="body-2">1K</span>
       </v-btn>
