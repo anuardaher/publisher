@@ -1,10 +1,10 @@
 {
   "name": "publisher-api",
   "version": "1.0.0",
-  "description": "API para a aplicação UC Advogados",
+  "description": "API para a aplicação Publisher",
   "main": "src/index",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "node src/index.js",
     "lint": "eslint src/**/*.js"
   },
   "author": "Anuar Daher",
