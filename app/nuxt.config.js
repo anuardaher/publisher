@@ -1,5 +1,5 @@
 let development = process.env.NODE_ENV !== 'production'
-let URL = development ? 'http://localhost:3001' : 'https://publisher.com.br'
+let URL = development ? 'http://localhost:3001' : 'https://anuar-publisher-api.herokuapp.com/'
 const siteMapRoutes = require('./utils/siteMapRoutes')
 
 module.exports = {
