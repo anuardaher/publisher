@@ -14,6 +14,7 @@ const options = {
   useFindAndModify: false,
   useCreateIndex: true,
   autoIndex: false,
+  useUnifiedTopology: true 
 };
 
 try {

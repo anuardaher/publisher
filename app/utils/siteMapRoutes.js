@@ -1,7 +1,6 @@
 const axios = require('axios');
 
 const getUsers = async (URL) => {
-    console.log("passei aqui no getusers")
 	try {
 		const { data } = await axios.get(URL + '/api/v1/users', { params: {
 			project: { username: 1 }
@@ -14,7 +13,6 @@ const getUsers = async (URL) => {
 }
 
 const getArticles = async (URL) => {
-    console.log("passei aqui no getarticles")
 	try {
 		const { data } = await axios.get(URL + '/api/v1/articles', { params: {
 			project: { title: 1 }

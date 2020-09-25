@@ -1,9 +1,5 @@
 const usersRepository = require('../repository/users.repository');
-const fs = require('fs');
-const { promisify } = require('util');
-const path = require('path');
-
-const unlinkAsync = promisify(fs.unlink)
+const cloudinary = require('cloudinary').v2;
 
 const getAll = async (req, res) => {
   const {data = {}, projection = null} = req.query
@@ -30,11 +26,10 @@ const findById = async (req, res) => {
 };
 
 const findOne = async (req, res) => {
-  console.log('passei aqui')
-  const data = {username: req.params.username}
+  const { params } = req;
   const projection = {password: 0, salt: 0}
   try {
-    const user = await usersRepository.findOne(data, projection);
+    const user = await usersRepository.findOne(params, projection);
     return res.status(200).json(user);
   } catch (e) {
     console.error(e.message);
@@ -92,21 +87,17 @@ const update = async (req, res) => {
 const editProfileImage = async (req, res) => {
   const { id } = req.params;
   if (!req.file) return res.status(500).send();
-  let imgLink = req.file.path;
   try {
-    const user = await usersRepository.findById(id);
-    if (!user) return res.status(500).send();
-    if (user.img && !/https/.test(user.img)) {
-      await unlinkAsync(path.join(process.cwd(), user.img));
-    }
-    const newUser = await usersRepository.update(
-      id,
-      { img: imgLink },
-    );
-    if (!newUser) return res.status(500).send();
-    newUser.password = '';
-    newUser.salt = '';
-    return res.status(200).json(newUser);
+    cloudinary.uploader.upload_stream({resource_type: 'raw', format: 'jpg'}, async (err, result) => {
+      const newUser = await usersRepository.update(
+        id,
+        { img: result.url },
+      );
+      if (!newUser) return res.status(500).send();
+      newUser.password = '';
+      newUser.salt = '';
+      return res.status(200).json(newUser);
+    }).end(req.file.buffer);
   } catch (error) {
     console.error(error.message);
     return res.status(500).send();

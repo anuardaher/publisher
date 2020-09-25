@@ -3,6 +3,7 @@ const articlesController = require('../controllers/articles.controller');
 const articlesSchema = require('../policies/articles.schema');
 const multer = require("multer");
 const passport = require('passport')
+const multerUploads = require("../config/multer.js");
 
 router.get('/', articlesController.getAll);
 router.get('/:id', articlesController.findById);
@@ -14,17 +15,6 @@ router.post('/search', articlesController.search);
 router.post('/post/:id', articlesController.findOne);
 router.post('/week-posts', articlesController.weekPosts);
 
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads/articles/')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + '.png')
-    }
-  });
-   
-const upload = multer({ storage: storage })
-
-router.post('/coverImage', upload.single('file'), articlesController.uploadImage)
+router.post('/coverImage', multerUploads, articlesController.uploadImage)
 
 module.exports = router;

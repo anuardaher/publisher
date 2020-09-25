@@ -5,13 +5,14 @@
   "main": "src/index",
   "scripts": {
     "start": "node src/index.js",
-    "lint": "eslint src/**/*.js"
+    "lint": "eslint src/**/*.js",
+    "dev": "nodemon --inspect src/index.js"
   },
   "author": "Anuar Daher",
   "license": "ISC",
   "dependencies": {
-    "@hapi/joi": "^15.1.1",
     "axios": "^0.19.2",
+    "cloudinary": "^1.23.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -23,6 +24,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.6.0",
     "helmet": "^3.23.3",
+    "joi": "^17.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.27",
     "morgan": "^1.10.0",

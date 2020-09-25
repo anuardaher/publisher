@@ -1,25 +1,23 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 module.exports = {
   register(req, res, next) {
-    const schema = {
+    const schema = Joi.object().keys({
       title: Joi.string()
         .min(5)
         .max(80)
         .required(),
       subtitle: Joi.string()
       .max(200)
-      .allow('')
       .optional(),
+      preview: Joi.string(),
       tags: Joi.array(),
-      text: Joi.string().required()
-        .min(200),
-      preview: Joi.optional(),
+      text: Joi.string().required().min(200),
       author: Joi.object().required(),
       img: Joi.string(),
-    };
+    });
 
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = schema.validate(req.body);
 
     if (error) {
       switch (error.details[0].context.key) {

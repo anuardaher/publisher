@@ -10,12 +10,14 @@ function jwtSignUser(user) {
 
 module.exports = {
   async register(req, res) {
+
     const createUsername = (name) => {
       name = name.toLowerCase()
       name = name.replace(/\s/g,'')
       let normalizedName = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
       return `${normalizedName}.${Math.floor(Math.random() * (10 - 1) + 1)}`
     }
+
     try {
       req.body.username = createUsername(req.body.firstname +'.'+ req.body.lastname)
       const user = await userRepository.create(req.body);
@@ -23,10 +25,7 @@ module.exports = {
         return res.status(500).json({ error: 'Erro interno do servidor.' });
       user.password = '';
       user.salt = '';
-      console.log(user);
-      if (user.provider != 'cadastro') {
-        return res.redirect(`${process.env.HOST}/?user=${user._id}`);
-      }
+      console.log('Criando usuário', user);
       return res.status(200).json({
         user,
         token: jwtSignUser(user),
@@ -34,29 +33,37 @@ module.exports = {
     } catch (err) {
       console.log(err.message);
       return res.status(400).send({
-        error: 'Esse e-mail já está em uso.',
+        error: 'Esse e-mail já está em uso',
       });
     }
   },
   async login(req, res) {
     try {
-      const { email, password } = req.body;
-      const user = await userRepository.findOne({ email });
-      if (!user) {
-        return res.status(403).send({
-          error: 'E-mail ou senha incorretos.',
-        });
+      let user;
+      const { email, password, facebookId } = req.body;
+      if (facebookId) {
+        user = await userRepository.findOne({ email, facebookId });
+        if (!user) {
+          return res.status(403).send('Usuário ainda não cadastrado.');
+        }
+      } else {
+        user = await userRepository.findOne({ email });
+        if (!user) {
+          return res.status(403).send('E-mail ou senha incorretos.');
+        }
       }
+      // se for login por rede social...
       if (user.provider != 'cadastro') {
-        return res.status(403).send({
-          error: `Faça o login pelo ${user.provider}.`,
-        });
-      }
+        user.password = '';
+        user.salt = '';
+          return res.send({
+            user,
+            token: jwtSignUser(user),
+          });
+        }
       const isPasswordValid = await user.validatePassword(password);
       if (!isPasswordValid) {
-        return res.status(403).send({
-          error: 'E-mail ou senha incorretos.',
-        });
+        return res.status(403).send('E-mail ou senha incorretos.');
       }
       user.password = '';
       user.salt = '';
@@ -66,19 +73,8 @@ module.exports = {
       });
     } catch (err) {
       console.log(err.message);
-      return res.status(500).send({
-        error: 'Erro interno do servidor.',
-      });
+      return res.status(500).send('Erro interno do servidor.');
     }
-  },
-  async socialLogin(req, res) {
-    const { id } = req.params;
-    const user = await userRepository.findOne({_id: id});
-    if (!user) return res.status(404);
-    return res.status(200).json({
-      user,
-      token: jwtSignUser(user),
-    });
   },
   async updatePassword(req, res) {
     const {password} = req.body;

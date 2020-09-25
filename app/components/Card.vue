@@ -28,7 +28,7 @@
       </div>
     </v-card-text>
     <NuxtLink :to="normalizeLink(value)">
-      <v-img height="200px" v-if="value.img" :src="getImageUrl(value.img)">
+      <v-img height="200px" v-if="value.img" :src="value.img">
       </v-img>
       <v-card-title class="grey--text text--darken-4 text-h5">{{
         value.title
@@ -104,11 +104,6 @@ export default {
     },
     minimizeText(text) {
       return text ? text.slice(0, 150).concat("...") : "";
-    },
-    getImageUrl(path) {
-      if (!path) return;
-      if (/https/.test(path)) return path;
-      return `${process.env.BASE_URL}/${path}`;
     },
     getPostUrl(post) {
       return `${process.env.BASE_URL}${Utils.normalizeLink(post)}`;

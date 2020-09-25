@@ -2,6 +2,7 @@ const articlesRepository = require('../repository/articles.repository');
 const fs = require('fs');
 const { promisify } = require('util');
 var path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 const unlinkAsync = promisify(fs.unlink)
 
@@ -82,11 +83,13 @@ const update = async (req, res) => {
   return res.status(200).json(article);
 };
 
-const uploadImage = async (req, res) => {
-  if (req.file) {
-    const path = req.file.path
-    res.status(200).json({path});
-  }
+const uploadImage = (req, res) => {
+  if (!req.file) return res.status(500).send();
+  cloudinary.uploader.upload_stream({resource_type: 'raw', format: 'jpg'}, async (err, result) => {
+    if (result.url) {
+      res.status(200).json({path: result.url});
+    }
+  }).end(req.file.buffer)
 }
 
 const search = async (req, res) => {

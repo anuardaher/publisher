@@ -1,8 +1,8 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 module.exports = {
   register(req, res, next) {
-    const schema = {
+    const schema = Joi.object().keys({
       firstname: Joi.string()
         .min(3)
         .max(20)
@@ -11,18 +11,24 @@ module.exports = {
         .min(3)
         .max(20)
         .required(),
-      username: Joi.string(),
+      username: Joi.string().optional(),
       email: Joi.string()
         .email()
         .required(),
-      profession: Joi.string(),
+      profession: Joi.string().required(),
+      img: Joi.string(),
+      provider: Joi.string(),
+      termo: Joi.boolean().valid(true),
       address: Joi.object(),
-      password: Joi.string().regex(new RegExp('^[a-zA-Z0-9]{8,32}$')),
-    };
+      facebookId: Joi.string().allow(null),
+      password: Joi.when('facebookId', {is: Joi.exist(), then: Joi.string().allow(null), otherwise: Joi.string().regex(/^[a-zA-Z0-9]{8,32}$/) }),
+      passwordValidation: Joi.ref("password")
+    })
 
-    const { error } = Joi.validate(req.body, schema);
+    const { error } = schema.validate(req.body);
 
     if (error) {
+      console.log(error)
       switch (error.details[0].context.key) {
         case 'email':
           res

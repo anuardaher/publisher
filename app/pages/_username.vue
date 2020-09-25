@@ -33,7 +33,7 @@
               </v-fade-transition>
                 <v-img
                  v-if="user.img"
-                :src="imageUrl(user.img)"
+                :src="user.img"
                 :alt="user.firstname"
                 ></v-img>
                 <span 
@@ -338,16 +338,16 @@ export default {
         { hid: 'og:url', property: 'og:url', content: `${this.BASE_URL}/${this.user.username}`},
         { hid: 'og:title', property: 'og:title', content: `${this.user.firstname} ${this.user.lastname}`},
         { hid: 'og:description', property: 'og:description', content: this.userDescription()},
-        { hid: 'og:site_name', property: 'og:site_name', content: 'UC Advogados'},
-        { hid: 'og:image', property: 'og:image', content: this.imageUrl(this.user.img) },
-        { hid: 'og:image:secure_url', property: 'og:image', content: this.imageUrl(this.user.img)},
+        { hid: 'og:site_name', property: 'og:site_name', content: 'Publisher'},
+        { hid: 'og:image', property: 'og:image', content: this.user.img },
+        { hid: 'og:image:secure_url', property: 'og:image', content: this.user.img},
         { hid: 'og:image:width', property: 'og:image:width', content: '400' },
         { hid: 'og:image:height', property: 'og:image:height', content: '300' },
         { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
         { hid: 'twitter:site' ,name: 'twitter:site', content: '@publisher' },
         { hid: 'twitter:title', name: 'article:tag', content: `${this.user.firstname} ${this.user.lastname}` },
         { hid: 'twitter:description', name: 'twitter:description', content: this.userDescription() },
-        { hid: 'twitter:image', name: 'twitter:image', content: this.imageUrl(this.user.img) },
+        { hid: 'twitter:image', name: 'twitter:image', content: this.user.img },
       ]
     }
   },
@@ -556,12 +556,6 @@ export default {
         } finally {
             this.tagsLoading = false;
         }
-    },
-    imageUrl (path) {
-      if (!path) return
-      if (/https/.test(path))
-        return path
-      return `${this.BASE_URL}/${path}`
     },
     userDescription() {
       return `${this.user.profession} em ${this.user.address.city} – ${this.user.address.country}`

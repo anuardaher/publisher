@@ -8,28 +8,21 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    titleTemplate: '%s - ' + 'UC Advogados',
-    title: 'UC Advogados',
+    titleTemplate: '%s - ' + 'Publisher',
+    title: 'Publisher',
     meta: [
       { charset: 'utf-8' },
       { name:"robots", content:"index,follow" },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'language', content: 'Portuguese'},
       { property: 'og:locale', content: 'pt_BR'},
-      { property: 'fb:app_id', content: '365056554418853'},
       { property: 'og:ttl', content: '2419100'}, 
-      { hid: "author", name:'author', content:"Uelton Costa"},      
-      { hid: "description", name: 'description', content: `Demissão, como calcular hora extra, como fazer carteira de trabalho digital, 
-      quem tem direito ao fgts, quem tem direito ao pis, coordenação geral de reconhecimento de direitos inss, tabela inss 2020, salário mínimo 2020, reforma da previdência, 
-      advogados em Goiânia, advogados em aparecida de Goiânia, dano moral, ipva 2020, 
-      fim da multa de 40%, seguro desemprego, calculo de rescisão, rescisão trabalhista` },
-      { hid: "keywords", name: 'keywords', content: `direito, advogados, constituição, lei, noticias, artigos, consumidor, goiânia, goiás,
-      direito constitucional,direito civil, direito penal, direito tributário, Demissão, como calcular hora extra, como fazer carteira de trabalho digital,
-      quem tem direito ao fgts, quem tem direito ao pis, coordenação geral de reconhecimento de direitos inss, tabela inss 2020,
-      salário mínimo 2020, reforma da previdência, advogados em Goiânia, advogados em aparecida de Goiânia, dano moral, ipva 2020, 
-      fim da multa de 40%, seguro desemprego, calculo de rescisão, rescisão trabalhista`},
-      { hid: "og:image", property: 'og:image', content: `${URL}/publisher.jpg`},
-      { hid: "og:image:secure_url", property: 'og:image:secure_url', content: `${URL}/publisher.jpg`}
+      { hid: "author", name:'author', content:"Anuar Daher"},      
+      { hid: "description", name: 'description', content: `Aplicação para a criação de publicações e compartilhamento em redes socais` },
+      { hid: "keywords", name: 'keywords', content: `publicação, sistema, software, app, publicações, redes sociais, compartilhamento, Anuar Daher, desenvolvimento
+      programação`},
+      { hid: "og:image", property: 'og:image', content: `${URL}/logo.png`},
+      { hid: "og:image:secure_url", property: 'og:image:secure_url', content: `${URL}/logo.png`}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -68,12 +61,11 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'cookie-universal-nuxt',
     '@nuxtjs/sitemap'
   ],
 
   sitemap: {
-    hostname: 'https://publisher.com.br',
+    hostname: 'https://anuar-publish-app.herokuapp.com/',
     exclude: [
       '/admin',
       '/error',
@@ -88,9 +80,9 @@ module.exports = {
     gzip: true,
   },
   env: {
-    BASE_URL: URL
+    BASE_URL: URL,
+    facebookAppId: 335321434267264
   },
-
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
@@ -120,5 +112,7 @@ module.exports = {
    
     extend (config, ctx) {
     }
-  }
+  },
+
+  telemetry: false
 }

@@ -26,38 +26,4 @@ passport.use(
   )
 );
 
-// passport.use(
-//   new FacebookStrategy(
-//     {
-//       clientID: process.env.FACEBOOK_APP_ID,
-//       clientSecret: process.env.FACEBOOK_APP_SECRET,
-//       callbackURL: `${process.env.HOST}/api/v1/auth/facebook/callback`,
-//       profileFields: ['id', 'first_name', 'last_name', 'email', 'picture.type(large)'],
-//     },
-//     async (accessToken, refreshToken, profile, cb) => {
-//       const data = profile._json;
-//       try {
-//         let user = await userRepository.findOne({ email: data.email });
-//         if (user) {
-//           if (user.img && /https/.test(user.img)) {
-//             await userRepository.update({"_id": user._id}, {"$set": { "img": data.picture.data.url }})
-//           }
-//           return cb(null, user);
-//         }
-//         user = {
-//           provider: 'facebook',
-//           firstname: data.first_name,
-//           lastname: data.last_name,
-//           email: data.email,
-//           img: data.picture.data.url,
-//           facebook: { id: profile.id, token: accessToken },
-//         };
-//         return cb(null, user);
-//       } catch (error) {
-//         return cb(error, null)
-//       }
-//     }
-//   )
-// );
-
 module.exports = null;

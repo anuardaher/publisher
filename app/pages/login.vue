@@ -8,12 +8,7 @@
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
-            <div class="text-center mb-4">
-              <v-btn color="#3b5998" dark rounded @click="facebook">
-                <v-icon class="mr-2">mdi-facebook</v-icon>
-                ENTRE COM FACEBOOK
-              </v-btn>
-            </div>
+            <FacebookAuth page="login" />
             <v-form v-model="valid" @keyup.native.enter="valid && login">
               <v-text-field
                 label="E-mail"
@@ -72,6 +67,7 @@
 
 <script>
 import EventBus from "../event-bus.js";
+import FacebookAuth from "../components/utils/FacebookAuth";
 
 export default {
   head() {
@@ -79,6 +75,9 @@ export default {
       title: "Login",
       meta: [],
     };
+  },
+  components: {
+    FacebookAuth,
   },
   props: {
     source: String,
@@ -110,16 +109,10 @@ export default {
         this.$store.dispatch("setUser", response.user);
         this.$router.push("/");
       } catch (error) {
-        if (!error.response) {
-          return (this.error = "Erro Inesperado");
-        }
-        return (this.error = error.response.data
-          ? error.response.data.error
-          : "Erro Inesperado");
+        this.error = error.response.data
+          ? error.response.data
+          : "Não foi possível fazer o login";
       }
-    },
-    facebook() {
-      window.location.href = `${process.env.BASE_URL}/api/v1/auth/facebook`;
     },
   },
 };

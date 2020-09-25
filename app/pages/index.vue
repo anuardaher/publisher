@@ -44,7 +44,7 @@ export default {
   },
   head() {
     return {
-      title: "Artigos e noticias do mundo jurídico em um só lugar",
+      title: "Artigos e noticias em um só lugar",
       meta: [],
     };
   },

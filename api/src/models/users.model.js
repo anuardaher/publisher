@@ -15,8 +15,8 @@ const userSchema = new Schema(
     username: {type: String, trim: true, lowercase: true, unique: true },
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, trim: true },
-    profession: {type: String, trim: true },
     provider: {type: String, enum: ['facebook', 'linkedin', 'cadastro'], default: 'cadastro'},
+    profession: {type: String, required: true},
     img: { type: String },
     bio: { type: String, trim: true },
     followers: { type: Number, default: 0 },
@@ -32,13 +32,7 @@ const userSchema = new Schema(
       zipcode: String,
       number: String,
     },
-    facebook: {
-      id: String,
-      token: String,
-    },
-    linkedin: {
-      id: String,
-    },
+    facebookId: String,
   },
   {
     timestamps: {},
