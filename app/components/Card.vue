@@ -22,7 +22,7 @@
           :to="`/${value.author.username}`"
           class="font-weight-bold grey--text text--darken-4"
         >
-          {{ value.author ? value.author.name : "" }} </NuxtLink
+          {{ value.author ? `${value.author.firstname} ${value.author.lastname}` : "" }} </NuxtLink
         ><br />
         <span><timeago :datetime="value.createdAt"></timeago></span>
       </div>
@@ -81,20 +81,6 @@ export default {
     showDeleteButton: Boolean,
   },
   methods: {
-    async getAuthor() {
-      let user = await this.$axios.$get(`/users/${this.value.author.id}`, {
-        params: {
-          projection: {
-            firstname: 1,
-            lastname: 1,
-            username: 1,
-            img: 1,
-          },
-        },
-      });
-      this.value.author = user;
-      this.value.author.name = `${user.firstname} ${user.lastname}`;
-    },
     covertTagsToString(article) {
       if (article.tags) {
         const tags = article.tags.map((tag) => tag.name);
@@ -111,9 +97,6 @@ export default {
     normalizeLink(post) {
       return Utils.normalizeLink(post);
     },
-  },
-  created() {
-    this.getAuthor();
   },
 };
 </script>

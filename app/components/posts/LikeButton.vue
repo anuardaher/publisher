@@ -1,12 +1,12 @@
 <template>
-	<div class="">
+	<div>
     <div class="text-center">
       <v-icon :color="isLiked(article) ? 'red' : 'grey'">mdi-heart</v-icon>
-      <v-btn fab icon x-small class="body-2" v-if="article.thumbs.length > 0" @click.stop="showLikes(article)">
+      <v-btn icon x-small class="body-2" v-if="article.thumbs.length > 0" @click.stop="showLikes(article)">
         {{article.thumbs.length}}
       </v-btn>
     </div>
-    <div class="text-center mt-n2">
+    <div class="text-center">
       <v-btn class="" text :disabled="isLikeButtonLoading" @click="thumbsUp(article)">        
         <span :class="$vuetify.breakpoint.xs ? 'caption' : null"> Curtir </span>
       </v-btn>
@@ -27,12 +27,7 @@
             :key='user._id'
             >
               <v-list-item-avatar color="grey">
-                <v-img
-                  v-if="user.img"
-                  :src="getImageUrl(user.img)"
-                  :alt="user.firstname"
-                ></v-img>
-                <span v-if="!user.img" class="white--text headline">{{user.firstname.charAt(0).toUpperCase()}}</span>
+                <UserImage :img="user.img" :author="user.firstname"/>
               </v-list-item-avatar>
               <v-list-item-content>
                 <NuxtLink :to="`/${user.username}`">
@@ -52,8 +47,12 @@
 
 <script>
 import EventBus from '../../event-bus.js';
+import UserImage from '../utils/UserImage'
 
 export default {
+  components: {
+    UserImage
+  },
 	data: () => ({
 		isLikeButtonLoading: false,
 		likesDialog: false,
@@ -136,7 +135,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-
-</style>

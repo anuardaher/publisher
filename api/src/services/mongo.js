@@ -7,7 +7,7 @@ const DATABASE = process.env.MONGO_DATABASE;
 const USER = process.env.MONGO_USER;
 const PASSWORD = process.env.MONGO_PASSWORD;
 
-const uri = `mongodb://${USER}:${PASSWORD}@${HOST}:${PORT}/${DATABASE}`;
+const uri = `mongodb+srv://${USER}:${PASSWORD}@${HOST}/${DATABASE}?retryWrites=true&w=majority`;
 
 const options = {
   useNewUrlParser: true,

@@ -1,15 +1,27 @@
 const articlesRepository = require('../repository/articles.repository');
-const fs = require('fs');
-const { promisify } = require('util');
-var path = require('path');
 const cloudinary = require('cloudinary').v2;
 
-const unlinkAsync = promisify(fs.unlink)
 
 const getAll = async (req, res) => {
   const { data = null, projection = null, options = null} = req.query;
-  const articles = await articlesRepository.find(JSON.parse(data), JSON.parse(projection), JSON.parse(options));
-  return res.status(200).json(articles);
+  const {limit = 5, skip = 0, sort = {} } = JSON.parse(options);
+  try {
+    const articles = await articlesRepository.aggregate(
+      [
+        { $match: JSON.parse(data) },
+        { $lookup: {from: "users", localField: "author.id", foreignField: "_id", as: "author"} },
+        { $unwind: "$author" },
+        { $project: {"author.password": 0, "author.salt": 0, "author.role": 0, ...JSON.parse(projection)} },
+        { $limit : limit },
+        { $skip : skip },
+        { $sort : sort },
+      ]
+    );
+    return res.status(200).json(articles);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).send();
+  }
 };
 
 const findById = async (req, res) => {
@@ -53,10 +65,6 @@ const remove = async (req, res) => {
         message: `Article not found for id: ${req.params.id}`
       });
     }
-    if (article.img) {
-      await unlinkAsync(path.join(process.cwd(), article.img));
-    }
-    console.log(`Deleted article: ${article.title}, ${article.author.name}`);
     return res.status(200).send();
   } catch (e) {
     console.error(e.message);

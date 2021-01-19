@@ -52,7 +52,7 @@ export default {
     show: false,
     articles: [],
     isLoadingArticles: false,
-    skip: null,
+    skip: 0,
     totalOfArticles: false,
     showInformationDialog: false,
     user: { address: {} },
@@ -74,10 +74,10 @@ export default {
     ],
   }),
   methods: {
-    async loadData(infinityScroll) {
+    async loadData() {
       if (this.isLoadingArticles) return;
       this.isLoadingArticles = !this.isLoadingArticles;
-      const options = {
+      const params = {
         data: { type: "artigo", active: true },
         projection: { text: 0 },
         options: {
@@ -89,8 +89,8 @@ export default {
         },
       };
       try {
-        let articles = await this.$axios.$get("/articles", { params: options });
-        if (articles.length == 0) return (this.totalOfArticles = true);
+        let articles = await this.$axios.$get("/articles", { params });
+        this.totalOfArticles = articles.length < params.options.limit ? true : false;
         this.articles = this.articles.concat(articles);
         this.skip = this.articles.length;
       } catch (error) {
@@ -106,7 +106,7 @@ export default {
       if (utils.isTheBottomOfThePage())
         if (!this.totalOfArticles) {
           // Se já tiver acabado os posts, não requisita mais
-          this.loadData(true);
+          this.loadData();
         }
     },
   },

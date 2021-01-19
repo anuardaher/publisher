@@ -3,7 +3,6 @@ let URL = development ? 'http://localhost:3001' : 'https://anuar-publisher-api.h
 const siteMapRoutes = require('./utils/siteMapRoutes')
 
 module.exports = {
-  mode: 'universal',
   /*
   ** Headers of the page
   */

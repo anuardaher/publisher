@@ -394,13 +394,6 @@ export default {
         },
       };
     },
-    fetch ({store, redirect, app}) {
-      const cookie = app.$cookies.get('vuex')
-      if (cookie) {
-        store.dispatch('setUser', cookie.user)
-        store.dispatch('setToken', cookie.token)
-      }
-   },
     async asyncData ({$axios, params, redirect}) {
       try {
         const { data } = await $axios.post(`/users/profile/${params.username}`)
