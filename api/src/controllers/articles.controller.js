@@ -3,7 +3,7 @@ const cloudinary = require('cloudinary').v2;
 
 
 const getAll = async (req, res) => {
-  const { data = {}, projection = {}, options = {}} = req.query;
+  const { data = null, projection = null, options = null } = req.query;
   try {
     const articles = await articlesRepository.list(JSON.parse(data), JSON.parse(projection), JSON.parse(options))
     return res.status(200).json(articles);

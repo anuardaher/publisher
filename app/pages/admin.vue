@@ -172,7 +172,6 @@ export default {
       this.loading = true;
       const options = {
         data: { active: false },
-        projection: { title: 1, subtitle: 1 },
         options: {
           sort: {
             createdAt: -1,
@@ -195,7 +194,7 @@ export default {
     },
     async deleteArticle(id) {
       try {
-        const response = await this.$axios.$delete(`/articles/${id}`);
+        await this.$axios.$delete(`/articles/${id}`);
         EventBus.$emit("callSnackbar", {
           color: "success",
           text: "Publicação excluída com sucesso.",

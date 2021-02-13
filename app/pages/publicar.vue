@@ -294,10 +294,7 @@ export default {
         const response = await this.$axios.post('/articles/coverImage', fd);
         return response.data ? response.data.path : null;
       } catch (error) {
-        EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: 'Não foi possível salvar a imagem da capa. Tente novamente.'
-      });
+        console.error(error)
       return;
       }
     },
