@@ -3,20 +3,9 @@ const cloudinary = require('cloudinary').v2;
 
 
 const getAll = async (req, res) => {
-  const { data = null, projection = null, options = null} = req.query;
-  const {limit = 5, skip = 0, sort = {} } = JSON.parse(options);
+  const { data = {}, projection = {}, options = {}} = req.query;
   try {
-    const articles = await articlesRepository.aggregate(
-      [
-        { $match: JSON.parse(data) },
-        { $lookup: {from: "users", localField: "author.id", foreignField: "_id", as: "author"} },
-        { $unwind: "$author" },
-        { $project: {"author.password": 0, "author.salt": 0, "author.role": 0, ...JSON.parse(projection)} },
-        { $limit : limit },
-        { $skip : skip },
-        { $sort : sort },
-      ]
-    );
+    const articles = await articlesRepository.list(JSON.parse(data), JSON.parse(projection), JSON.parse(options))
     return res.status(200).json(articles);
   } catch (error) {
     console.error(error.message);
@@ -112,46 +101,8 @@ const search = async (req, res) => {
 };
 
 const weekPosts = async (req, res) => {
-  const currentDate = new Date();
-  const beggingOfTheWeek = currentDate.setDate(currentDate.getDate() - 7);
-
-  let stages = [
-      // Stage 1
-      {
-        $project: {
-            "thumbs": 1, "title": 1, "createdAt": 1, "active": 1
-        }
-      },
-      // Stage 2
-      {
-        $match: {
-          "createdAt": { 
-            "$gte": new Date(beggingOfTheWeek),
-            "$lte": new Date() 
-          },
-          "active": true
-        }
-      },
-      // Stage 3
-      {
-        $addFields: {
-          "thumbsCount": {"$size": { "$ifNull": [ "$thumbs", [] ] } }
-        }
-      },
-      // Stage 4
-      {
-        $sort: {
-          "thumbsCount": -1
-        }
-      },
-      // Stage 5
-      {
-        $limit: 5
-      },
-    ]
-
   try {
-    const articles = await articlesRepository.aggregate(stages)
+    const articles = await articlesRepository.weekly()
     return res.status(200).json(articles)
   } catch (error) {
     console.error(error);
