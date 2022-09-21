@@ -27,7 +27,7 @@
     "tiptap-extensions": "^1.32.5",
     "vue-social-sharing": "^2.4.7",
     "vue-timeago": "^5.1.2",
-    "vuetify": "^2.3.9",
+    "vuetify": "^2.6.10",
     "vuex-persistedstate": "^2.7.1"
   },
   "devDependencies": {
