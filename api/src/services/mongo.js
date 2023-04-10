@@ -1,13 +1,8 @@
 const mongoose = require('mongoose');
 
-const HOST = process.env.MONGO_HOST;
-const PORT = process.env.MONGO_PORT;
-const DATABASE = process.env.MONGO_DATABASE;
+const MONGO_URI = process.env.MONGO_URI;
 
-const USER = process.env.MONGO_USER;
-const PASSWORD = process.env.MONGO_PASSWORD;
-
-const uri = `mongodb+srv://${USER}:${PASSWORD}@${HOST}/${DATABASE}?retryWrites=true&w=majority`;
+const uri = MONGO_URI
 
 const options = {
   useNewUrlParser: true,
@@ -28,5 +23,5 @@ mongoose.connection.on('error', err => {
 });
 
 mongoose.connection.on('connected', () => {
-  console.log(`Database connected on ${HOST}:${PORT}/${DATABASE}`);
+  console.log(`Database connected`);
 });

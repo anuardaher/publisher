@@ -45,9 +45,9 @@ const list = (match = {}, project = {}, options = {}) => {
         ...project
       }
     },
-    { $limit: options.limit ?? 5 },
-    { $skip: options.skip ?? 0 },
-    { $sort: options.sort ?? 1 }
+    { $limit: options.limit || 5 },
+    { $skip: options.skip || 0 },
+    { $sort: options.sort || 1 }
   ])
 }
 
