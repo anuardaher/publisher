@@ -1,15 +1,18 @@
-version: "3"
+version: "3.7"
 services:
   mongo:
     image: mongo
     restart: "always"
     volumes:
       - mongodata:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
-      - "27019:27017"
+      - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-example}
+      MONGO_INITDB_DATABASE: ${MONGO_ROOT_DB:-publisher}
+      USER_PASSWORD: ${USER_PASSWORD:-publisher123}
     networks:
       - backend
   api:
@@ -20,9 +23,11 @@ services:
     working_dir: "/home/node/app"
     volumes:
       - ./api:/home/node/app
-    command: "npm start"
+    command: [sh, -c, "npm install && npm start"]
     networks:
       - backend
+    depends_on:
+      - mongo
   nuxt:
     build: ./app/
     restart: always
@@ -34,9 +39,11 @@ services:
       - BASE_URL
     networks:
       - backend
-volumes:
+    depends_on:
+      - mongo
+      - api
+volumes: 
   mongodata:
-    external: true
 networks:
   backend:
     driver: "bridge"
