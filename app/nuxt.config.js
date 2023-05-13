@@ -1,11 +1,6 @@
-let development = process.env.NODE_ENV !== 'production'
-let URL = development ? 'http://localhost:3001' : 'https://anuar-publisher-api.herokuapp.com/'
 const siteMapRoutes = require('./utils/siteMapRoutes')
 
 module.exports = {
-  /*
-  ** Headers of the page
-  */
   head: {
     titleTemplate: '%s - ' + 'Publisher',
     title: 'Publisher',
@@ -79,7 +74,7 @@ module.exports = {
     gzip: true,
   },
   env: {
-    BASE_URL: URL,
+    BASE_URL: process.env.BASE_URL,
     facebookAppId: 335321434267264
   },
   /*
@@ -92,13 +87,7 @@ module.exports = {
   },
 
   proxy: {
-    '/api/v1': URL,
-  },
-
-  router: {
-    scrollBehavior: function (to, from, savedPosition) {
-      return { x: 0, y: 0 }
-    }
+    '/api/v1': process.env.BASE_URL,
   },
 
   telemetry: false
