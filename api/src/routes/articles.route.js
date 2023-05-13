@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const articlesController = require('../controllers/articles.controller');
 const articlesSchema = require('../policies/articles.schema');
-const multer = require("multer");
 const passport = require('passport')
 const multerUploads = require("../config/multer.js");
 
