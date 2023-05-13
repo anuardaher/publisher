@@ -16,7 +16,7 @@ services:
     networks:
       - backend
   api:
-    image: node:10.16-slim
+    image: node:14.16-slim
     restart: "always"
     ports:
       - "3001:3001"
@@ -36,7 +36,7 @@ services:
     command:
       "npm run start"
     environment:
-      - BASE_URL
+      BASE_URL: ${BASE_URL:-http://api:3001}
     networks:
       - backend
     depends_on:
