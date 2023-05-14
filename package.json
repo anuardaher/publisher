@@ -1,0 +1,26 @@
+{
+  "name": "publisher",
+  "version": "1.0.0",
+  "description": "## Dependências",
+  "main": "mongo-init.js",
+  "scripts": {
+    "dev": "npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anuardaher/publisher.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anuardaher/publisher/issues"
+  },
+  "homepage": "https://github.com/anuardaher/publisher#readme",
+  "devDependencies": {
+    "nx": "16.1.4"
+  },
+  "nx": {
+    "targets": {}
+  }
+}
