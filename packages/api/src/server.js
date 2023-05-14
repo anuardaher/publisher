@@ -4,8 +4,8 @@ require('./config/passport');
 
 const app = express();
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server localhost is running on ${process.env.PORT}`);
+app.listen(process.env.API_PORT, () => {
+  console.log(`Server localhost is running on ${process.env.API_PORT}`);
 });
 
 module.exports = app;

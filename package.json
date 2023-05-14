@@ -1,12 +1,15 @@
 {
   "name": "publisher",
   "version": "1.0.0",
+  "private": true,
   "description": "## Dependências",
   "main": "mongo-init.js",
   "scripts": {
-    "dev": "npm run dev",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nx run-many -t dev --exclude publisher"
   },
+  "workspaces": [
+    "./packages/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anuardaher/publisher.git"
