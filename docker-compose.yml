@@ -9,39 +9,24 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT:-root}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-example}
-      MONGO_INITDB_DATABASE: ${MONGO_ROOT_DB:-publisher}
-      USER_PASSWORD: ${USER_PASSWORD:-publisher123}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-example}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-publisher}
     networks:
       - backend
-  api:
-    image: node:14.16-slim
-    restart: "always"
-    ports:
-      - "3001:3001"
-    working_dir: "/home/node/app"
-    volumes:
-      - ./api:/home/node/app
-    command: [sh, -c, "npm install && npm start"]
-    networks:
-      - backend
-    depends_on:
-      - mongo
-  nuxt:
-    build: ./app/
+  packages:
+    build: ./
     restart: always
     ports:
-      - "3333:3000"
+      - "3000:3000"
     command:
-      "npm run start"
-    environment:
-      BASE_URL: ${BASE_URL:-http://api:3001}
+      "yarn run start"
     networks:
       - backend
     depends_on:
       - mongo
-      - api
+    volumes:
+      - ./:/app
 volumes: 
   mongodata:
 networks:

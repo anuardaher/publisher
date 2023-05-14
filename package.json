@@ -5,7 +5,9 @@
   "description": "## Dependências",
   "main": "mongo-init.js",
   "scripts": {
-    "dev": "nx run-many -t dev --exclude publisher"
+    "dev": "nx run-many -t dev --exclude publisher",
+    "build": "nx run-many -t build --exclude publisher",
+    "start": "nx run-many -t start --exclude publisher"
   },
   "workspaces": [
     "./packages/*"

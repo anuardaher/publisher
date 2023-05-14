@@ -5,7 +5,6 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'airbnb-base',
     'prettier'
   ],
   globals: {
