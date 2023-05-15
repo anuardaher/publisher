@@ -23,7 +23,7 @@ Para rodar o projeto local, é necessário criar o usuário do banco de dados pu
 
 Execute o seguinte comando dentro do container:
 
-~~~~
+```
 mongo -uroot -p example
   use publisher
   db.createUser({
@@ -31,6 +31,6 @@ mongo -uroot -p example
     pwd: "123456",
     roles: ["readWrite"]
   })
-~~~~
+```
 
 Lembrando que, caso queira rodar o projeto fora dos containers, não se esqueça de instalar as dependencias e checar o package.json

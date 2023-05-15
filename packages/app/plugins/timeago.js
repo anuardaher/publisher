@@ -7,8 +7,12 @@ Vue.use(VueTimeago, {
   locales: {
     'pt-BR': require('date-fns/locale/pt')
   },
-  converter (date, locale, { includeSeconds, addSuffix = true }) {
+  converter(date, locale, { includeSeconds, addSuffix = true }) {
     const distanceInWordsStrict = require('date-fns/distance_in_words_strict')
-    return distanceInWordsStrict(Date.now(), date, { locale, addSuffix, includeSeconds })
+    return distanceInWordsStrict(Date.now(), date, {
+      locale,
+      addSuffix,
+      includeSeconds
+    })
   }
 })

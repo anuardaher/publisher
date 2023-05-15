@@ -12,28 +12,28 @@
 </template>
 
 <script>
-import Utils from "../../utils/utils";
+import Utils from '../../utils/utils'
 
 export default {
   props: {
     article: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   methods: {
     normalizeLink() {
-      return Utils.normalizeLink(this.article);
+      return Utils.normalizeLink(this.article)
     },
-    scrollTo: function(hashtag) {
-      if (this.$route.path == "/blog") {
-        this.$router.push(this.normalizeLink(this.article) + hashtag);
+    scrollTo: function (hashtag) {
+      if (this.$route.path == '/blog') {
+        this.$router.push(this.normalizeLink(this.article) + hashtag)
       } else {
-        location.href = hashtag;
+        location.href = hashtag
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style></style>

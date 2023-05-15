@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const uuidv4 = require('uuid/v4');
+const mongoose = require('mongoose')
+const uuidv4 = require('uuid/v4')
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const tagSchema = new Schema(
   {
@@ -9,11 +9,11 @@ const tagSchema = new Schema(
       type: String,
       default: uuidv4
     },
-    name: { type: String, required: true },
+    name: { type: String, required: true }
   },
   {
     timestamps: {}
   }
-);
+)
 
-module.exports = new mongoose.model('Tag', tagSchema);
+module.exports = new mongoose.model('Tag', tagSchema)

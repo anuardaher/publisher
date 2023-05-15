@@ -3,7 +3,7 @@
     <v-app-bar color="secondary" app dense>
       <v-spacer />
       <NuxtLink class="mx-2" to="/">
-       <v-avatar color="thirdy" size="40">
+        <v-avatar color="thirdy" size="40">
           <span class="logo text-h5 primary--text">AD</span>
         </v-avatar>
       </NuxtLink>
@@ -46,9 +46,7 @@
         </div>
       </div>
       <div v-if="$store.getters.state" class="d-none d-sm-flex">
-        <NuxtLink
-          :to="`/${$store.getters.username}`"
-        >
+        <NuxtLink :to="`/${$store.getters.username}`">
           <UserImage
             class="float-left"
             size="40"
@@ -59,13 +57,12 @@
         </NuxtLink>
 
         <div class="float-right ml-2">
-          <NuxtLink
-            :to="`/${$store.getters.username}`"
-            class="white--text"
-          >
+          <NuxtLink :to="`/${$store.getters.username}`" class="white--text">
             <div class="body-2">{{ $store.getters.firstName }}</div>
           </NuxtLink>
-          <div class="caption"><a @click="logout" class="thirdy--text">sair da conta</a></div>
+          <div class="caption">
+            <a @click="logout" class="thirdy--text">sair da conta</a>
+          </div>
         </div>
       </div>
       <!-- </v-btn> -->
@@ -80,24 +77,24 @@
 </template>
 
 <script>
-import SearchBar from "./utils/SearchBar";
-import EventBus from "../event-bus";
-import UserImage from "../components/utils/UserImage";
+import SearchBar from './utils/SearchBar'
+import EventBus from '../event-bus'
+import UserImage from '../components/utils/UserImage'
 
 export default {
   components: {
     SearchBar,
-    UserImage,
+    UserImage
   },
   methods: {
     callMenu() {
-      EventBus.$emit("callMenu");
+      EventBus.$emit('callMenu')
     },
     logout() {
-      this.$store.dispatch("setToken", null);
-      this.$store.dispatch("setUser", null);
-      this.$router.push("/", () => {});
-    },
-  },
-};
+      this.$store.dispatch('setToken', null)
+      this.$store.dispatch('setUser', null)
+      this.$router.push('/', () => {})
+    }
+  }
+}
 </script>

@@ -15,7 +15,10 @@
             v-scroll="bottomVisible"
           />
         </div>
-        <div class="text-center" v-else-if="articles.length == 0 && !isLoadingArticles">
+        <div
+          class="text-center"
+          v-else-if="articles.length == 0 && !isLoadingArticles"
+        >
           <div class="text-h1 mb-4">🥱</div>
           <div class="text-body">
             Nenhuma publicação foi feita até o momento.
@@ -30,23 +33,23 @@
 </template>
 
 <script>
-import Card from "../components/Card";
-import ProfileCard from "../components/index/ProfileCard";
-import WeekPostsCard from "../components/index/WeekPostsCard";
-import EventBus from "../event-bus.js";
-import utils from "../utils/utils.js";
+import Card from '../components/Card'
+import ProfileCard from '../components/index/ProfileCard'
+import WeekPostsCard from '../components/index/WeekPostsCard'
+import EventBus from '../event-bus.js'
+import utils from '../utils/utils.js'
 
 export default {
   components: {
     Card,
     ProfileCard,
-    WeekPostsCard,
+    WeekPostsCard
   },
   head() {
     return {
-      title: "Artigos e noticias em um só lugar",
-      meta: [],
-    };
+      title: 'Artigos e noticias em um só lugar',
+      meta: []
+    }
   },
   data: () => ({
     show: false,
@@ -59,61 +62,62 @@ export default {
     countrys: [],
     citys: [],
     perfils: [
-      "Advogado",
-      "Bacharel em Direito",
-      "Estudante de Direito",
-      "Administrador",
-      "Contador",
-      "Assistente Administrativo",
-      "Representante Comercial",
-      "Engenheiro Civil",
-      "Corretor de Imóveis",
-      "Procurador e Advogado Público",
-      "Político",
-      "Outros",
-    ],
+      'Advogado',
+      'Bacharel em Direito',
+      'Estudante de Direito',
+      'Administrador',
+      'Contador',
+      'Assistente Administrativo',
+      'Representante Comercial',
+      'Engenheiro Civil',
+      'Corretor de Imóveis',
+      'Procurador e Advogado Público',
+      'Político',
+      'Outros'
+    ]
   }),
   methods: {
     async loadData() {
-      if (this.isLoadingArticles) return;
-      this.isLoadingArticles = !this.isLoadingArticles;
+      if (this.isLoadingArticles) return
+      this.isLoadingArticles = !this.isLoadingArticles
       const params = {
-        data: { type: "artigo", active: true },
+        data: { type: 'artigo', active: true },
         projection: { text: 0 },
         options: {
           limit: 5,
           skip: this.skip,
           sort: {
-            createdAt: -1,
-          },
-        },
-      };
+            createdAt: -1
+          }
+        }
+      }
       try {
-        let articles = await this.$axios.$get("/articles", { params });
-        this.totalOfArticles = articles.length < params.options.limit ? true : false;
-        this.articles = this.articles.concat(articles);
-        this.skip = this.articles.length;
+        let articles = await this.$axios.$get('/articles', { params })
+        this.totalOfArticles =
+          articles.length < params.options.limit ? true : false
+        this.articles = this.articles.concat(articles)
+        this.skip = this.articles.length
       } catch (error) {
-        return EventBus.$emit("callSnackbar", {
-          color: "error",
-          text: "Erro ao carregar artigos. Tente mais tarde.",
-        });
+        return EventBus.$emit('callSnackbar', {
+          color: 'error',
+          text: 'Erro ao carregar artigos. Tente mais tarde.'
+        })
       } finally {
-        this.isLoadingArticles = !this.isLoadingArticles;
+        this.isLoadingArticles = !this.isLoadingArticles
       }
     },
     bottomVisible() {
       if (utils.isTheBottomOfThePage())
         if (!this.totalOfArticles) {
           // Se já tiver acabado os posts, não requisita mais
-          this.loadData();
+          this.loadData()
         }
-    },
+    }
   },
   created() {
-    this.loadData();
-  },
-};
+    this.loadData()
+  }
+}
 </script>
 <style>
 .fixed {

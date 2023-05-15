@@ -121,175 +121,175 @@
 </template>
 
 <script>
-import EventBus from "../../event-bus";
-import LikeButton from "../../components/posts/LikeButton";
-import ShareButton from "../../components/posts/Sharebutton.vue";
-import CommentButton from "../../components/posts/CommentsButton";
-import UserImage from "../../components/utils/UserImage";
+import EventBus from '../../event-bus'
+import LikeButton from '../../components/posts/LikeButton'
+import ShareButton from '../../components/posts/Sharebutton.vue'
+import CommentButton from '../../components/posts/CommentsButton'
+import UserImage from '../../components/utils/UserImage'
 
 export default {
   components: {
     LikeButton,
     ShareButton,
     CommentButton,
-    UserImage,
+    UserImage
   },
   head() {
     return {
       title: this.article.title,
       meta: [
         {
-          hid: "description",
-          name: "description",
-          content: this.article.preview,
+          hid: 'description',
+          name: 'description',
+          content: this.article.preview
         },
         {
-          hid: "author",
-          name: "author",
-          content: `${this.article.author.firstname} ${this.article.author.lastname}`,
+          hid: 'author',
+          name: 'author',
+          content: `${this.article.author.firstname} ${this.article.author.lastname}`
         },
-        { hid: "og:type", property: "og:type", content: "article" },
-        { hid: "og:url", property: "og:url", content: this.postUrl },
-        { hid: "og:title", property: "og:title", content: this.article.title },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:url', property: 'og:url', content: this.postUrl },
+        { hid: 'og:title', property: 'og:title', content: this.article.title },
         {
-          hid: "og:description",
-          property: "og:description",
-          content: this.article.preview,
+          hid: 'og:description',
+          property: 'og:description',
+          content: this.article.preview
         },
-        { hid: "og:site_name", property: "og:site_name", content: "Publisher" },
+        { hid: 'og:site_name', property: 'og:site_name', content: 'Publisher' },
         {
-          hid: "og:image",
-          property: "og:image",
-          content: this.article.img,
-        },
-        {
-          hid: "og:image:secure_url",
-          property: "og:image",
-          content: this.article.img,
-        },
-        { hid: "og:image:width", property: "og:image:width", content: "400" },
-        { hid: "og:image:height", property: "og:image:height", content: "300" },
-        {
-          hid: "article:author",
-          property: "article:author",
-          content: `${this.article.author.firstname} ${this.article.author.lastname}`,
+          hid: 'og:image',
+          property: 'og:image',
+          content: this.article.img
         },
         {
-          hid: "article:section",
-          property: "article:section",
-          content: this.article.type,
+          hid: 'og:image:secure_url',
+          property: 'og:image',
+          content: this.article.img
+        },
+        { hid: 'og:image:width', property: 'og:image:width', content: '400' },
+        { hid: 'og:image:height', property: 'og:image:height', content: '300' },
+        {
+          hid: 'article:author',
+          property: 'article:author',
+          content: `${this.article.author.firstname} ${this.article.author.lastname}`
         },
         {
-          hid: "article:tag",
-          property: "article:tag",
-          content: this.covertTagsToString,
+          hid: 'article:section',
+          property: 'article:section',
+          content: this.article.type
         },
         {
-          hid: "article:published",
-          property: "article:published_time",
-          content: this.article.createdAt,
-        },
-        { hid: "twitter:card", name: "twitter:card", value: "summary" },
-        { hid: "twitter:site", name: "twitter:site", content: "@publisher" },
-        {
-          hid: "twitter:title",
-          name: "article:tag",
-          content: this.article.title,
+          hid: 'article:tag',
+          property: 'article:tag',
+          content: this.covertTagsToString
         },
         {
-          hid: "twitter:description",
-          name: "twitter:description",
-          content: this.article.preview,
+          hid: 'article:published',
+          property: 'article:published_time',
+          content: this.article.createdAt
+        },
+        { hid: 'twitter:card', name: 'twitter:card', value: 'summary' },
+        { hid: 'twitter:site', name: 'twitter:site', content: '@publisher' },
+        {
+          hid: 'twitter:title',
+          name: 'article:tag',
+          content: this.article.title
         },
         {
-          hid: "twitter:image",
-          name: "twitter:image",
-          content: this.article.img,
+          hid: 'twitter:description',
+          name: 'twitter:description',
+          content: this.article.preview
         },
-      ],
-    };
+        {
+          hid: 'twitter:image',
+          name: 'twitter:image',
+          content: this.article.img
+        }
+      ]
+    }
   },
   data() {
     return {
       BASE_URL: process.env.BASE_URL,
-      article: { author: { name: "" } },
+      article: { author: { name: '' } },
       thumbs: 0,
-      thumbColor: null,
-    };
+      thumbColor: null
+    }
   },
   async asyncData({ $axios, params, redirect }) {
     try {
-      const article = await $axios.$post(`/articles/post/${params.id}`);
+      const article = await $axios.$post(`/articles/post/${params.id}`)
       article.author = await $axios.$post(`/users/post/${article.author.id}`, {
         params: {
           projection: {
             firstname: 1,
             lastname: 1,
             username: 1,
-            img: 1,
-          },
-        },
-      });
-      return article ? { article } : redirect("/notfound");
+            img: 1
+          }
+        }
+      })
+      return article ? { article } : redirect('/notfound')
     } catch (e) {
-      console.error(e.message);
-      redirect("/notfound");
+      console.error(e.message)
+      redirect('/notfound')
     }
   },
   methods: {
     imageUrl(path) {
-      if (!path) return;
-      if (/https/.test(path)) return path;
-      return `${this.BASE_URL}/${path}`;
+      if (!path) return
+      if (/https/.test(path)) return path
+      return `${this.BASE_URL}/${path}`
     },
     initCreationFacebookComments() {
-      FB.XFBML.parse(); // Refres comments the XFBML
-    },
+      FB.XFBML.parse() // Refres comments the XFBML
+    }
   },
   computed: {
     covertTagsToString() {
       if (this.article.tags) {
-        const formatedTags = this.article.tags.toString().replace(/\s/g, "");
-        return formatedTags;
+        const formatedTags = this.article.tags.toString().replace(/\s/g, '')
+        return formatedTags
       }
     },
     postUrl() {
-      return `${this.BASE_URL}/${this.$route.params.title}/${this.$route.params.id}`;
+      return `${this.BASE_URL}/${this.$route.params.title}/${this.$route.params.id}`
     },
     sheetClass() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "sheet-mobile";
+        case 'xs':
+          return 'sheet-mobile'
         default:
-          return "sheet";
+          return 'sheet'
       }
     },
     coverImageSize() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "100%";
-        case "sm":
-          return "100%";
+        case 'xs':
+          return '100%'
+        case 'sm':
+          return '100%'
         default:
-          return "80%";
+          return '80%'
       }
-    },
-  },
-  mounted() {
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: "365056554418853",
-        cookie: true,
-        xfbml: true,
-        version: "v5.0",
-      });
-    };
-    setTimeout(() => this.initCreationFacebookComments(), 1000);
-    if (this.$route.hash) {
-      setTimeout(() => (location.href = this.$route.hash), 2000);
     }
   },
-};
+  mounted() {
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '365056554418853',
+        cookie: true,
+        xfbml: true,
+        version: 'v5.0'
+      })
+    }
+    setTimeout(() => this.initCreationFacebookComments(), 1000)
+    if (this.$route.hash) {
+      setTimeout(() => (location.href = this.$route.hash), 2000)
+    }
+  }
+}
 </script>
 
 <style>

@@ -12,21 +12,21 @@
 <script>
 export default {
   data: () => ({
-    BASE_URL: process.env.BASE_URL,
+    BASE_URL: process.env.BASE_URL
   }),
   props: {
     img: String,
     size: String,
     author: String,
-    letterStyle: String,
+    letterStyle: String
   },
   computed: {
     getFirstLetter() {
-      if (!this.author) return "";
-      return this.author.charAt(0).toUpperCase();
-    },
-  },
-};
+      if (!this.author) return ''
+      return this.author.charAt(0).toUpperCase()
+    }
+  }
+}
 </script>
 
 <style>

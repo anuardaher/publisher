@@ -17,7 +17,7 @@
                 <v-icon color="grey">mdi-share</v-icon>
               </div>
               <v-btn text v-on="on">
-                <span class="text-caption text-md-button ">Enviar</span>
+                <span class="text-caption text-md-button">Enviar</span>
               </v-btn>
             </div>
           </template>
@@ -45,31 +45,31 @@
 </template>
 
 <script>
-import Utils from "../../utils/utils";
+import Utils from '../../utils/utils'
 
 export default {
   data: () => ({
-    BASE_URL: process.env.BASE_URL,
+    BASE_URL: process.env.BASE_URL
   }),
   props: {
     article: {
       type: Object,
-      default: () => {},
-    },
+      default: () => {}
+    }
   },
   computed: {
     covertTagsToString() {
       if (this.article.tags) {
-        const tags = this.article.tags.map((tag) => tag.name);
-        const formatedTags = tags.toString().replace(/\s/g, "");
-        return formatedTags;
+        const tags = this.article.tags.map((tag) => tag.name)
+        const formatedTags = tags.toString().replace(/\s/g, '')
+        return formatedTags
       }
     },
     postUrl() {
-      return `${this.BASE_URL}${Utils.normalizeLink(this.article)}`;
-    },
-  },
-};
+      return `${this.BASE_URL}${Utils.normalizeLink(this.article)}`
+    }
+  }
+}
 </script>
 
 <style></style>

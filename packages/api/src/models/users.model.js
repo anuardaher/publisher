@@ -1,27 +1,31 @@
-const mongoose = require('mongoose');
-const uuidv4 = require('uuid/v4');
-const crypto = require('crypto');
+const mongoose = require('mongoose')
+const uuidv4 = require('uuid/v4')
+const crypto = require('crypto')
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const userSchema = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4,
+      default: uuidv4
     },
     firstname: { type: String, required: true, trim: true },
     lastname: { type: String, required: true, trim: true },
-    username: {type: String, trim: true, lowercase: true, unique: true },
+    username: { type: String, trim: true, lowercase: true, unique: true },
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, trim: true },
-    provider: {type: String, enum: ['facebook', 'linkedin', 'cadastro'], default: 'cadastro'},
-    profession: {type: String, required: true},
+    provider: {
+      type: String,
+      enum: ['facebook', 'linkedin', 'cadastro'],
+      default: 'cadastro'
+    },
+    profession: { type: String, required: true },
     img: { type: String },
     bio: { type: String, trim: true },
     followers: { type: Number, default: 0 },
     following: [{ type: Schema.Types.ObjectId, ref: 'users' }],
-    salt: { type: String},
+    salt: { type: String },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
     address: {
       street: String,
@@ -30,27 +34,27 @@ const userSchema = new Schema(
       state: String,
       city: String,
       zipcode: String,
-      number: String,
+      number: String
     },
-    facebookId: String,
+    facebookId: String
   },
   {
-    timestamps: {},
+    timestamps: {}
   }
-);
+)
 
-userSchema.methods.setPassword = function(password) {
-  this.salt = crypto.randomBytes(16).toString('hex');
+userSchema.methods.setPassword = function (password) {
+  this.salt = crypto.randomBytes(16).toString('hex')
   this.password = crypto
     .pbkdf2Sync(password, this.salt, 10000, 32, 'sha512')
-    .toString('hex');
-};
+    .toString('hex')
+}
 
-userSchema.methods.validatePassword = function(password) {
+userSchema.methods.validatePassword = function (password) {
   const hash = crypto
     .pbkdf2Sync(password, this.salt, 10000, 32, 'sha512')
-    .toString('hex');
-  return this.password === hash;
-};
+    .toString('hex')
+  return this.password === hash
+}
 
-module.exports = new mongoose.model('User', userSchema);
+module.exports = new mongoose.model('User', userSchema)

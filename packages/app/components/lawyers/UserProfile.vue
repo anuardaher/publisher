@@ -2,25 +2,26 @@
   <v-card class="pa-2" @click="$router.push(`/${lawyer.username}`)">
     <v-row justify="center">
       <UserImage
-      :img="lawyer.img"
-      size="60"
-      :author="lawyer.firstname"
-      letterStyle="headline"
+        :img="lawyer.img"
+        size="60"
+        :author="lawyer.firstname"
+        letterStyle="headline"
       />
     </v-row>
     <v-row justify="center">
-       <v-chip class="mt-1" label small>{{ lawyer.profession }}</v-chip>
+      <v-chip class="mt-1" label small>{{ lawyer.profession }}</v-chip>
     </v-row>
     <v-row justify="center">
-      <h1 
-      class="body-1 mt-3 px-4 text-center">
-      <b> {{ lawyer.firstname }} {{ lawyer.lastname }} </b>
+      <h1 class="body-1 mt-3 px-4 text-center">
+        <b> {{ lawyer.firstname }} {{ lawyer.lastname }} </b>
       </h1>
     </v-row>
     <v-row justify="center">
       <span class="subtitle-1 text-center">
         <v-icon>mdi-map-marker</v-icon>
-        <span v-text="`${lawyer.address.city} – ${lawyer.address.country}`"></span>
+        <span
+          v-text="`${lawyer.address.city} – ${lawyer.address.country}`"
+        ></span>
       </span>
     </v-row>
   </v-card>
@@ -42,6 +43,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

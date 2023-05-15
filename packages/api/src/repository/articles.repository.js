@@ -1,4 +1,4 @@
-const ArticleModel = require("../models/articles.model")
+const ArticleModel = require('../models/articles.model')
 
 const find = async function (data, projection, options) {
   return ArticleModel.find(data, projection, options).lean()
@@ -30,18 +30,18 @@ const list = (match = {}, project = {}, options = {}) => {
     { $match: match },
     {
       $lookup: {
-        from: "users",
-        localField: "author.id",
-        foreignField: "_id",
-        as: "author"
+        from: 'users',
+        localField: 'author.id',
+        foreignField: '_id',
+        as: 'author'
       }
     },
-    { $unwind: "$author" },
+    { $unwind: '$author' },
     {
       $project: {
-        "author.password": 0,
-        "author.salt": 0,
-        "author.role": 0,
+        'author.password': 0,
+        'author.salt': 0,
+        'author.role': 0,
         ...project
       }
     },
@@ -52,41 +52,42 @@ const list = (match = {}, project = {}, options = {}) => {
 }
 
 const weekly = () => {
-  const currentDate = new Date();
-  const beggingOfTheWeek = currentDate.setDate(currentDate.getDate() - 7);
+  const currentDate = new Date()
+  const beggingOfTheWeek = currentDate.setDate(currentDate.getDate() - 7)
 
   return ArticleModel.aggregate([
     {
       $project: {
-          "thumbs": 1, "title": 1, "createdAt": 1, "active": 1
+        thumbs: 1,
+        title: 1,
+        createdAt: 1,
+        active: 1
       }
     },
     {
       $match: {
-        "createdAt": { 
-          "$gte": new Date(beggingOfTheWeek),
-          "$lte": new Date() 
+        createdAt: {
+          $gte: new Date(beggingOfTheWeek),
+          $lte: new Date()
         },
-        "active": true
+        active: true
       }
     },
     {
       $addFields: {
-        "thumbsCount": {"$size": { "$ifNull": [ "$thumbs", [] ] } }
+        thumbsCount: { $size: { $ifNull: ['$thumbs', []] } }
       }
     },
     {
       $sort: {
-        "thumbsCount": -1
+        thumbsCount: -1
       }
     },
     {
       $limit: 5
-    },
+    }
   ])
 }
-
-
 
 module.exports = {
   find,

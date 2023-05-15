@@ -43,7 +43,7 @@
                     :rules="[rules.required, rules.email]"
                   ></v-text-field>
                 </v-col>
-                 <v-col cols="12" md="6">
+                <v-col cols="12" md="6">
                   <v-select
                     label="Ocupação"
                     v-model="form.profession"
@@ -116,13 +116,11 @@
                     color="success"
                     v-model="form.termo"
                     :rules="[
-                      (v) => !!v || 'Você deve concordar com o termo de uso!',
+                      (v) => !!v || 'Você deve concordar com o termo de uso!'
                     ]"
                     required
                   >
-                    <template slot="label">
-                      Aceita os Termos de Uso?
-                    </template>
+                    <template slot="label"> Aceita os Termos de Uso? </template>
                   </v-checkbox>
                 </v-col>
                 <v-col cols="12" md="6">
@@ -160,19 +158,19 @@
 </template>
 
 <script>
-import utils from "../utils/utils.js";
-import EventBus from "../event-bus.js";
-import FacebookAuth from "../components/utils/FacebookAuth";
+import utils from '../utils/utils.js'
+import EventBus from '../event-bus.js'
+import FacebookAuth from '../components/utils/FacebookAuth'
 
 export default {
   components: {
-    FacebookAuth,
+    FacebookAuth
   },
   head() {
     return {
-      title: "Cadastre-se",
-      meta: [],
-    };
+      title: 'Cadastre-se',
+      meta: []
+    }
   },
   data() {
     return {
@@ -184,13 +182,9 @@ export default {
         password: null,
         address: {},
         passwordValidation: null,
-        termo: false,
+        termo: false
       },
-      professions: [
-        "Estudante",
-        "Desenvolvedor",
-        "Recrutador",
-      ],
+      professions: ['Estudante', 'Desenvolvedor', 'Recrutador'],
       countrys: [],
       citys: [],
       error: null,
@@ -198,84 +192,86 @@ export default {
       show2: false,
       cityLoading: false,
       rules: {
-        required: (value) => !!value || "Campo Obrigatório",
-        counter: (value) => value && value.length <= 20 || "Máximo de 20 caracteres",
+        required: (value) => !!value || 'Campo Obrigatório',
+        counter: (value) =>
+          (value && value.length <= 20) || 'Máximo de 20 caracteres',
         email: (value) => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || "E-mail inválido";
+          const pattern =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'E-mail inválido'
         },
         passwordMatch: (value) =>
-          value == this.form.password || "Digite a mesma senha do campo acima",
+          value == this.form.password || 'Digite a mesma senha do campo acima',
         passwordLength: (value) =>
-          value && value.length >= 8 || "Mínimo de 8 caracteres",
-      },
-    };
+          (value && value.length >= 8) || 'Mínimo de 8 caracteres'
+      }
+    }
   },
   methods: {
     async register() {
       try {
-        const response = await this.$axios.$post("/auth/register", this.form);
-        this.$store.dispatch("setToken", response.token);
-        this.$store.dispatch("setUser", response.user);
-        this.$router.push("/");
-        return EventBus.$emit("callSnackbar", {
-          color: "success",
-          text: "Seu usuário foi criado com sucesso!",
-        });
+        const response = await this.$axios.$post('/auth/register', this.form)
+        this.$store.dispatch('setToken', response.token)
+        this.$store.dispatch('setUser', response.user)
+        this.$router.push('/')
+        return EventBus.$emit('callSnackbar', {
+          color: 'success',
+          text: 'Seu usuário foi criado com sucesso!'
+        })
       } catch (error) {
         this.error = error.response
           ? error.response.data.error
-          : "Erro Inesperado";
+          : 'Erro Inesperado'
       }
     },
     fillForm(user) {
-      this.form.firstname = user.first_name;
-      this.form.lastname = user.last_name;
-      this.form.img = user.picture.data.url;
-      this.form.email = user.email;
-      this.form.facebookId = user.id;
-      this.form.provider = "facebook";
+      this.form.firstname = user.first_name
+      this.form.lastname = user.last_name
+      this.form.img = user.picture.data.url
+      this.form.email = user.email
+      this.form.facebookId = user.id
+      this.form.provider = 'facebook'
     },
     async getLocationData(sigla) {
-      this.cityLoading = true;
+      this.cityLoading = true
       try {
-        const data = await utils.getLocationData(sigla);
-        this.countrys = data.countrys ? data.countrys : [];
-        this.citys = data.citys ? data.citys : [];
+        const data = await utils.getLocationData(sigla)
+        this.countrys = data.countrys ? data.countrys : []
+        this.citys = data.citys ? data.citys : []
       } catch (error) {
-        return EventBus.$emit("callSnackbar", {
-          color: "error",
-          text: "Não foi possível obter a lista de Estados.",
-        });
+        return EventBus.$emit('callSnackbar', {
+          color: 'error',
+          text: 'Não foi possível obter a lista de Estados.'
+        })
       } finally {
-        this.cityLoading = false;
+        this.cityLoading = false
       }
-    },
+    }
   },
   computed: {
     firstnameColSize() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "pb-0";
-        case "sm":
-          return "pb-0";
+        case 'xs':
+          return 'pb-0'
+        case 'sm':
+          return 'pb-0'
         default:
-          return "";
+          return ''
       }
     },
     lastnameColSize() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "pt-0";
-        case "sm":
-          return "pt-0";
+        case 'xs':
+          return 'pt-0'
+        case 'sm':
+          return 'pt-0'
         default:
-          return "";
+          return ''
       }
-    },
+    }
   },
   created() {
-    this.getLocationData();
-  },
-};
+    this.getLocationData()
+  }
+}
 </script>

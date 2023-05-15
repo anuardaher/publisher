@@ -128,11 +128,11 @@
 </template>
 
 <script>
-import Utils from "../utils/utils";
-import EventBus from "../event-bus";
+import Utils from '../utils/utils'
+import EventBus from '../event-bus'
 
 export default {
-  middleware({store, redirect}) {
+  middleware({ store, redirect }) {
     store.getters.role == 'admin' ? null : redirect('/')
   },
   data: () => ({
@@ -142,108 +142,108 @@ export default {
     activeDialog: false,
     articleId: null,
     users: [],
-    search: "",
+    search: '',
     headers: [
-      { text: "Nome", value: "firstname" },
-      { text: "Sobrenome", value: "lastname" },
-      { text: "Usuário", value: "username" },
-      { text: "E-mail", value: "email" },
-      { text: "Profissão", value: "profession" },
-      { text: "Cidade", value: "address.city" },
-      { text: "Estado", value: "address.country" },
-      { text: "Registrado por", value: "provider" },
-      { text: "Criação", value: "createdAt" },
-    ],
+      { text: 'Nome', value: 'firstname' },
+      { text: 'Sobrenome', value: 'lastname' },
+      { text: 'Usuário', value: 'username' },
+      { text: 'E-mail', value: 'email' },
+      { text: 'Profissão', value: 'profession' },
+      { text: 'Cidade', value: 'address.city' },
+      { text: 'Estado', value: 'address.country' },
+      { text: 'Registrado por', value: 'provider' },
+      { text: 'Criação', value: 'createdAt' }
+    ]
   }),
   methods: {
     async getUsers() {
       const options = {
         data: {},
-        projection: { password: 0, salt: 0 },
-      };
+        projection: { password: 0, salt: 0 }
+      }
       try {
-        const { data } = await this.$axios.get("/users", { params: options });
-        this.users = data;
+        const { data } = await this.$axios.get('/users', { params: options })
+        this.users = data
       } catch (error) {
-        console.error(error.message);
+        console.error(error.message)
       }
     },
     async getArticles() {
-      this.loading = true;
+      this.loading = true
       const options = {
         data: { active: false },
         options: {
           sort: {
-            createdAt: -1,
-          },
-        },
-      };
+            createdAt: -1
+          }
+        }
+      }
       try {
-        const articles = await this.$axios.$get("/articles", {
-          params: options,
-        });
-        this.articles = articles ? articles : [];
+        const articles = await this.$axios.$get('/articles', {
+          params: options
+        })
+        this.articles = articles ? articles : []
       } catch (error) {
-        return EventBus.$emit("callSnackbar", {
-          color: "error",
-          text: "Erro ao carregar publicações. Tente mais tarde.",
-        });
+        return EventBus.$emit('callSnackbar', {
+          color: 'error',
+          text: 'Erro ao carregar publicações. Tente mais tarde.'
+        })
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
     async deleteArticle(id) {
       try {
-        await this.$axios.$delete(`/articles/${id}`);
-        EventBus.$emit("callSnackbar", {
-          color: "success",
-          text: "Publicação excluída com sucesso.",
-        });
-        return this.getArticles();
+        await this.$axios.$delete(`/articles/${id}`)
+        EventBus.$emit('callSnackbar', {
+          color: 'success',
+          text: 'Publicação excluída com sucesso.'
+        })
+        return this.getArticles()
       } catch (error) {
-        return EventBus.$emit("callSnackbar", {
-          color: "error",
-          text: "Erro ao excluir publicação Tente mais tarde.",
-        });
+        return EventBus.$emit('callSnackbar', {
+          color: 'error',
+          text: 'Erro ao excluir publicação Tente mais tarde.'
+        })
       } finally {
-        this.deleteDialog = false;
+        this.deleteDialog = false
       }
     },
     async activeArticle(id) {
       try {
-        await this.$axios.$put(`/articles/${id}`, { $set: { active: true } });
-        EventBus.$emit("callSnackbar", {
-          color: "success",
-          text: "Artigo publicado com sucesso.",
-        });
-        return this.getArticles();
+        await this.$axios.$put(`/articles/${id}`, { $set: { active: true } })
+        EventBus.$emit('callSnackbar', {
+          color: 'success',
+          text: 'Artigo publicado com sucesso.'
+        })
+        return this.getArticles()
       } catch (error) {
-        console.error(error.message);
-        return EventBus.$emit("callSnackbar", {
-          color: "error",
-          text: "Erro ao publicar artigo. Tente mais tarde.",
-        });
+        console.error(error.message)
+        return EventBus.$emit('callSnackbar', {
+          color: 'error',
+          text: 'Erro ao publicar artigo. Tente mais tarde.'
+        })
       } finally {
-        this.activeDialog = false;
+        this.activeDialog = false
       }
     },
     showDeleteDialog(id) {
-      this.deleteDialog = true;
-      this.articleId = id;
+      this.deleteDialog = true
+      this.articleId = id
     },
     showActiveDialog(id) {
-      this.activeDialog = true;
-      this.articleId = id;
+      this.activeDialog = true
+      this.articleId = id
     },
     normalizeLink(post) {
-      return Utils.normalizeLink(post);
-    },
+      return Utils.normalizeLink(post)
+    }
   },
   created() {
-    this.getUsers();
-    this.getArticles();
-  },
-};
+    this.getUsers()
+    this.getArticles()
+  }
+}
 </script>
 
 <style></style>

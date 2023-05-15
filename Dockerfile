@@ -10,4 +10,3 @@ COPY ./yarn.lock /app/yarn.lock
 
 RUN yarn install
 COPY . .
-RUN yarn build

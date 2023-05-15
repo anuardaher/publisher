@@ -10,7 +10,7 @@ export default (ctx) => {
   const vuetify = new Vuetify({
     lang: {
       locales: { pt },
-      current: 'pt',
+      current: 'pt'
     },
     theme: {
       themes: {

@@ -6,8 +6,8 @@
   "main": "mongo-init.js",
   "scripts": {
     "dev": "nx run-many -t dev --exclude publisher",
-    "build": "nx run-many -t build --exclude publisher",
-    "start": "nx run-many -t start --exclude publisher"
+    "build": "nx run-many -t build -p --exclude publisher",
+    "start": "nx run-many -t start -p --exclude publisher"
   },
   "workspaces": [
     "./packages/*"
@@ -23,7 +23,11 @@
   },
   "homepage": "https://github.com/anuardaher/publisher#readme",
   "devDependencies": {
-    "nx": "16.1.4"
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nx": "16.1.4",
+    "prettier": "^2.8.8"
   },
   "nx": {
     "targets": {}

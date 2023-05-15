@@ -20,40 +20,47 @@
 </template>
 
 <script>
-import AppBar from "../components/AppBar.vue";
-import AppDrawer from "../components/utils/AppDrawer.vue";
-import Snackbar from "../components/utils/Snackbar.vue";
-import WhatsappButton from "../components/utils/WhatsappButton.vue";
-import Footer from "../components/Footer.vue";
+import AppBar from '../components/AppBar.vue'
+import AppDrawer from '../components/utils/AppDrawer.vue'
+import Snackbar from '../components/utils/Snackbar.vue'
+import WhatsappButton from '../components/utils/WhatsappButton.vue'
+import Footer from '../components/Footer.vue'
 
 export default {
-  name: "App",
+  name: 'App',
   head: {
     // if no subcomponents specify a metaInfo.title, this title will be used
-    title: "Site",
+    title: 'Site',
     // all titles will be injected into this template
-    titleTemplate: "%s – Publisher",
+    titleTemplate: '%s – Publisher'
   },
   components: {
     AppBar,
     AppDrawer,
     Snackbar,
     WhatsappButton,
-    Footer,
+    Footer
   },
   data: () => ({}),
   methods: {},
-  computed: {},
-};
+  computed: {}
+}
 </script>
 
 <style>
-
 .v-main {
   min-height: 70vh;
-  background: #ECE9E6;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #ece9e6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ffffff,
+    #ece9e6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ffffff,
+    #ece9e6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 body {

@@ -15,9 +15,7 @@
         </v-avatar>
       </v-row>
       <v-row justify="center" align="center">
-        <h1 class="headline text-center">
-          Bem-vindo!
-        </h1>
+        <h1 class="headline text-center">Bem-vindo!</h1>
       </v-row>
       <v-row justify="center" align="center">
         <h2 class="body-1 text-center ma-4">
@@ -92,15 +90,15 @@
 </template>
 
 <script>
-import UserImage from "../utils/UserImage";
+import UserImage from '../utils/UserImage'
 export default {
   components: {
-    UserImage,
+    UserImage
   },
   methods: {
     openSocialMedia(link) {
-      window.open(link, "_blank");
-    },
-  },
-};
+      window.open(link, '_blank')
+    }
+  }
+}
 </script>

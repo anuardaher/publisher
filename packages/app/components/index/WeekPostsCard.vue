@@ -1,6 +1,13 @@
 <template>
   <client-only>
-    <v-card outlined min-height="482" color="fivety" rounded raised :loading="loadingArticles">
+    <v-card
+      outlined
+      min-height="482"
+      color="fivety"
+      rounded
+      raised
+      :loading="loadingArticles"
+    >
       <v-row justify="center" align="center" class="pa-4">
         <div class="text-center text-h5">🔥 NESSA SEMANA 🔥</div>
       </v-row>
@@ -12,7 +19,10 @@
               v-for="article in articles"
               :key="article._id"
             >
-              <NuxtLink class="grey--text text--darken-2 text-decoration-none" :to="normalizeLink(article)">
+              <NuxtLink
+                class="grey--text text--darken-2 text-decoration-none"
+                :to="normalizeLink(article)"
+              >
                 {{ article.title }}
               </NuxtLink>
             </li>
@@ -30,7 +40,7 @@
 </template>
 
 <script>
-import utils from "../../utils/utils.js";
+import utils from '../../utils/utils.js'
 
 export default {
   data: () => ({
@@ -41,25 +51,25 @@ export default {
     async getWeekArticles() {
       try {
         this.loadingArticles = true
-        this.articles = await this.$axios.$post("/articles/week-posts");
+        this.articles = await this.$axios.$post('/articles/week-posts')
       } catch (error) {
-        return EventBus.$emit("callSnackbar", {
-          color: "error",
-          text: "Erro ao carregar artigos da semana. Tente mais tarde.",
-        });
-        console.error(error.message);
+        return EventBus.$emit('callSnackbar', {
+          color: 'error',
+          text: 'Erro ao carregar artigos da semana. Tente mais tarde.'
+        })
+        console.error(error.message)
       } finally {
-         this.loadingArticles = false
+        this.loadingArticles = false
       }
     },
     normalizeLink(article) {
-      return utils.normalizeLink(article);
-    },
+      return utils.normalizeLink(article)
+    }
   },
   mounted() {
-    this.getWeekArticles();
-  },
-};
+    this.getWeekArticles()
+  }
+}
 </script>
 
 <style></style>

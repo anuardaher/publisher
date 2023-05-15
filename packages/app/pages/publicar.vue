@@ -39,7 +39,7 @@
             <v-card
               outlined
               tile
-              class="mx-auto  pa-4 text-editor"
+              class="mx-auto pa-4 text-editor"
               max-width="100%"
               min-height="300"
             >
@@ -187,8 +187,8 @@
 </template>
 
 <script>
-import EventBus from '../event-bus';
-import Utils from '../utils/utils.js';
+import EventBus from '../event-bus'
+import Utils from '../utils/utils.js'
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import {
   Blockquote,
@@ -207,27 +207,26 @@ import {
   Link,
   Strike,
   Underline,
-  History,
+  History
 } from 'tiptap-extensions'
 
 export default {
   components: {
     EditorContent,
-    EditorMenuBar,
-
+    EditorMenuBar
   },
-  middleware({store, redirect}) {
-    if(!store.getters.state){
+  middleware({ store, redirect }) {
+    if (!store.getters.state) {
       redirect('/login')
       return EventBus.$emit('callSnackbar', {
-      color: 'warning',
-      text: 'Você precisa estar logado para publicar',
-      });
+        color: 'warning',
+        text: 'Você precisa estar logado para publicar'
+      })
     }
   },
   head() {
     return {
-      title: "Publicar",
+      title: 'Publicar',
       meta: []
     }
   },
@@ -246,110 +245,126 @@ export default {
       imgFile: null,
       imgLink: null,
       rules: {
-        required: value => !!value || 'Campo Obrigatório',
-        minLength: value => value.length >= 5 || 'Mínimo de 5 caracteres.',
-        titleMaxLength: value => value.length <= 80 || 'Máximo de 80 caracteres.',
-        subtitleMaxLength: value => value.length <= 200 || 'Máximo de 200 caracteres.',
-        imageSize: value => !value || value.size < 1000000 || 'A imagem deve ter o máximo de 1 MB.',
-        tagsSize: value => value.length <= 5 || 'Você pode escolher até 5 tags.'
-        },
+        required: (value) => !!value || 'Campo Obrigatório',
+        minLength: (value) => value.length >= 5 || 'Mínimo de 5 caracteres.',
+        titleMaxLength: (value) =>
+          value.length <= 80 || 'Máximo de 80 caracteres.',
+        subtitleMaxLength: (value) =>
+          value.length <= 200 || 'Máximo de 200 caracteres.',
+        imageSize: (value) =>
+          !value ||
+          value.size < 1000000 ||
+          'A imagem deve ter o máximo de 1 MB.',
+        tagsSize: (value) =>
+          value.length <= 5 || 'Você pode escolher até 5 tags.'
+      }
     }
   },
   methods: {
     remove(item) {
-        this.tags.splice(this.tags.indexOf(item), 1)
-      },
-    async publish(){
+      this.tags.splice(this.tags.indexOf(item), 1)
+    },
+    async publish() {
       const article = {
         title: this.title,
         subtitle: this.subtitle,
         preview: this.preview,
         tags: this.tags,
         text: this.text,
-        author:{
-          id: this.$store.getters.userId,
+        author: {
+          id: this.$store.getters.userId
         },
-        img: await this.inputCoverImage(),
+        img: await this.inputCoverImage()
       }
       try {
-        const post = await this.$axios.$post('/articles', article);
-        this.$router.push(this.normalizeLink(post));
+        const post = await this.$axios.$post('/articles', article)
+        this.$router.push(this.normalizeLink(post))
         return EventBus.$emit('callSnackbar', {
-        color: 'success',
-        text: 'Sua publicação será analisada antes de ser publicada.',
-      });
-      } catch(error) {
-        let errorMessage = error.response ? error.response.data : 'Erro inesperado. Tente novamente mais tarde.'
+          color: 'success',
+          text: 'Sua publicação será analisada antes de ser publicada.'
+        })
+      } catch (error) {
+        let errorMessage = error.response
+          ? error.response.data
+          : 'Erro inesperado. Tente novamente mais tarde.'
         return EventBus.$emit('callSnackbar', {
-        color: 'error',
-        text: errorMessage.error ? errorMessage.error : 'Erro inesperado. Tente novamente mais tarde.'
-      });
+          color: 'error',
+          text: errorMessage.error
+            ? errorMessage.error
+            : 'Erro inesperado. Tente novamente mais tarde.'
+        })
       }
     },
     async inputCoverImage() {
-      if (!this.coverImgFile) return;
-      let fd = new FormData();
-      fd.append('file', this.coverImgFile);
+      if (!this.coverImgFile) return
+      let fd = new FormData()
+      fd.append('file', this.coverImgFile)
       try {
-        const response = await this.$axios.post('/articles/coverImage', fd);
-        return response.data ? response.data.path : null;
+        const response = await this.$axios.post('/articles/coverImage', fd)
+        return response.data ? response.data.path : null
       } catch (error) {
         console.error(error)
-      return;
+        return
       }
     },
     normalizeLink(post) {
-        return Utils.normalizeLink(post)
-      }
+      return Utils.normalizeLink(post)
+    }
   },
   computed: {
-     checkFields() {
-      return (!this.title ||
-              this.text.length < 200 ||
-              this.tags.length > 2) || false
-    },
+    checkFields() {
+      return (
+        !this.title || this.text.length < 200 || this.tags.length > 2 || false
+      )
+    }
   },
   beforeDestroy() {
     this.editor.destroy()
   },
 
   mounted() {
-     this.editor = new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 2, 3] }),
-          new HorizontalRule(),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new Strike(),
-          new Underline(),
-          new History(),
-        ],
-        content: '<p> Começe a escrever seu texto aqui 👋</p>',
-        onUpdate: ({ getHTML, getJSON }) => {
-          this.text = getHTML();
-          const preview = getJSON();
-          const paragraph = preview.content.find((element) => {
-            return element.content && element.type === 'paragraph' && element.content.find((el) => {
+    this.editor = new Editor({
+      extensions: [
+        new Blockquote(),
+        new BulletList(),
+        new CodeBlock(),
+        new HardBreak(),
+        new Heading({ levels: [1, 2, 3] }),
+        new HorizontalRule(),
+        new ListItem(),
+        new OrderedList(),
+        new TodoItem(),
+        new TodoList(),
+        new Link(),
+        new Bold(),
+        new Code(),
+        new Italic(),
+        new Strike(),
+        new Underline(),
+        new History()
+      ],
+      content: '<p> Começe a escrever seu texto aqui 👋</p>',
+      onUpdate: ({ getHTML, getJSON }) => {
+        this.text = getHTML()
+        const preview = getJSON()
+        const paragraph = preview.content.find((element) => {
+          return (
+            element.content &&
+            element.type === 'paragraph' &&
+            element.content.find((el) => {
               return el.text && el.text.length > 50
             })
-          })
-           if (paragraph && paragraph.content) {
-             this.preview = paragraph.content.find(element => element.text && element.text.length > 50).text
-           } else {
-             this.preview = this.subtitle ? this.subtitle : ""
-           }
+          )
+        })
+        if (paragraph && paragraph.content) {
+          this.preview = paragraph.content.find(
+            (element) => element.text && element.text.length > 50
+          ).text
+        } else {
+          this.preview = this.subtitle ? this.subtitle : ''
         }
-      })
+      }
+    })
   }
 }
 </script>

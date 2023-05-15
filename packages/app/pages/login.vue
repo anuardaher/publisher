@@ -66,54 +66,55 @@
 </template>
 
 <script>
-import EventBus from "../event-bus.js";
-import FacebookAuth from "../components/utils/FacebookAuth";
+import EventBus from '../event-bus.js'
+import FacebookAuth from '../components/utils/FacebookAuth'
 
 export default {
   head() {
     return {
-      title: "Login",
-      meta: [],
-    };
+      title: 'Login',
+      meta: []
+    }
   },
   components: {
-    FacebookAuth,
+    FacebookAuth
   },
   props: {
-    source: String,
+    source: String
   },
   data() {
     return {
       show: false,
       valid: true,
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       error: null,
       rules: {
-        required: (value) => !!value || "Campo Obrigatório",
+        required: (value) => !!value || 'Campo Obrigatório',
         email: (value) => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          return pattern.test(value) || "E-mail inválido";
-        },
-      },
-    };
+          const pattern =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'E-mail inválido'
+        }
+      }
+    }
   },
   methods: {
     async login() {
       try {
-        const response = await this.$axios.$post("/auth/login", {
+        const response = await this.$axios.$post('/auth/login', {
           email: this.email,
-          password: this.password,
-        });
-        this.$store.dispatch("setToken", response.token);
-        this.$store.dispatch("setUser", response.user);
-        this.$router.push("/");
+          password: this.password
+        })
+        this.$store.dispatch('setToken', response.token)
+        this.$store.dispatch('setUser', response.user)
+        this.$router.push('/')
       } catch (error) {
         this.error = error.response.data
           ? error.response.data
-          : "Não foi possível fazer o login";
+          : 'Não foi possível fazer o login'
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

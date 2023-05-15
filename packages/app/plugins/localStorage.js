@@ -2,13 +2,13 @@ import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
 
 const cookieStorage = {
-  getItem (key) {
+  getItem(key) {
     return Cookies.getJSON(key)
   },
-  setItem (key, value) {
+  setItem(key, value) {
     return Cookies.set(key, value, { expires: 3, secure: false })
   },
-  removeItem (key) {
+  removeItem(key) {
     return Cookies.remove(key)
   }
 }

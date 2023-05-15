@@ -6,34 +6,43 @@ module.exports = {
     title: 'Publisher',
     meta: [
       { charset: 'utf-8' },
-      { name:"robots", content:"index,follow" },
+      { name: 'robots', content: 'index,follow' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { name: 'language', content: 'Portuguese'},
-      { property: 'og:locale', content: 'pt_BR'},
-      { property: 'og:ttl', content: '2419100'}, 
-      { hid: "author", name:'author', content:"Anuar Daher"},      
-      { hid: "description", name: 'description', content: `Aplicação para a criação de publicações e compartilhamento em redes socais` },
-      { hid: "keywords", name: 'keywords', content: `publicação, sistema, software, app, publicações, redes sociais, compartilhamento, Anuar Daher, desenvolvimento
-      programação`},
-      { hid: "og:image", property: 'og:image', content: `${URL}/logo.png`},
-      { hid: "og:image:secure_url", property: 'og:image:secure_url', content: `${URL}/logo.png`}
+      { name: 'language', content: 'Portuguese' },
+      { property: 'og:locale', content: 'pt_BR' },
+      { property: 'og:ttl', content: '2419100' },
+      { hid: 'author', name: 'author', content: 'Anuar Daher' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: `Aplicação para a criação de publicações e compartilhamento em redes socais`
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: `publicação, sistema, software, app, publicações, redes sociais, compartilhamento, Anuar Daher, desenvolvimento
+      programação`
+      },
+      { hid: 'og:image', property: 'og:image', content: `${URL}/logo.png` },
+      {
+        hid: 'og:image:secure_url',
+        property: 'og:image:secure_url',
+        content: `${URL}/logo.png`
+      }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: "#fff", height: '4px' },
+   ** Customize the progress-bar color
+   */
+  loading: { color: '#fff', height: '4px' },
   /*
-  ** Global CSS
-  */
-  css: [
-  ],
+   ** Global CSS
+   */
+  css: [],
   /*
-  ** Plugins to load before mounting the App
-  */
+   ** Plugins to load before mounting the App
+   */
   plugins: [
     { src: '~/plugins/localStorage', mode: 'client' },
     '@plugins/vuetify',
@@ -43,15 +52,15 @@ module.exports = {
   ],
 
   /*
-  ** Nuxt.js dev-modules
-  */
+   ** Nuxt.js dev-modules
+   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/vuetify'
   ],
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
@@ -60,34 +69,30 @@ module.exports = {
 
   sitemap: {
     hostname: 'https://anuar-publish-app.herokuapp.com/',
-    exclude: [
-      '/admin',
-      '/error',
-      '/notfound'
-    ],
-    routes: async () => { 
+    exclude: ['/admin', '/error', '/notfound'],
+    routes: async () => {
       const usersRoutes = await siteMapRoutes.getUsers(URL)
       const articlesRoutes = await siteMapRoutes.getArticles(URL)
       if (!usersRoutes || !articlesRoutes) return
-      return usersRoutes.concat(articlesRoutes);
-    }, 
-    gzip: true,
+      return usersRoutes.concat(articlesRoutes)
+    },
+    gzip: true
   },
   env: {
     BASE_URL: process.env.BASE_URL,
     facebookAppId: 335321434267264
   },
   /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
-  */
+   ** Axios module configuration
+   ** See https://axios.nuxtjs.org/options
+   */
   axios: {
     proxy: true,
     prefix: '/api/v1'
   },
 
   proxy: {
-    '/api/v1': process.env.BASE_URL,
+    '/api/v1': process.env.BASE_URL
   },
 
   telemetry: false

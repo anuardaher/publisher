@@ -22,14 +22,17 @@
           :to="`/${value.author.username}`"
           class="font-weight-bold grey--text text--darken-4"
         >
-          {{ value.author ? `${value.author.firstname} ${value.author.lastname}` : "" }} </NuxtLink
+          {{
+            value.author
+              ? `${value.author.firstname} ${value.author.lastname}`
+              : ''
+          }} </NuxtLink
         ><br />
         <span><timeago :datetime="value.createdAt"></timeago></span>
       </div>
     </v-card-text>
     <NuxtLink :to="normalizeLink(value)">
-      <v-img height="200px" v-if="value.img" :src="value.img">
-      </v-img>
+      <v-img height="200px" v-if="value.img" :src="value.img"> </v-img>
       <v-card-title class="grey--text text--darken-4 text-h5">{{
         value.title
       }}</v-card-title>
@@ -57,48 +60,48 @@
 </template>
 
 <script>
-import LikeButton from "../components/posts/LikeButton";
-import ShareButton from "../components/posts/Sharebutton";
-import CommentButton from "../components/posts/CommentsButton";
-import EventBus from "../event-bus.js";
-import Utils from "../utils/utils.js";
-import UserImage from "../components/utils/UserImage";
+import LikeButton from '../components/posts/LikeButton'
+import ShareButton from '../components/posts/Sharebutton'
+import CommentButton from '../components/posts/CommentsButton'
+import EventBus from '../event-bus.js'
+import Utils from '../utils/utils.js'
+import UserImage from '../components/utils/UserImage'
 
 export default {
-  name: "card",
+  name: 'card',
   components: {
     LikeButton,
     ShareButton,
     CommentButton,
-    UserImage,
+    UserImage
   },
   data: () => ({}),
   props: {
     value: {
       type: Object,
-      default: {},
+      default: {}
     },
-    showDeleteButton: Boolean,
+    showDeleteButton: Boolean
   },
   methods: {
     covertTagsToString(article) {
       if (article.tags) {
-        const tags = article.tags.map((tag) => tag.name);
-        const formatedTags = tags.toString().replace(/\s/g, "");
-        return formatedTags;
+        const tags = article.tags.map((tag) => tag.name)
+        const formatedTags = tags.toString().replace(/\s/g, '')
+        return formatedTags
       }
     },
     minimizeText(text) {
-      return text ? text.slice(0, 150).concat("...") : "";
+      return text ? text.slice(0, 150).concat('...') : ''
     },
     getPostUrl(post) {
-      return `${process.env.BASE_URL}${Utils.normalizeLink(post)}`;
+      return `${process.env.BASE_URL}${Utils.normalizeLink(post)}`
     },
     normalizeLink(post) {
-      return Utils.normalizeLink(post);
-    },
-  },
-};
+      return Utils.normalizeLink(post)
+    }
+  }
+}
 </script>
 
 <style>

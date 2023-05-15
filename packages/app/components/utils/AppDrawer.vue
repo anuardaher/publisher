@@ -93,12 +93,12 @@
 </template>
 
 <script>
-import EventBus from "../../event-bus.js";
-import UserImage from "./UserImage";
+import EventBus from '../../event-bus.js'
+import UserImage from './UserImage'
 
 export default {
   components: {
-    UserImage,
+    UserImage
   },
   data: () => ({
     isMenuButton: false,
@@ -108,33 +108,33 @@ export default {
     select: null,
     search: null,
     items: [
-      { title: "Blog", icon: "book", route: "/" },
-      { title: "Contato", icon: "mdi-account-box", route: "/contato" },
-    ],
+      { title: 'Blog', icon: 'book', route: '/' },
+      { title: 'Contato', icon: 'mdi-account-box', route: '/contato' }
+    ]
   }),
   watch: {
     search(val) {
-      val && val !== this.select && this.searchPosts(val);
-    },
+      val && val !== this.select && this.searchPosts(val)
+    }
   },
   methods: {
     openSocialMedia(link) {
-      window.open(link, "_blank");
+      window.open(link, '_blank')
     },
     logout() {
-      this.$store.dispatch("setToken", null);
-      this.$store.dispatch("setUser", null);
-      this.$router.push("/", () => {});
-      this.drawer = !this.drawer;
-    },
+      this.$store.dispatch('setToken', null)
+      this.$store.dispatch('setUser', null)
+      this.$router.push('/', () => {})
+      this.drawer = !this.drawer
+    }
   },
   mounted() {
-    EventBus.$on("callMenu", (event) => {
-      this.drawer = !this.drawer;
-      this.isMenuButton = event;
-    });
-  },
-};
+    EventBus.$on('callMenu', (event) => {
+      this.drawer = !this.drawer
+      this.isMenuButton = event
+    })
+  }
+}
 </script>
 <style scoped>
 .subtext {
